@@ -149,6 +149,55 @@
     }
     .btn-add:hover { background: #eef4fb; }
 
+    .add-section-wrap { position: relative; }
+    .add-menu {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0; right: 0;
+      background: #fff;
+      border: 1px solid #d1dae6;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      z-index: 10;
+      overflow: hidden;
+    }
+    .add-menu.open { display: block; }
+    .add-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 11px 16px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #1a2b4a;
+      cursor: pointer;
+      transition: background .1s;
+    }
+    .add-menu button:hover { background: #eef4fb; }
+    .add-menu button span {
+      display: block;
+      font-size: 11px;
+      color: #a0aec0;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .add-menu button + button { border-top: 1px solid #e8ecf0; }
+
+    .block-type-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #2e6dbf;
+      background: #eef4fb;
+      border-radius: 3px;
+      padding: 2px 8px;
+      margin-left: 8px;
+    }
+
     /* ── Preview panel ── */
     .preview-panel {
       flex: 1;
@@ -267,7 +316,14 @@
     <div class="form-section">
       <div class="form-section-title">Content Sections</div>
       <div id="blocksContainer"></div>
-      <button class="btn-add" onclick="addBlock()">+ Add Section</button>
+      <div class="add-section-wrap">
+        <div class="add-menu" id="addMenu">
+          <button onclick="addBlock('standard')"><strong>Standard</strong><span>Full-width heading, body text, optional image</span></button>
+          <button onclick="addBlock('image-text')"><strong>Image + Text</strong><span>Image on the left, text on the right</span></button>
+          <button onclick="addBlock('two-column')"><strong>Two Column</strong><span>Two equal columns, each with heading &amp; body</span></button>
+        </div>
+        <button class="btn-add" onclick="toggleAddMenu(event)">+ Add Section</button>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -300,8 +356,24 @@
   let blocks = [];
   let blockIdCounter = 0;
 
-  function addBlock() {
-    blocks.push({ id: ++blockIdCounter, heading: '', body: '', imageUrl: '', imageAlt: '' });
+  function toggleAddMenu(e) {
+    e.stopPropagation();
+    document.getElementById('addMenu').classList.toggle('open');
+  }
+  document.addEventListener('click', () => document.getElementById('addMenu').classList.remove('open'));
+
+  function addBlock(type) {
+    type = type || 'standard';
+    const base = { id: ++blockIdCounter, type };
+    if (type === 'standard') {
+      Object.assign(base, { heading: '', body: '', imageUrl: '', imageAlt: '' });
+    } else if (type === 'image-text') {
+      Object.assign(base, { imageUrl: '', imageAlt: '', heading: '', body: '' });
+    } else if (type === 'two-column') {
+      Object.assign(base, { leftHeading: '', leftBody: '', rightHeading: '', rightBody: '' });
+    }
+    blocks.push(base);
+    document.getElementById('addMenu').classList.remove('open');
     renderBlocks();
     renderPreview();
   }
@@ -318,14 +390,53 @@
     renderPreview();
   }
 
-  function renderBlocks() {
-    const container = document.getElementById('blocksContainer');
-    container.innerHTML = blocks.map((b, i) => `
-      <div class="content-block">
-        <div class="block-header">
-          <span class="block-number">Section ${i + 1}</span>
-          <button class="btn-remove" onclick="removeBlock(${b.id})">Remove</button>
+  function renderBlockFields(b) {
+    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column' };
+    if (b.type === 'image-text') {
+      return `
+        <div class="inline-fields">
+          <div class="field">
+            <label>Image URL</label>
+            <input type="text" value="${escAttr(b.imageUrl)}" placeholder="e.g. https://yoursite.com/photo.jpg"
+                   oninput="processImageUrl(this, 'imgMsg_${b.id}', function(u){ updateBlock(${b.id}, 'imageUrl', u); })"
+                   onpaste="var self=this; setTimeout(function(){ processImageUrl(self, 'imgMsg_${b.id}', function(u){ updateBlock(${b.id}, 'imageUrl', u); }); }, 0)" />
+          </div>
+          <div class="field-narrow">
+            <label>Alt Text</label>
+            <input type="text" value="${escAttr(b.imageAlt)}" placeholder="Describe the image"
+                   oninput="updateBlock(${b.id}, 'imageAlt', this.value)" />
+          </div>
         </div>
+        <div id="imgMsg_${b.id}"></div>
+        <label>Heading</label>
+        <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Project Spotlight"
+               oninput="updateBlock(${b.id}, 'heading', this.value)" />
+        <label>Body</label>
+        <textarea rows="3" placeholder="Write the content for this section..."
+                  oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>`;
+    } else if (b.type === 'two-column') {
+      return `
+        <div style="background:#eef4fb;border-radius:4px;padding:12px;margin-bottom:10px;">
+          <label style="color:#2e6dbf;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Left Column</label>
+          <label>Heading</label>
+          <input type="text" value="${escAttr(b.leftHeading)}" placeholder="e.g. Team Updates"
+                 oninput="updateBlock(${b.id}, 'leftHeading', this.value)" />
+          <label>Body</label>
+          <textarea rows="3" placeholder="Left column content..."
+                    oninput="updateBlock(${b.id}, 'leftBody', this.value)">${esc(b.leftBody)}</textarea>
+        </div>
+        <div style="background:#eef4fb;border-radius:4px;padding:12px;">
+          <label style="color:#2e6dbf;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Right Column</label>
+          <label>Heading</label>
+          <input type="text" value="${escAttr(b.rightHeading)}" placeholder="e.g. Upcoming Events"
+                 oninput="updateBlock(${b.id}, 'rightHeading', this.value)" />
+          <label>Body</label>
+          <textarea rows="3" placeholder="Right column content..."
+                    oninput="updateBlock(${b.id}, 'rightBody', this.value)">${esc(b.rightBody)}</textarea>
+        </div>`;
+    }
+    // standard
+    return `
         <label>Heading</label>
         <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Project Spotlight"
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
@@ -345,7 +456,19 @@
                    oninput="updateBlock(${b.id}, 'imageAlt', this.value)" />
           </div>
         </div>
-        <div id="imgMsg_${b.id}"></div>
+        <div id="imgMsg_${b.id}"></div>`;
+  }
+
+  function renderBlocks() {
+    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column' };
+    const container = document.getElementById('blocksContainer');
+    container.innerHTML = blocks.map((b, i) => `
+      <div class="content-block">
+        <div class="block-header">
+          <span class="block-number">Section ${i + 1}<span class="block-type-label">${typeLabels[b.type] || 'Standard'}</span></span>
+          <button class="btn-remove" onclick="removeBlock(${b.id})">Remove</button>
+        </div>
+        ${renderBlockFields(b)}
       </div>
     `).join('');
   }
@@ -435,16 +558,66 @@
 
     let contentBlocksHTML = '';
     blocks.forEach((b, i) => {
-      if (!b.heading && !b.body && !b.imageUrl) return;
       const isLast = i === blocks.length - 1;
-      const imgHTML = b.imageUrl ? `
+      const topPad = i === 0 ? '32' : '28';
+      const separatorHTML = !isLast
+        ? `<tr><td style="padding: 28px 0 0 0; border-bottom: 1px solid #e8ecf0; font-size: 0; line-height: 0;">&nbsp;</td></tr>`
+        : `<tr><td style="padding-bottom: 40px;">&nbsp;</td></tr>`;
+
+      if (b.type === 'image-text') {
+        if (!b.heading && !b.body && !b.imageUrl) return;
+        contentBlocksHTML += `
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: ${topPad}px 0 0 0;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td valign="top" width="200" style="width:200px; padding: 0 20px 0 0;">
+                          ${b.imageUrl ? `<img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="180" style="display: block; max-width: 100%; width: 180px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px;" />` : ''}
+                        </td>
+                        <td valign="top">
+                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; color: #1a2b4a; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #4a5568; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                ${separatorHTML}
+              </table>`;
+      } else if (b.type === 'two-column') {
+        if (!b.leftHeading && !b.leftBody && !b.rightHeading && !b.rightBody) return;
+        contentBlocksHTML += `
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: ${topPad}px 0 0 0;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td valign="top" width="50%" style="width:50%; padding: 0 10px 0 0;">
+                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; color: #1a2b4a; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.leftHeading)}</h2>
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #4a5568; line-height: 1.7; margin: 0;">${nl2br(b.leftBody)}</p>
+                        </td>
+                        <td valign="top" width="50%" style="width:50%; padding: 0 0 0 10px;">
+                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; color: #1a2b4a; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.rightHeading)}</h2>
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #4a5568; line-height: 1.7; margin: 0;">${nl2br(b.rightBody)}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                ${separatorHTML}
+              </table>`;
+      } else {
+        // standard
+        if (!b.heading && !b.body && !b.imageUrl) return;
+        const imgHTML = b.imageUrl ? `
                           <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]-->
                           <img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px; margin: 0 0 16px 0;" />
                           <!--[if mso]></td></tr></table><![endif]-->` : '';
-      contentBlocksHTML += `
+        contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding: ${i === 0 ? '32' : '28'}px 0 0 0;">
+                  <td style="padding: ${topPad}px 0 0 0;">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>
                         <td valign="top">
@@ -455,8 +628,9 @@
                     </table>
                   </td>
                 </tr>
-                ${!isLast ? `<tr><td style="padding: 28px 0 0 0; border-bottom: 1px solid #e8ecf0; font-size: 0; line-height: 0;">&nbsp;</td></tr>` : `<tr><td style="padding-bottom: 40px;">&nbsp;</td></tr>`}
+                ${separatorHTML}
               </table>`;
+      }
     });
 
     // Wrap content blocks in the section with the "This Month's Highlights" label if there are blocks
@@ -618,7 +792,7 @@
   }
 
   // ── Init: add one default block and render ──
-  addBlock();
+  addBlock('standard');
   renderPreview();
 </script>
 
