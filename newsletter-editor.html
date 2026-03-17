@@ -365,6 +365,13 @@
       <textarea id="footerMessage" rows="3" placeholder="e.g. Thanks for reading! Reach out to the comms team if you have something to share in next month's edition." oninput="renderPreview()"></textarea>
     </div>
 
+    <!-- Team -->
+    <div class="form-section">
+      <div class="form-section-title">Your Team This Edition</div>
+      <div id="teamContainer"></div>
+      <button class="btn-add" id="addTeamBtn" onclick="addTeamMember()" style="margin-top:8px;">+ Add Team Member</button>
+    </div>
+
   </div>
 
   <!-- ════════════════════════════════════ -->
@@ -403,7 +410,7 @@
     if (type === 'standard') {
       Object.assign(base, { heading: '', body: '', imageUrl: '', imageAlt: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'image-text') {
-      Object.assign(base, { imageUrl: '', imageAlt: '', heading: '', body: '', btnLabel: '', btnUrl: '' });
+      Object.assign(base, { imageUrl: '', imageAlt: '', heading: '', body: '', linkText: '', linkUrl: '' });
     } else if (type === 'two-column') {
       Object.assign(base, { leftHeading: '', leftBody: '', rightHeading: '', rightBody: '', btnLabel: '', btnUrl: '' });
     }
@@ -465,7 +472,18 @@
         <label>Body</label>
         <textarea rows="3" placeholder="Write the content for this section..."
                   oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
-        ${renderButtonFields(b)}`;
+        <div class="inline-fields" style="margin-top:4px;">
+          <div class="field">
+            <label>Link Text <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+            <input type="text" value="${escAttr(b.linkText)}" placeholder="e.g. Read more"
+                   oninput="updateBlock(${b.id}, 'linkText', this.value)" />
+          </div>
+          <div class="field">
+            <label>Link URL</label>
+            <input type="text" value="${escAttr(b.linkUrl)}" placeholder="e.g. https://yoursite.com/article"
+                   oninput="updateBlock(${b.id}, 'linkUrl', this.value)" />
+          </div>
+        </div>`;
     } else if (b.type === 'two-column') {
       return `
         <div style="background:#FADADD;border-radius:4px;padding:12px;margin-bottom:10px;">
@@ -523,6 +541,58 @@
           <button class="btn-remove" onclick="removeBlock(${b.id})">Remove</button>
         </div>
         ${renderBlockFields(b)}
+      </div>
+    `).join('');
+  }
+
+  // ── Team members ──
+  let teamMembers = [];
+  let teamIdCounter = 0;
+
+  function addTeamMember() {
+    if (teamMembers.length >= 6) return;
+    teamMembers.push({ id: ++teamIdCounter, imageUrl: '', name: '', title: '' });
+    renderTeam();
+    renderPreview();
+  }
+
+  function removeTeamMember(id) {
+    teamMembers = teamMembers.filter(t => t.id !== id);
+    renderTeam();
+    renderPreview();
+  }
+
+  function updateTeamMember(id, field, value) {
+    const m = teamMembers.find(t => t.id === id);
+    if (m) m[field] = value;
+    renderPreview();
+  }
+
+  function renderTeam() {
+    const container = document.getElementById('teamContainer');
+    const btn = document.getElementById('addTeamBtn');
+    btn.style.display = teamMembers.length >= 6 ? 'none' : '';
+    container.innerHTML = teamMembers.map((m, i) => `
+      <div class="content-block">
+        <div class="block-header">
+          <span class="block-number">Member ${i + 1}</span>
+          <button class="btn-remove" onclick="removeTeamMember(${m.id})">Remove</button>
+        </div>
+        <label>Photo URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <input type="text" value="${escAttr(m.imageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/photo.jpg"
+               oninput="updateTeamMember(${m.id}, 'imageUrl', this.value)" />
+        <div class="inline-fields">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" value="${escAttr(m.name)}" placeholder="e.g. Jane Smith"
+                   oninput="updateTeamMember(${m.id}, 'name', this.value)" />
+          </div>
+          <div class="field">
+            <label>Job Title</label>
+            <input type="text" value="${escAttr(m.title)}" placeholder="e.g. Creative Director"
+                   oninput="updateTeamMember(${m.id}, 'title', this.value)" />
+          </div>
+        </div>
       </div>
     `).join('');
   }
@@ -628,6 +698,55 @@
                     </table>`;
   }
 
+  // ── Generate team section HTML ──
+  function generateTeamHTML() {
+    const active = teamMembers.filter(m => m.name || m.title || m.imageUrl);
+    if (!active.length) return '';
+
+    const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="80" style="margin: 0 auto;"><tr><td width="80" height="80" align="center" valign="middle" style="width:80px; height:80px; border-radius:50%; background-color:#C8C8C8; font-size:0; line-height:0;"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" style="width:80px;height:80px;v-text-anchor:middle;" arcsize="50%" fillcolor="#C8C8C8" stroke="f"><![endif]-->&nbsp;<!--[if mso]></v:roundrect><![endif]--></td></tr></table>`;
+
+    function memberCell(m) {
+      const img = m.imageUrl
+        ? `<img src="${esc(m.imageUrl)}" alt="${esc(m.name || '')}" width="80" height="80" style="display: block; width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 0; outline: none; margin: 0 auto;" />`
+        : placeholderCircle;
+      return `<td valign="top" align="center" style="padding: 0 8px 20px 8px; width: 33.33%;">
+                ${img}
+                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000000; margin: 10px 0 2px 0; line-height: 1.3;">${esc(m.name)}</p>
+                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #666666; margin: 0; line-height: 1.3;">${esc(m.title)}</p>
+              </td>`;
+    }
+
+    // Build rows of 3
+    let rows = '';
+    for (let i = 0; i < active.length; i += 3) {
+      const cells = active.slice(i, i + 3).map(memberCell).join('');
+      // Pad with empty cells if fewer than 3
+      const remaining = 3 - Math.min(3, active.length - i);
+      const emptyCells = '<td style="width:33.33%;">&nbsp;</td>'.repeat(remaining);
+      rows += `<tr>${cells}${emptyCells}</tr>`;
+    }
+
+    return `
+          <tr>
+            <td style="padding: 0 40px; background-color: #F5F5F5;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: 32px 0 8px 0;">
+                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">Your Team This Edition</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 20px 0 12px 0;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      ${rows}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
+  }
+
   // ── Generate email HTML ──
   function generateEmailHTML() {
     const title     = val('title') || 'Company Newsletter';
@@ -647,22 +766,26 @@
 
       if (b.type === 'image-text') {
         if (!b.heading && !b.body && !b.imageUrl) return;
+        const linkHTML = (b.linkText && b.linkUrl)
+          ? `<a href="${esc(b.linkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #E8383A; text-decoration: underline; line-height: 1.7;">${esc(b.linkText)}</a>`
+          : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
+                    <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td width="200" valign="top" style="width:200px; padding: 0 20px 0 0;"><![endif]-->
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>
-                        <td valign="top" width="200" style="width:200px; padding: 0 20px 0 0;">
-                          ${b.imageUrl ? `<img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="180" style="display: block; max-width: 100%; width: 180px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px;" />` : ''}
+                        <td valign="top" width="200" style="width:200px; min-width:200px; padding: 0 20px 0 0;">
+                          ${b.imageUrl ? `<img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="200" style="display: block; width: 200px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px;" />` : ''}
                         </td>
-                        <td valign="top">
+                        <td valign="top" width="100%">
                           <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
-                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.body)}${linkHTML ? '<br />' + linkHTML : ''}</p>
                         </td>
                       </tr>
                     </table>
-                    ${generateButtonHTML(b)}
+                    <!--[if mso]></td></tr></table><![endif]-->
                   </td>
                 </tr>
                 ${separatorHTML}
@@ -776,13 +899,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td align="left" valign="middle" style="padding: 28px 40px;">
-                    ${logoUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]--><img src="${esc(logoUrl)}" alt="${esc(title)}" width="180" style="display: block; max-width: 180px; width: 180px; height: auto; border: 0; outline: none; text-decoration: none;" />${'<!--[if mso]></td></tr></table><![endif]-->'}` : `<table border="0" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td style="background-color: #E8383A; border-radius: 3px; padding: 10px 18px;">
-                          <span style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; color: #ffffff; letter-spacing: 1px; text-decoration: none;">&#9632;&nbsp; YOUR LOGO</span>
-                        </td>
-                      </tr>
-                    </table>`}
+                    ${logoUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]--><img src="${esc(logoUrl)}" alt="${esc(title)}" width="120" style="display: block; max-width: 120px; width: 120px; height: auto; border: 0; outline: none; text-decoration: none;" />${'<!--[if mso]></td></tr></table><![endif]-->'}` : `<img src="https://res.cloudinary.com/dxfep8qat/image/upload/v1773737736/logo-ogilvy-white_plwyhp.svg" alt="Ogilvy" width="120" style="display: block; max-width: 120px; width: 120px; height: auto; border: 0; outline: none; text-decoration: none;" />`}
                   </td>
                   <td align="right" valign="middle" style="padding: 28px 40px;">
                     <span style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #C8C8C8; text-transform: uppercase; letter-spacing: 1.5px;">${esc(edition)}</span>
@@ -815,6 +932,9 @@
           <!-- CONTENT BLOCKS -->
           ${contentSectionHTML}
 
+          <!-- TEAM SECTION -->
+          ${generateTeamHTML()}
+
           <!-- FOOTER -->
           <tr>
             <td style="background-color: #000000; padding: 36px 40px;">
@@ -822,7 +942,7 @@
                 ${footerContentHTML}
                 <tr>
                   <td align="center" style="padding-bottom: 20px;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px;">&#9632;&nbsp; YOUR COMPANY</span>
+                    <img src="https://res.cloudinary.com/dxfep8qat/image/upload/v1773737736/logo-ogilvy-white_plwyhp.svg" alt="Ogilvy" width="80" style="display: block; margin: 0 auto; max-width: 80px; width: 80px; height: auto; border: 0; outline: none; text-decoration: none;" />
                   </td>
                 </tr>
                 <tr>
