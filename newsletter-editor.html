@@ -474,6 +474,8 @@
     <!-- Main Story -->
     <div class="form-section">
       <div class="form-section-title">Main Story</div>
+      <label for="heroEyebrow">Eyebrow Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="heroEyebrow" placeholder="e.g. Internal Newsletter" value="Internal Newsletter" oninput="renderPreview()" />
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Welcome to Our March Company Update" oninput="renderPreview()" />
       <label for="heroBody">Body</label>
@@ -483,6 +485,8 @@
     <!-- Content Blocks -->
     <div class="form-section">
       <div class="form-section-title">Content Sections</div>
+      <label for="contentEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="contentEyebrow" placeholder="e.g. This Month's Highlights" value="This Month's Highlights" oninput="renderPreview()" />
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
         <div class="add-menu" id="addMenu">
@@ -498,6 +502,8 @@
     <!-- Interesting Links -->
     <div class="form-section">
       <div class="form-section-title">Interesting Links</div>
+      <label for="linksEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="linksEyebrow" placeholder="e.g. Interesting Links" value="Interesting Links" oninput="renderPreview()" />
       <div id="linksContainer"></div>
     </div>
 
@@ -511,6 +517,8 @@
     <!-- Team -->
     <div class="form-section">
       <div class="form-section-title">Your Team This Edition</div>
+      <label for="teamEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="teamEyebrow" placeholder="e.g. Your Team This Edition" value="Your Team This Edition" oninput="renderPreview()" />
       <div id="teamContainer"></div>
       <button class="btn-add" id="addTeamBtn" onclick="addTeamMember()" style="margin-top:8px;">+ Add Team Member</button>
     </div>
@@ -925,6 +933,7 @@
     const active = interestingLinks.filter(l => l.imageUrl || l.linkUrl || l.caption);
     if (!active.length) return '';
 
+    const linksEyebrow = val('linksEyebrow') || '';
     const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="80" style="margin: 0 auto;"><tr><td width="80" height="80" align="center" valign="middle" style="width:80px; height:80px; border-radius:50%; background-color:#C8C8C8; font-size:0; line-height:0;">&nbsp;</td></tr></table>`;
 
     const cells = interestingLinks.map(l => {
@@ -945,15 +954,21 @@
               </td>`;
     }).join('');
 
+    const linksLabelRow = linksEyebrow ? `
+                <tr>
+                  <td style="padding: 32px 0 20px 0; border-top: 2px solid #E8383A;">
+                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">${esc(linksEyebrow)}</span>
+                  </td>
+                </tr>` : `
+                <tr>
+                  <td style="padding: 16px 0 0 0; border-top: 2px solid #E8383A;">&nbsp;</td>
+                </tr>`;
+
     return `
           <tr>
             <td style="padding: 0 40px 40px 40px; background-color: #ffffff;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td style="padding: 32px 0 20px 0; border-top: 2px solid #E8383A;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">Interesting Links</span>
-                  </td>
-                </tr>
+                ${linksLabelRow}
                 <tr>
                   <td>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -970,6 +985,8 @@
   function generateTeamHTML() {
     const active = teamMembers.filter(m => m.name || m.title || m.imageUrl);
     if (!active.length) return '';
+
+    const teamEyebrow = val('teamEyebrow') || '';
 
     const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="80" style="margin: 0 auto;"><tr><td width="80" height="80" align="center" valign="middle" style="width:80px; height:80px; border-radius:50%; background-color:#333333; font-size:0; line-height:0;"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" style="width:80px;height:80px;v-text-anchor:middle;" arcsize="50%" fillcolor="#333333" stroke="f"><![endif]-->&nbsp;<!--[if mso]></v:roundrect><![endif]--></td></tr></table>`;
 
@@ -992,12 +1009,18 @@
       rows += `<tr>${cells}${emptyCells}</tr>`;
     }
 
-    return `
+    const teamLabelRow = teamEyebrow ? `
                 <tr>
                   <td style="border-top: 1px solid #333333; padding: 28px 0 8px 0;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px;">Your Team This Edition</span>
+                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px;">${esc(teamEyebrow)}</span>
                   </td>
-                </tr>
+                </tr>` : `
+                <tr>
+                  <td style="border-top: 1px solid #333333; padding: 12px 0 0 0;">&nbsp;</td>
+                </tr>`;
+
+    return `
+                ${teamLabelRow}
                 <tr>
                   <td style="padding: 16px 0 8px 0;">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -1009,13 +1032,15 @@
 
   // ── Generate email HTML ──
   function generateEmailHTML() {
-    const title     = val('title') || 'Company Newsletter';
-    const edDate    = val('editionDate') || '';
-    const edNum     = val('editionNumber') || '';
-    const headline  = val('heroHeadline') || 'Newsletter Headline';
-    const heroBody  = val('heroBody') || '';
-    const footer    = val('footerMessage') || '';
-    const logoUrl   = val('logoUrl') || '';
+    const title          = val('title') || 'Company Newsletter';
+    const edDate         = val('editionDate') || '';
+    const edNum          = val('editionNumber') || '';
+    const headline       = val('heroHeadline') || 'Newsletter Headline';
+    const heroBody       = val('heroBody') || '';
+    const heroEyebrow    = val('heroEyebrow') || '';
+    const contentEyebrow = val('contentEyebrow') || '';
+    const footer         = val('footerMessage') || '';
+    const logoUrl        = val('logoUrl') || '';
 
     // Build edition string: "March 2026 | #12"
     let editionStr = '';
@@ -1133,16 +1158,18 @@
     // Wrap content blocks
     let contentSectionHTML = '';
     if (contentBlocksHTML) {
-      contentSectionHTML = `
-          <tr>
-            <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
+      const contentLabelHTML = contentEyebrow ? `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: 40px 0 24px 0; border-bottom: 2px solid #E8383A;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">This Month's Highlights</span>
+                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">${esc(contentEyebrow)}</span>
                   </td>
                 </tr>
-              </table>
+              </table>` : '';
+      contentSectionHTML = `
+          <tr>
+            <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
+              ${contentLabelHTML}
               ${contentBlocksHTML}
             </td>
           </tr>`;
@@ -1210,7 +1237,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td>
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 14px 0;">Internal Newsletter</p>
+                    ${heroEyebrow ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 14px 0;">${esc(heroEyebrow)}</p>` : ''}
                     <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #ffffff; line-height: 1.25; margin: 0 0 20px 0;">${esc(headline)}</h1>
                     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: #F4A9A3; line-height: 1.7; margin: 0;">${nl2br(heroBody)}</p>
                   </td>
