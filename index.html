@@ -591,7 +591,7 @@
 
   function addBlock(type) {
     type = type || 'standard';
-    const base = { id: ++blockIdCounter, type };
+    const base = { id: ++blockIdCounter, type, bylinePhoto: '', bylineName: '', bylineRole: '' };
     if (type === 'standard') {
       Object.assign(base, { heading: '', body: '', imageUrl: '', imageAlt: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'image-text') {
@@ -635,6 +635,25 @@
         </div>`;
   }
 
+  function renderBylineFields(b) {
+    return `
+        <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
+          <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.bylinePhoto)}" placeholder="Thumbnail image URL (e.g. https://res.cloudinary.com/…/photo.jpg)"
+                 oninput="updateBlock(${b.id}, 'bylinePhoto', this.value)" style="margin-bottom:6px;" />
+          <div class="inline-fields">
+            <div class="field">
+              <input type="text" value="${escAttr(b.bylineName)}" placeholder="Name — Leave blank for no by-line. For guest editors, enter their details manually."
+                     oninput="updateBlock(${b.id}, 'bylineName', this.value)" />
+            </div>
+            <div class="field">
+              <input type="text" value="${escAttr(b.bylineRole)}" placeholder="Role (e.g. Senior Designer)"
+                     oninput="updateBlock(${b.id}, 'bylineRole', this.value)" />
+            </div>
+          </div>
+        </div>`;
+  }
+
   function renderBlockFields(b) {
     const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature' };
     if (b.type === 'image-text') {
@@ -670,7 +689,8 @@
             <input type="text" value="${escAttr(b.linkUrl)}" placeholder="e.g. https://yoursite.com/article"
                    oninput="updateBlock(${b.id}, 'linkUrl', this.value)" />
           </div>
-        </div>`;
+        </div>
+        ${renderBylineFields(b)}`;
     } else if (b.type === 'two-column') {
       return `
         <div style="background:#FADADD;border-radius:4px;padding:12px;margin-bottom:10px;">
@@ -691,7 +711,8 @@
           <textarea rows="3" placeholder="Right column content..."
                     oninput="updateBlock(${b.id}, 'rightBody', this.value)">${esc(b.rightBody)}</textarea>
         </div>
-        ${renderButtonFields(b)}`;
+        ${renderButtonFields(b)}
+        ${renderBylineFields(b)}`;
     } else if (b.type === 'feature') {
       return `
         <label>Heading</label>
@@ -700,7 +721,8 @@
         <label>Body</label>
         <textarea rows="3" placeholder="Write the feature content..."
                   oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
-        ${renderButtonFields(b)}`;
+        ${renderButtonFields(b)}
+        ${renderBylineFields(b)}`;
     }
     // standard
     return `
@@ -724,7 +746,8 @@
           </div>
         </div>
         <div id="imgMsg_${b.id}"></div>
-        ${renderButtonFields(b)}`;
+        ${renderButtonFields(b)}
+        ${renderBylineFields(b)}`;
   }
 
   function renderBlocks() {
@@ -1082,6 +1105,18 @@
       editionStr = '#' + esc(edNum);
     }
 
+    function generateBylineHTML(b, textColor) {
+      const c = textColor || '#888888';
+      if (!b.bylineName && !b.bylineRole && !b.bylinePhoto) return '';
+      const photoHTML = b.bylinePhoto
+        ? `<img src="${esc(b.bylinePhoto)}" alt="" width="32" height="32" style="display:block; width:32px; height:32px; border-radius:50%; border:0; outline:none;" />`
+        : '';
+      const nameHTML = b.bylineName ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:bold; color:${c};">${esc(b.bylineName)}</span>` : '';
+      const roleHTML = b.bylineRole ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:normal; color:${c};">${esc(b.bylineRole)}</span>` : '';
+      const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; color:' + c + ';"> &middot; </span>' : '';
+      return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr>${photoHTML ? '<td valign="middle" style="padding-right:8px;">' + photoHTML + '</td>' : ''}<td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
+    }
+
     let contentBlocksHTML = '';
     blocks.forEach((b, i) => {
       const isLast = i === blocks.length - 1;
@@ -1107,6 +1142,7 @@
                         </td>
                         <td valign="top" width="100%">
                           <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
+                          ${generateBylineHTML(b)}
                           <p style="font-family: Arial, Helvetica, sans-serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.body)}${linkHTML ? '<br />' + linkHTML : ''}</p>
                         </td>
                       </tr>
@@ -1134,6 +1170,7 @@
                         </td>
                       </tr>
                     </table>
+                    ${generateBylineHTML(b)}
                     ${generateButtonHTML(b)}
                   </td>
                 </tr>
@@ -1149,6 +1186,7 @@
                       <tr>
                         <td style="padding: 32px 28px;">
                           <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.heading)}</h2>
+                          ${generateBylineHTML(b, '#ffffff')}
                           <p style="font-family: Arial, Helvetica, sans-serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
                           ${generateFeatureButtonHTML(b)}
                         </td>
@@ -1172,7 +1210,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>
                         <td valign="top">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>${imgHTML}
+                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
+                          ${generateBylineHTML(b)}${imgHTML}
                           <p style="font-family: Arial, Helvetica, sans-serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
                           ${generateButtonHTML(b)}
                         </td>
