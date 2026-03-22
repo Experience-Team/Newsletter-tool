@@ -927,7 +927,7 @@
     return `
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 18px;">
                       <tr>
-                        <td align="center">
+                        <td align="left">
                           <!--[if mso]>
                           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(b.btnUrl)}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A">
                             <w:anchorlock/>
@@ -954,7 +954,7 @@
     return `
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 18px;">
                       <tr>
-                        <td align="center">
+                        <td align="left">
                           <!--[if mso]>
                           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(b.btnUrl)}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#ffffff" fillcolor="#C42F31">
                             <w:anchorlock/>
@@ -1041,10 +1041,10 @@
       const img = m.imageUrl
         ? `<img src="${esc(m.imageUrl)}" alt="${esc(m.name || '')}" width="80" height="80" style="display: block; width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; outline: none; margin: 0 auto;" />`
         : placeholderCircle;
-      return `<td valign="top" align="center" style="padding: 0 8px 20px 8px; width: 33.33%;">
+      return `<td valign="top" align="center" style="padding: 0 8px 20px 8px; width: 33.33%; text-align: center;">
                 ${img}
-                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; margin: 10px 0 2px 0; line-height: 1.3;">${esc(m.name)}</p>
-                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #C8C8C8; margin: 0; line-height: 1.3;">${esc(m.title)}</p>
+                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; margin: 10px 0 2px 0; line-height: 1.3; text-align: center;">${esc(m.name)}</p>
+                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #C8C8C8; margin: 0; line-height: 1.3; text-align: center;">${esc(m.title)}</p>
               </td>`;
     }
 
@@ -1058,7 +1058,7 @@
 
     const teamLabelRow = teamEyebrow ? `
                 <tr>
-                  <td style="border-top: 1px solid #333333; padding: 28px 0 8px 0;">
+                  <td align="center" style="border-top: 1px solid #333333; padding: 28px 0 8px 0; text-align: center;">
                     <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px;">${esc(teamEyebrow)}</span>
                   </td>
                 </tr>` : `
@@ -1114,7 +1114,7 @@
       const nameHTML = b.bylineName ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:bold; color:${c};">${esc(b.bylineName)}</span>` : '';
       const roleHTML = b.bylineRole ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:normal; color:${c};">${esc(b.bylineRole)}</span>` : '';
       const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; color:' + c + ';"> &middot; </span>' : '';
-      return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr>${photoHTML ? '<td valign="middle" style="padding-right:8px;">' + photoHTML + '</td>' : ''}<td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
+      return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:12px;"><tr>${photoHTML ? '<td valign="middle" style="padding-right:8px;">' + photoHTML + '</td>' : ''}<td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
     }
 
     let contentBlocksHTML = '';
