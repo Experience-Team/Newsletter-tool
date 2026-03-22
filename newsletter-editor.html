@@ -452,8 +452,6 @@
     <!-- Header -->
     <div class="form-section">
       <div class="form-section-title">Header</div>
-      <label for="title">Newsletter Title</label>
-      <input type="text" id="title" placeholder="e.g. Company Monthly Update" oninput="renderPreview()" />
       <div class="inline-fields">
         <div class="field">
           <label for="editionDate">Date</label>
@@ -469,15 +467,20 @@
              oninput="processImageUrl(this, 'logoUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('logoUrl'), 'logoUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="logoUrlMsg"></div>
+      <label for="heroImageUrl">Hero Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="heroImageUrl" value="https://res.cloudinary.com/dxejokjeh/image/upload/v1774218550/Gazette-hero_ih4cid.jpg" placeholder="e.g. https://yoursite.com/hero.jpg"
+             oninput="processImageUrl(this, 'heroImageUrlMsg', function() { renderPreview(); })"
+             onpaste="setTimeout(function(){ processImageUrl(document.getElementById('heroImageUrl'), 'heroImageUrlMsg', function() { renderPreview(); }); }, 0)" />
+      <div id="heroImageUrlMsg"></div>
     </div>
 
-    <!-- Main Story -->
+    <!-- Introduction -->
     <div class="form-section">
-      <div class="form-section-title">Main Story</div>
+      <div class="form-section-title">Introduction</div>
       <label for="heroEyebrow">Eyebrow Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="heroEyebrow" placeholder="e.g. Internal Newsletter" value="Internal Newsletter" oninput="renderPreview()" />
       <label for="heroHeadline">Headline</label>
-      <input type="text" id="heroHeadline" placeholder="e.g. Welcome to Our March Company Update" oninput="renderPreview()" />
+      <input type="text" id="heroHeadline" placeholder="e.g. Experience Gazette" oninput="renderPreview()" />
       <label for="heroBody">Body</label>
       <textarea id="heroBody" rows="4" placeholder="e.g. A lot has happened across the business this month &mdash; from product milestones to team growth and a few wins worth celebrating." oninput="renderPreview()"></textarea>
     </div>
@@ -1032,9 +1035,10 @@
 
   // ── Generate email HTML ──
   function generateEmailHTML() {
-    const title          = val('title') || 'Company Newsletter';
+    const title          = 'Newsletter';
     const edDate         = val('editionDate') || '';
     const edNum          = val('editionNumber') || '';
+    const heroImageUrl   = val('heroImageUrl') || '';
     const headline       = val('heroHeadline') || 'Newsletter Headline';
     const heroBody       = val('heroBody') || '';
     const heroEyebrow    = val('heroEyebrow') || '';
@@ -1230,6 +1234,15 @@
           <tr>
             <td style="background-color: #E8383A; height: 4px; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
+
+          ${heroImageUrl ? `<!-- Hero image -->
+          <tr>
+            <td style="padding: 0; font-size: 0; line-height: 0;">
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><![endif]-->
+              <img src="${esc(heroImageUrl)}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" />
+              <!--[if mso]></td></tr></table><![endif]-->
+            </td>
+          </tr>` : ''}
 
           <!-- HERO -->
           <tr>
