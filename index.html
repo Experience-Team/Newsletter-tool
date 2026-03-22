@@ -478,11 +478,18 @@
     <div class="form-section">
       <div class="form-section-title">Introduction</div>
       <label for="heroEyebrow">Eyebrow Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="heroEyebrow" placeholder="e.g. Internal Newsletter" value="Internal Newsletter" oninput="renderPreview()" />
+      <input type="text" id="heroEyebrow" value="Internal Newsletter" oninput="renderPreview()" />
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Experience Gazette" oninput="renderPreview()" />
       <label for="heroBody">Body</label>
       <textarea id="heroBody" rows="4" placeholder="e.g. A lot has happened across the business this month &mdash; from product milestones to team growth and a few wins worth celebrating." oninput="renderPreview()"></textarea>
+    </div>
+
+    <!-- Trivia Question -->
+    <div class="form-section">
+      <div class="form-section-title">Trivia Question</div>
+      <label for="triviaQuestion">Question</label>
+      <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
     </div>
 
     <!-- Content Blocks -->
@@ -500,13 +507,6 @@
         </div>
         <button class="btn-add" onclick="toggleAddMenu(event)">+ Add Section</button>
       </div>
-    </div>
-
-    <!-- Trivia Question -->
-    <div class="form-section">
-      <div class="form-section-title">Trivia Question</div>
-      <label for="triviaQuestion">Question</label>
-      <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
     </div>
 
     <!-- Interesting Links -->
@@ -1287,9 +1287,6 @@
             </td>
           </tr>
 
-          <!-- CONTENT BLOCKS -->
-          ${contentSectionHTML}
-
           <!-- TRIVIA QUESTION -->
           ${triviaQuestion ? `<tr>
             <td style="background-color: #ffffff; padding: 32px 40px 32px 40px;">
@@ -1305,6 +1302,9 @@
             </td>
           </tr>` : ''}
 
+          <!-- CONTENT BLOCKS -->
+          ${contentSectionHTML}
+
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
 
@@ -1313,11 +1313,6 @@
             <td style="background-color: #000000; padding: 36px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${footerContentHTML}
-                <tr>
-                  <td align="center" style="padding-bottom: 20px;">
-                    <img src="https://res.cloudinary.com/dxfep8qat/image/upload/v1773737736/logo-ogilvy-white_plwyhp.svg" alt="Ogilvy" width="80" style="display: block; margin: 0 auto; max-width: 80px; width: 80px; height: auto; border: 0; outline: none; text-decoration: none;" />
-                  </td>
-                </tr>
                 ${triviaAnswer ? `<!-- TRIVIA ANSWER -->
                 <tr>
                   <td style="padding: 0 0 24px 0;">
