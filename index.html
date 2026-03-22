@@ -502,6 +502,13 @@
       </div>
     </div>
 
+    <!-- Trivia Question -->
+    <div class="form-section">
+      <div class="form-section-title">Trivia Question</div>
+      <label for="triviaQuestion">Question</label>
+      <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
+    </div>
+
     <!-- Interesting Links -->
     <div class="form-section">
       <div class="form-section-title">Interesting Links</div>
@@ -515,6 +522,22 @@
       <div class="form-section-title">Footer</div>
       <label for="footerMessage">Sign-off Message</label>
       <textarea id="footerMessage" rows="3" placeholder="e.g. Thanks for reading! Reach out to the comms team if you have something to share in next month's edition." oninput="renderPreview()"></textarea>
+    </div>
+
+    <!-- Trivia Answer -->
+    <div class="form-section">
+      <div class="form-section-title">Trivia Answer</div>
+      <label for="triviaAnswer">Answer</label>
+      <textarea id="triviaAnswer" rows="2" placeholder="e.g. 1995" oninput="renderPreview()"></textarea>
+      <label for="triviaImageUrl">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="triviaImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
+             oninput="processImageUrl(this, 'triviaImageUrlMsg', function() { renderPreview(); })"
+             onpaste="setTimeout(function(){ processImageUrl(document.getElementById('triviaImageUrl'), 'triviaImageUrlMsg', function() { renderPreview(); }); }, 0)" />
+      <div id="triviaImageUrlMsg"></div>
+      <label for="triviaLinkLabel">Link Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="triviaLinkLabel" placeholder="e.g. Learn more" oninput="renderPreview()" />
+      <label for="triviaLinkUrl">Link URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="triviaLinkUrl" placeholder="e.g. https://example.com/history" oninput="renderPreview()" />
     </div>
 
     <!-- Team -->
@@ -1045,6 +1068,11 @@
     const contentEyebrow = val('contentEyebrow') || '';
     const footer         = val('footerMessage') || '';
     const logoUrl        = val('logoUrl') || '';
+    const triviaQuestion = val('triviaQuestion') || '';
+    const triviaAnswer   = val('triviaAnswer') || '';
+    const triviaImageUrl = val('triviaImageUrl') || '';
+    const triviaLinkLabel = val('triviaLinkLabel') || '';
+    const triviaLinkUrl  = val('triviaLinkUrl') || '';
 
     // Build edition string: "March 2026 | #12"
     let editionStr = '';
@@ -1262,6 +1290,21 @@
           <!-- CONTENT BLOCKS -->
           ${contentSectionHTML}
 
+          <!-- TRIVIA QUESTION -->
+          ${triviaQuestion ? `<tr>
+            <td style="background-color: #ffffff; padding: 32px 40px 32px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 14px 0;">Trivia</p>
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; color: #222222; line-height: 1.4; margin: 0 0 12px 0;">${esc(triviaQuestion)}</p>
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #888888; font-style: italic; margin: 0;">Scroll to the bottom to find out the answer.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>` : ''}
+
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
 
@@ -1275,6 +1318,21 @@
                     <img src="https://res.cloudinary.com/dxfep8qat/image/upload/v1773737736/logo-ogilvy-white_plwyhp.svg" alt="Ogilvy" width="80" style="display: block; margin: 0 auto; max-width: 80px; width: 80px; height: auto; border: 0; outline: none; text-decoration: none;" />
                   </td>
                 </tr>
+                ${triviaAnswer ? `<!-- TRIVIA ANSWER -->
+                <tr>
+                  <td style="padding: 0 0 24px 0;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td style="border-top: 1px solid #333333; padding-top: 20px;">
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">Trivia Answer</p>
+                          ${triviaImageUrl ? `<img src="${esc(triviaImageUrl)}" alt="" width="120" style="display: block; width: 120px; max-width: 120px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 12px 0;" />` : ''}
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #ffffff; line-height: 1.5; margin: 0 0 8px 0;">${esc(triviaAnswer)}</p>
+                          ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>` : ''}
                 ${generateTeamHTML()}
                 <tr>
                   <td style="border-top: 1px solid #333333; padding-bottom: 20px; font-size: 0; line-height: 0;">&nbsp;</td>
