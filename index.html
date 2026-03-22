@@ -120,6 +120,53 @@
       line-height: 1.7;
       margin: 0 0 12px 20px;
     }
+    .drawer pre {
+      background: #F5F5F5;
+      border: 1px solid #E0E0E0;
+      border-radius: 4px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #333;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .drawer .copy-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #E8383A;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .drawer .copy-btn:hover { background: #C42F31; }
+    .drawer .expand-toggle {
+      background: none;
+      border: 1px solid #C8C8C8;
+      border-radius: 4px;
+      color: #333;
+      font-size: 13px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 12px;
+      transition: all .15s;
+    }
+    .drawer .expand-toggle:hover { border-color: #E8383A; color: #E8383A; }
+    .char-counter {
+      font-size: 11px;
+      color: #888;
+      text-align: right;
+      margin-top: 2px;
+    }
+    .char-counter.over { color: #E8383A; font-weight: 700; }
 
     /* ── Layout ── */
     .editor-layout {
@@ -429,8 +476,51 @@
     <li><strong>Two Column</strong> &mdash; Use for quick-hit updates like dates, stats, or paired items.</li>
     <li><strong>Feature</strong> &mdash; Reserve for the single most important story of the edition. The red background draws the eye, so use it sparingly.</li>
   </ul>
-  <h3>Interesting Links</h3>
+  <h3>The Procrastination Station</h3>
   <p>Choose three links that are genuinely useful or inspiring. Mix it up &mdash; an industry article, an internal resource, and something fun or creative works well.</p>
+
+  <h3>Cloudinary Images</h3>
+  <p>All images should be hosted on Cloudinary. To upload:</p>
+  <ul>
+    <li>Log in to your Cloudinary account.</li>
+    <li>Click <strong>Upload</strong> in the top right and select your image.</li>
+    <li>Once uploaded, click the image to open it, then copy the URL from the address bar or use the &ldquo;Copy URL&rdquo; button.</li>
+    <li>Paste the URL into the relevant image field in the editor.</li>
+  </ul>
+
+  <h3>Image Guidelines</h3>
+  <ul>
+    <li><strong>Hero image:</strong> 1200px wide recommended.</li>
+    <li><strong>Content images:</strong> 600px wide recommended.</li>
+    <li><strong>File types:</strong> JPG, PNG, or GIF.</li>
+    <li><strong>File size:</strong> Keep images under 1&nbsp;MB.</li>
+    <li>Team thumbnails should be square and cropped to show the face clearly.</li>
+  </ul>
+
+  <h3>Character Counts</h3>
+  <p>Keep your content tight and scannable:</p>
+  <ul>
+    <li><strong>Headings:</strong> Under 100 characters.</li>
+    <li><strong>Body copy</strong> (What we&rsquo;re working on sections): No longer than 1,500 characters.</li>
+  </ul>
+  <p>Live character counters appear beneath the relevant fields in the editor. They turn <span style="color:#E8383A;font-weight:700;">red</span> when you exceed the limit.</p>
+
+  <h3>Using AI? De-AI it first.</h3>
+  <p>Using AI is fine, but run your draft through this prompt before publishing:</p>
+  <button class="expand-toggle" onclick="var el=this.nextElementSibling; if(el.style.display==='none'){el.style.display='block';this.textContent='Collapse prompt';}else{el.style.display='none';this.textContent='Expand prompt';}">Expand prompt</button>
+  <div style="display:none;">
+    <pre style="position:relative;"><button class="copy-btn" onclick="var t=this.parentElement.querySelector('code').textContent;navigator.clipboard.writeText(t);this.textContent='Copied!';var b=this;setTimeout(function(){b.textContent='Copy';},1500);">Copy</button><code>Write [insert topic or content brief here, e.g., "a 500-word blog post on UX design trends in 2026"]. Make it sound like natural human writing from a UX designer at a Sydney agency—conversational, varied, with some personal flair or Aussie references if fitting. Use short sentences mixed with longer ones. Vary vocabulary; avoid overusing words like "delve," "tapestry," "pivotal," "underscore," "crucial," "landmark," "enduring," "vibrant," "intricate," "bolstered," "fostering," or "showcasing."
+
+Key rules to humanise:
+- No em dashes (—) except once max; use commas, parentheses, or periods instead.
+- Skip promo fluff like "marks a pivotal moment" or "rich tapestry" — stick to facts with neutral tone.
+- Avoid "not just X, but Y" parallels, rule-of-three lists, or vague attributions ("experts say").
+- No bolding phrases, title-case headings, or inline lists with colons after bold headers.
+- Use straight quotes ", not curly " "; simple apostrophes '.
+- End without "in summary" or "future outlook" — just wrap naturally.
+- Include contractions (it's, we're), casual transitions (so, but, yeah), and one quirky opinion or example.
+- Revise any draft output against Wikipedia's AI signs (en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing): fix legacy emphasis, superficial analysis, or copula avoidance (prefer "is a hub" over "serves as a hub"). Output plain text only, no markdown.</code></pre>
+  </div>
 </div>
 
 <!-- Top bar -->
@@ -509,9 +599,11 @@
 
     <!-- Interesting Links -->
     <div class="form-section">
-      <div class="form-section-title">Interesting Links</div>
+      <div class="form-section-title">The Procrastination Station</div>
       <label for="linksEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="linksEyebrow" placeholder="e.g. Interesting Links" value="Interesting Links" oninput="renderPreview()" />
+      <input type="text" id="linksEyebrow" placeholder="e.g. The Procrastination Station" value="The Procrastination Station" oninput="renderPreview()" />
+      <label for="linksSubheading">Subheading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="linksSubheading" placeholder="e.g. Here's our roundup of fun internet things to keep you…busy. Dive in!" value="Here's our roundup of fun internet things to keep you…busy. Dive in!" oninput="renderPreview()" />
       <div id="linksContainer"></div>
     </div>
 
@@ -616,6 +708,7 @@
   function updateBlock(id, field, value) {
     const block = blocks.find(b => b.id === id);
     if (block) block[field] = value;
+    updateCharCounters();
     renderPreview();
   }
 
@@ -654,6 +747,36 @@
         </div>`;
   }
 
+  function charCounter(blockId, field, limit) {
+    const counterId = 'cc_' + blockId + '_' + field;
+    return '<div class="char-counter" id="' + counterId + '"></div>';
+  }
+
+  function updateCharCounters() {
+    blocks.forEach(function(b) {
+      // headings (100 char limit)
+      var headingFields = ['heading', 'leftHeading', 'rightHeading'];
+      headingFields.forEach(function(f) {
+        var el = document.getElementById('cc_' + b.id + '_' + f);
+        if (el) {
+          var val = (b[f] || '').length;
+          el.textContent = val + ' / 100';
+          el.className = 'char-counter' + (val > 100 ? ' over' : '');
+        }
+      });
+      // body (1500 char limit)
+      var bodyFields = ['body', 'leftBody', 'rightBody'];
+      bodyFields.forEach(function(f) {
+        var el = document.getElementById('cc_' + b.id + '_' + f);
+        if (el) {
+          var val = (b[f] || '').length;
+          el.textContent = val + ' / 1,500';
+          el.className = 'char-counter' + (val > 1500 ? ' over' : '');
+        }
+      });
+    });
+  }
+
   function renderBlockFields(b) {
     const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature' };
     if (b.type === 'image-text') {
@@ -675,9 +798,11 @@
         <label>Heading</label>
         <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Project Spotlight"
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
+        ${charCounter(b.id, 'heading', 100)}
         <label>Body</label>
         <textarea rows="3" placeholder="Write the content for this section..."
                   oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
+        ${charCounter(b.id, 'body', 1500)}
         <div class="inline-fields" style="margin-top:4px;">
           <div class="field">
             <label>Link Text <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
@@ -698,18 +823,22 @@
           <label>Heading</label>
           <input type="text" value="${escAttr(b.leftHeading)}" placeholder="e.g. Team Updates"
                  oninput="updateBlock(${b.id}, 'leftHeading', this.value)" />
+          ${charCounter(b.id, 'leftHeading', 100)}
           <label>Body</label>
           <textarea rows="3" placeholder="Left column content..."
                     oninput="updateBlock(${b.id}, 'leftBody', this.value)">${esc(b.leftBody)}</textarea>
+          ${charCounter(b.id, 'leftBody', 1500)}
         </div>
         <div style="background:#FADADD;border-radius:4px;padding:12px;">
           <label style="color:#E8383A;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Right Column</label>
           <label>Heading</label>
           <input type="text" value="${escAttr(b.rightHeading)}" placeholder="e.g. Upcoming Events"
                  oninput="updateBlock(${b.id}, 'rightHeading', this.value)" />
+          ${charCounter(b.id, 'rightHeading', 100)}
           <label>Body</label>
           <textarea rows="3" placeholder="Right column content..."
                     oninput="updateBlock(${b.id}, 'rightBody', this.value)">${esc(b.rightBody)}</textarea>
+          ${charCounter(b.id, 'rightBody', 1500)}
         </div>
         ${renderButtonFields(b)}
         ${renderBylineFields(b)}`;
@@ -718,9 +847,11 @@
         <label>Heading</label>
         <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Big Announcement"
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
+        ${charCounter(b.id, 'heading', 100)}
         <label>Body</label>
         <textarea rows="3" placeholder="Write the feature content..."
                   oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
+        ${charCounter(b.id, 'body', 1500)}
         ${renderButtonFields(b)}
         ${renderBylineFields(b)}`;
     }
@@ -729,9 +860,11 @@
         <label>Heading</label>
         <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Project Spotlight"
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
+        ${charCounter(b.id, 'heading', 100)}
         <label>Body</label>
         <textarea rows="3" placeholder="Write the content for this section..."
                   oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
+        ${charCounter(b.id, 'body', 1500)}
         <div class="inline-fields">
           <div class="field">
             <label>Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
@@ -762,6 +895,7 @@
         ${renderBlockFields(b)}
       </div>
     `).join('');
+    updateCharCounters();
   }
 
   // ── Interesting Links ──
@@ -981,6 +1115,7 @@
     if (!active.length) return '';
 
     const linksEyebrow = val('linksEyebrow') || '';
+    const linksSubheading = val('linksSubheading') || '';
     const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="80" style="margin: 0 auto;"><tr><td width="80" height="80" align="center" valign="middle" style="width:80px; height:80px; border-radius:50%; background-color:#C8C8C8; font-size:0; line-height:0;">&nbsp;</td></tr></table>`;
 
     const cells = interestingLinks.map(l => {
@@ -1011,11 +1146,19 @@
                   <td style="padding: 16px 0 0 0; border-top: 2px solid #E8383A;">&nbsp;</td>
                 </tr>`;
 
+    const linksSubheadingRow = linksSubheading ? `
+                <tr>
+                  <td style="padding: 0 0 16px 0;">
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #555555; margin: 0; line-height: 1.5;">${esc(linksSubheading)}</p>
+                  </td>
+                </tr>` : '';
+
     return `
           <tr>
             <td style="padding: 0 40px 40px 40px; background-color: #ffffff;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${linksLabelRow}
+                ${linksSubheadingRow}
                 <tr>
                   <td>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
