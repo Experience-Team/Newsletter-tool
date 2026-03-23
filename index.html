@@ -569,6 +569,8 @@ Key rules to humanise:
       <div class="form-section-title">Introduction</div>
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Experience Gazette" value="Experience Gazette" oninput="renderPreview()" />
+      <label for="heroByline">Byline <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="heroByline" placeholder="e.g. Your monthly dose of all things UX" oninput="renderPreview()" />
       <label for="heroBody">Body</label>
       <textarea id="heroBody" rows="4" placeholder="e.g. A lot has happened across the business this month &mdash; from product milestones to team growth and a few wins worth celebrating." oninput="renderPreview()"></textarea>
     </div>
@@ -1227,6 +1229,7 @@ Key rules to humanise:
     const edNum          = val('editionNumber') || '';
     const heroImageUrl   = val('heroImageUrl') || '';
     const headline       = val('heroHeadline') || 'Newsletter Headline';
+    const heroByline     = val('heroByline') || '';
     const heroBody       = val('heroBody') || '';
 
     const contentEyebrow = val('contentEyebrow') || '';
@@ -1458,7 +1461,8 @@ Key rules to humanise:
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td>
-                    <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #ffffff; line-height: 1.25; margin: 0 0 20px 0;">${esc(headline)}</h1>
+                    <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #ffffff; line-height: 1.25; margin: 0 0 ${heroByline ? '8' : '20'}px 0;">${esc(headline)}</h1>
+                    ${heroByline ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #C8C8C8; line-height: 1.4; margin: 0 0 20px 0;">${esc(heroByline)}</p>` : ''}
                     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: #F4A9A3; line-height: 1.7; margin: 0;">${nl2br(heroBody)}</p>
                   </td>
                 </tr>
