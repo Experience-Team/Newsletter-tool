@@ -569,8 +569,21 @@ Key rules to humanise:
       <div class="form-section-title">Introduction</div>
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Experience Gazette" value="Experience Gazette" oninput="renderPreview()" />
-      <label for="heroByline">Byline <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="heroByline" placeholder="e.g. Your monthly dose of all things UX" oninput="renderPreview()" />
+      <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <input type="text" id="heroBylinePhoto" placeholder="Thumbnail image URL (e.g. https://res.cloudinary.com/…/photo.jpg)"
+               oninput="renderPreview()" style="margin-bottom:6px;" />
+        <div class="inline-fields">
+          <div class="field">
+            <input type="text" id="heroBylineName" placeholder="Name — Leave blank for no by-line. For guest editors, enter their details manually."
+                   oninput="renderPreview()" />
+          </div>
+          <div class="field">
+            <input type="text" id="heroBylineRole" placeholder="Role (e.g. Senior Designer)"
+                   oninput="renderPreview()" />
+          </div>
+        </div>
+      </div>
       <label for="heroBody">Body</label>
       <textarea id="heroBody" rows="4" placeholder="e.g. A lot has happened across the business this month &mdash; from product milestones to team growth and a few wins worth celebrating." oninput="renderPreview()"></textarea>
     </div>
@@ -1229,7 +1242,9 @@ Key rules to humanise:
     const edNum          = val('editionNumber') || '';
     const heroImageUrl   = val('heroImageUrl') || '';
     const headline       = val('heroHeadline') || 'Newsletter Headline';
-    const heroByline     = val('heroByline') || '';
+    const heroBylinePhoto = val('heroBylinePhoto') || '';
+    const heroBylineName  = val('heroBylineName') || '';
+    const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
 
     const contentEyebrow = val('contentEyebrow') || '';
@@ -1461,8 +1476,8 @@ Key rules to humanise:
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td>
-                    <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #ffffff; line-height: 1.25; margin: 0 0 ${heroByline ? '8' : '20'}px 0;">${esc(headline)}</h1>
-                    ${heroByline ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #C8C8C8; line-height: 1.4; margin: 0 0 20px 0;">${esc(heroByline)}</p>` : ''}
+                    <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #ffffff; line-height: 1.25; margin: 0 0 20px 0;">${esc(headline)}</h1>
+                    ${generateBylineHTML({ bylinePhoto: heroBylinePhoto, bylineName: heroBylineName, bylineRole: heroBylineRole }, '#C8C8C8')}
                     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: #F4A9A3; line-height: 1.7; margin: 0;">${nl2br(heroBody)}</p>
                   </td>
                 </tr>
