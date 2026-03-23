@@ -706,7 +706,7 @@ Key rules to humanise:
     } else if (type === 'two-column') {
       Object.assign(base, { leftHeading: '', leftBody: '', rightHeading: '', rightBody: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'feature') {
-      Object.assign(base, { heading: '', body: '', btnLabel: '', btnUrl: '' });
+      Object.assign(base, { eyebrow: '', featureImageUrl: '', heading: '', subheading: '', h2heading: '', body: '', btnLabel: '', btnUrl: '' });
     }
     blocks.push(base);
     document.getElementById('addMenu').classList.remove('open');
@@ -859,10 +859,22 @@ Key rules to humanise:
         ${renderBylineFields(b)}`;
     } else if (b.type === 'feature') {
       return `
+        <label>Eyebrow <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <input type="text" value="${escAttr(b.eyebrow)}"
+               oninput="updateBlock(${b.id}, 'eyebrow', this.value)" />
+        <label>Full-width Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <input type="text" value="${escAttr(b.featureImageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/banner.jpg"
+               oninput="updateBlock(${b.id}, 'featureImageUrl', this.value)" />
         <label>Heading</label>
         <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Big Announcement"
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
         ${charCounter(b.id, 'heading', 100)}
+        <label>Subheading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <input type="text" value="${escAttr(b.subheading)}"
+               oninput="updateBlock(${b.id}, 'subheading', this.value)" />
+        <label>H2 Heading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <input type="text" value="${escAttr(b.h2heading)}"
+               oninput="updateBlock(${b.id}, 'h2heading', this.value)" />
         <label>Body</label>
         <textarea rows="3" placeholder="Write the feature content..."
                   oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
@@ -1339,14 +1351,34 @@ Key rules to humanise:
               </table>`;
       } else if (b.type === 'feature') {
         if (!b.heading && !b.body) return;
+        const featureEyebrowHTML = b.eyebrow ? `
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.eyebrow)}</p>` : '';
+        const featureImageHTML = b.featureImageUrl ? `
+                    <tr>
+                      <td style="padding: 0; font-size: 0; line-height: 0;">
+                        <img src="${esc(b.featureImageUrl)}" alt="" width="100%" style="display: block; width: 100%; height: auto; border: 0; outline: none; text-decoration: none;" />
+                      </td>
+                    </tr>` : '';
+        const featureSubheadingHTML = b.subheading ? `
+                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #ffffff; line-height: 1.4; margin: 0 0 12px 0; opacity: 0.85;">${esc(b.subheading)}</p>` : '';
+        const featureH2HTML = b.h2heading ? `
+                          <h3 style="font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.h2heading)}</h3>` : '';
         contentBlocksHTML += `
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 -40px; width: calc(100% + 80px);">
+                <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><![endif]-->
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E8383A; border-radius: 4px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E8383A;">
+                      ${b.eyebrow ? `<tr>
+                        <td style="padding: 12px 28px 0 28px;">
+                          ${featureEyebrowHTML}
+                        </td>
+                      </tr>` : ''}${featureImageHTML}
                       <tr>
-                        <td style="padding: 32px 28px;">
+                        <td style="padding: ${b.eyebrow && !b.featureImageUrl ? '12px' : '24px'} 28px 32px 28px;">
                           <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.heading)}</h2>
+                          ${featureSubheadingHTML}
+                          ${featureH2HTML}
                           ${generateBylineHTML(b, '#ffffff')}
                           <p style="font-family: Arial, Helvetica, sans-serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
                           ${generateFeatureButtonHTML(b)}
@@ -1355,6 +1387,7 @@ Key rules to humanise:
                     </table>
                   </td>
                 </tr>
+                <!--[if mso]></table><![endif]-->
                 ${separatorHTML}
               </table>`;
       } else {
