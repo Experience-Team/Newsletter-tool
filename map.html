@@ -24,23 +24,12 @@
       height: 100vh;
       overflow: hidden;
     }
-    /* ── Map background ── */
-    .map-bg {
+    /* ── Google Map ── */
+    #googleMap {
       position: absolute;
       inset: 0;
-      background: url('https://www.figma.com/api/mcp/asset/29874efb-7bc2-43a0-9c90-91ed21cc3e05') center center / cover no-repeat;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
     }
-    .map-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    /* Zoom transforms for map bg */
-    .map-bg.view-global { transform: scale(1) translate(0, 0); }
-    .map-bg.view-region { transform: scale(2.2) translate(-18%, 5%); }
-    .map-bg.view-country { transform: scale(4.5) translate(-12%, 8%); }
     /* ── Left panel ── */
     .left-panel {
       position: absolute;
@@ -179,21 +168,8 @@
       border-color: #000;
       background: rgba(0, 0, 0, 0.05);
     }
-    /* ── Map pins ── */
-    .pin-layer {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .pin-layer.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    /* ── Map pins (used as AdvancedMarkerElement content) ── */
     .map-pin {
-      position: absolute;
       background: #000;
       border-radius: 50%;
       display: flex;
@@ -201,7 +177,6 @@
       justify-content: center;
       cursor: pointer;
       transition: transform 0.2s, background-color 0.2s;
-      z-index: 6;
     }
     .map-pin:hover {
       transform: scale(1.08);
@@ -341,8 +316,8 @@
 </head>
 <body>
 <div class="map-container">
-  <!-- Map background -->
-  <div class="map-bg view-global" id="mapBg"></div>
+  <!-- Google Map -->
+  <div id="googleMap"></div>
   <!-- Left panel -->
   <div class="left-panel">
     <div class="panel-top">
@@ -392,143 +367,80 @@
   <button class="back-btn" id="backBtn" onclick="goBack()">Back</button>
   <!-- Breadcrumb -->
   <div class="breadcrumb" id="breadcrumb"><strong>Global</strong></div>
-  <!-- ── Pin layers ── -->
-  <!-- Global view: region pins -->
-  <div class="pin-layer active" id="layerGlobal">
-    <div class="map-pin large clickable" style="left: 60%; top: 12%;" onclick="navigate('emea')">
-      <span>EMEA</span>
-    </div>
-    <div class="map-pin large clickable" style="left: 75%; top: 30%;" onclick="navigate('apac')">
-      <span>APAC</span>
-    </div>
-  </div>
-  <!-- APAC region view: country pins -->
-  <div class="pin-layer" id="layerApac">
-    <div class="map-pin medium clickable" style="right: 12%; top: 12%;" onclick="navigate('jpn')">
-      <span>JPN</span>
-    </div>
-    <div class="map-pin medium clickable" style="right: 18%; top: 15%;" onclick="navigate('kor')">
-      <span>KOR</span>
-    </div>
-    <div class="map-pin medium clickable" style="left: 50%; top: 34%;" onclick="navigate('ind')">
-      <span>IND</span>
-    </div>
-    <div class="map-pin medium clickable" style="left: 58%; top: 36%;" onclick="navigate('tha')">
-      <span>THA</span>
-    </div>
-    <div class="map-pin medium clickable" style="left: 62%; top: 34%;" onclick="navigate('vnm')">
-      <span>VNM</span>
-    </div>
-    <div class="map-pin medium clickable" style="left: 56%; top: 53%;" onclick="navigate('mys')">
-      <span>MYS</span>
-    </div>
-    <div class="map-pin medium clickable" style="left: 60%; top: 68%;" onclick="navigate('sgp')">
-      <span>SGP</span>
-    </div>
-    <div class="map-pin medium clickable" style="left: 68%; top: 68%;" onclick="navigate('idn')">
-      <span>IDN</span>
-    </div>
-    <div class="map-pin medium clickable" style="right: 15%; top: 42%;" onclick="navigate('phl')">
-      <span>PHL</span>
-    </div>
-  </div>
-  <!-- EMEA region view: country pins -->
-  <div class="pin-layer" id="layerEmea">
-    <div class="map-pin medium" style="left: 55%; top: 18%;">
-      <span>GBR</span>
-    </div>
-    <div class="map-pin medium" style="left: 60%; top: 22%;">
-      <span>NLD</span>
-    </div>
-    <div class="map-pin medium" style="left: 63%; top: 25%;">
-      <span>DEU</span>
-    </div>
-    <div class="map-pin medium" style="left: 58%; top: 32%;">
-      <span>FRA</span>
-    </div>
-    <div class="map-pin medium" style="left: 70%; top: 45%;">
-      <span>ARE</span>
-    </div>
-    <div class="map-pin medium" style="left: 66%; top: 52%;">
-      <span>SAU</span>
-    </div>
-    <div class="map-pin medium" style="left: 72%; top: 36%;">
-      <span>TUR</span>
-    </div>
-  </div>
-  <!-- India country view: city pins -->
-  <div class="pin-layer" id="layerInd">
-    <div class="map-pin small" style="left: 58%; top: 24%;">
-      <span>DEL</span>
-    </div>
-    <div class="map-pin small" style="left: 60%; top: 32%;">
-      <span>NID</span>
-    </div>
-    <div class="map-pin small" style="left: 52%; top: 30%;">
-      <span>JAI</span>
-    </div>
-    <div class="map-pin small" style="left: 52%; top: 38%;">
-      <span>AMD</span>
-    </div>
-    <div class="map-pin small" style="left: 55%; top: 48%;">
-      <span>BOM</span>
-    </div>
-    <div class="map-pin small" style="left: 60%; top: 53%;">
-      <span>PNQ</span>
-    </div>
-    <div class="map-pin small" style="left: 64%; top: 52%;">
-      <span>HYD</span>
-    </div>
-    <div class="map-pin small" style="left: 58%; top: 64%;">
-      <span>BLR</span>
-    </div>
-    <div class="map-pin small inactive" style="left: 64%; top: 65%;">
-      <span>MAA</span>
-    </div>
-    <div class="map-pin small" style="left: 70%; top: 42%;">
-      <span>CCU</span>
-    </div>
-  </div>
   <!-- Map controls -->
   <div class="map-controls">
-    <button class="control-btn" title="Expand">
+    <button class="control-btn" id="expandBtn" title="Expand">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 7V3H7M13 3H17V7M17 13V17H13M7 17H3V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <div class="zoom-row">
-      <button class="control-btn" title="Zoom out">
+      <button class="control-btn" id="zoomOutBtn" title="Zoom out">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
-      <button class="control-btn" title="Zoom in">
+      <button class="control-btn" id="zoomInBtn" title="Zoom in">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
 </div>
+
+<!-- Replace YOUR_API_KEY with your Google Maps JavaScript API key -->
+<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=marker&v=weekly&callback=initMap"></script>
+
 <script>
-  // ── State ──
-  let currentView = 'global';
-  const history = [];
-  const layers = {
-    global: document.getElementById('layerGlobal'),
-    apac: document.getElementById('layerApac'),
-    emea: document.getElementById('layerEmea'),
-    ind: document.getElementById('layerInd')
+  // ── Pin data with real lat/lng coordinates ──
+  const PIN_DATA = {
+    global: {
+      center: { lat: 25, lng: 55 },
+      zoom: 3,
+      pins: [
+        { label: 'EMEA', lat: 48, lng: 20, size: 'large', target: 'emea' },
+        { label: 'APAC', lat: 20, lng: 90, size: 'large', target: 'apac' }
+      ]
+    },
+    apac: {
+      bounds: { north: 45, south: -10, west: 68, east: 145 },
+      pins: [
+        { label: 'JPN', lat: 36.2, lng: 138.3, size: 'medium', target: 'jpn' },
+        { label: 'KOR', lat: 35.9, lng: 127.8, size: 'medium', target: 'kor' },
+        { label: 'IND', lat: 22.0, lng: 78.0, size: 'medium', target: 'ind' },
+        { label: 'THA', lat: 15.9, lng: 100.5, size: 'medium', target: 'tha' },
+        { label: 'VNM', lat: 16.0, lng: 108.0, size: 'medium', target: 'vnm' },
+        { label: 'MYS', lat: 4.2, lng: 101.9, size: 'medium', target: 'mys' },
+        { label: 'SGP', lat: 1.35, lng: 103.8, size: 'medium', target: 'sgp' },
+        { label: 'IDN', lat: -2.5, lng: 118.0, size: 'medium', target: 'idn' },
+        { label: 'PHL', lat: 12.9, lng: 121.8, size: 'medium', target: 'phl' }
+      ]
+    },
+    emea: {
+      bounds: { north: 58, south: 18, west: -10, east: 60 },
+      pins: [
+        { label: 'GBR', lat: 51.5, lng: -0.12, size: 'medium' },
+        { label: 'NLD', lat: 52.4, lng: 4.9, size: 'medium' },
+        { label: 'DEU', lat: 50.1, lng: 10.4, size: 'medium' },
+        { label: 'FRA', lat: 46.6, lng: 2.3, size: 'medium' },
+        { label: 'ARE', lat: 24.5, lng: 54.4, size: 'medium' },
+        { label: 'SAU', lat: 24.7, lng: 46.7, size: 'medium' },
+        { label: 'TUR', lat: 39.9, lng: 32.9, size: 'medium' }
+      ]
+    },
+    ind: {
+      bounds: { north: 33, south: 8, west: 68, east: 90 },
+      pins: [
+        { label: 'DEL', lat: 28.61, lng: 77.21, size: 'small' },
+        { label: 'NID', lat: 28.58, lng: 77.33, size: 'small' },
+        { label: 'JAI', lat: 26.91, lng: 75.79, size: 'small' },
+        { label: 'AMD', lat: 23.02, lng: 72.57, size: 'small' },
+        { label: 'BOM', lat: 19.08, lng: 72.88, size: 'small' },
+        { label: 'PNQ', lat: 18.52, lng: 73.86, size: 'small' },
+        { label: 'HYD', lat: 17.39, lng: 78.49, size: 'small' },
+        { label: 'BLR', lat: 12.97, lng: 77.59, size: 'small' },
+        { label: 'MAA', lat: 13.08, lng: 80.27, size: 'small', inactive: true },
+        { label: 'CCU', lat: 22.57, lng: 88.36, size: 'small' }
+      ]
+    }
   };
-  const bgClasses = {
-    global: 'view-global',
-    apac: 'view-region',
-    emea: 'view-region',
-    ind: 'view-country',
-    // Fallback for other countries — use region zoom
-    jpn: 'view-country',
-    kor: 'view-country',
-    tha: 'view-country',
-    vnm: 'view-country',
-    mys: 'view-country',
-    sgp: 'view-country',
-    idn: 'view-country',
-    phl: 'view-country'
-  };
+
+  // ── Breadcrumb labels ──
   const breadcrumbs = {
     global: '<strong>Global</strong>',
     apac: 'Global &rsaquo; <strong>APAC</strong>',
@@ -543,32 +455,140 @@
     idn: 'Global &rsaquo; APAC &rsaquo; <strong>Indonesia</strong>',
     phl: 'Global &rsaquo; APAC &rsaquo; <strong>Philippines</strong>'
   };
-  function navigate(target) {
-    history.push(currentView);
-    setView(target);
+
+  // ── Dark map style ──
+  const MAP_STYLE = [
+    { elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a2e' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#4a4a5a' }] },
+    { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a3e' }] },
+    { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a3e' }, { weight: 1 }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e0e1a' }] },
+    { featureType: 'water', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+    { featureType: 'road', stylers: [{ visibility: 'off' }] },
+    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+    { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#16213e' }] },
+    { featureType: 'administrative.land_parcel', stylers: [{ visibility: 'off' }] },
+    { featureType: 'administrative.neighborhood', stylers: [{ visibility: 'off' }] }
+  ];
+
+  // ── State ──
+  let map;
+  let currentView = 'global';
+  const navHistory = [];
+  let activeMarkers = [];
+
+  // ── Initialize Google Map ──
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('googleMap'), {
+      center: PIN_DATA.global.center,
+      zoom: PIN_DATA.global.zoom,
+      styles: MAP_STYLE,
+      mapId: 'DEMO_MAP_ID',
+      disableDefaultUI: true,
+      gestureHandling: 'greedy',
+      minZoom: 2,
+      maxZoom: 18,
+      backgroundColor: '#0e0e1a'
+    });
+
+    // Wire zoom controls
+    document.getElementById('zoomInBtn').addEventListener('click', () => {
+      map.setZoom(map.getZoom() + 1);
+    });
+    document.getElementById('zoomOutBtn').addEventListener('click', () => {
+      map.setZoom(map.getZoom() - 1);
+    });
+    document.getElementById('expandBtn').addEventListener('click', () => {
+      setView(currentView);
+    });
+
+    // Show initial view
+    setView('global');
   }
-  function goBack() {
-    if (!history.length) return;
-    const prev = history.pop();
-    setView(prev);
+
+  // ── Create a single marker ──
+  function createMarker(pin) {
+    const el = document.createElement('div');
+    const sizeClass = pin.size || 'medium';
+    el.className = 'map-pin ' + sizeClass + (pin.inactive ? ' inactive' : '') + (pin.target ? ' clickable' : '');
+    el.innerHTML = '<span>' + pin.label + '</span>';
+
+    if (pin.target && !pin.inactive) {
+      el.addEventListener('click', () => navigate(pin.target));
+    }
+
+    const marker = new google.maps.marker.AdvancedMarkerElement({
+      map: map,
+      position: { lat: pin.lat, lng: pin.lng },
+      content: el,
+      zIndex: pin.size === 'large' ? 10 : (pin.size === 'medium' ? 5 : 1)
+    });
+
+    return marker;
   }
+
+  // ── Clear all active markers ──
+  function clearMarkers() {
+    activeMarkers.forEach(m => { m.map = null; });
+    activeMarkers = [];
+  }
+
+  // ── Set view ──
   function setView(view) {
     currentView = view;
-    // Update pin layers
-    Object.values(layers).forEach(l => l.classList.remove('active'));
-    const layer = layers[view];
-    if (layer) layer.classList.add('active');
-    // Update map background
-    const bg = document.getElementById('mapBg');
-    bg.className = 'map-bg ' + (bgClasses[view] || 'view-region');
+    clearMarkers();
+
+    const data = PIN_DATA[view];
+
+    if (data) {
+      // Create markers for this view
+      data.pins.forEach(pin => {
+        activeMarkers.push(createMarker(pin));
+      });
+
+      // Move the map
+      if (data.center && data.zoom) {
+        map.setCenter(data.center);
+        map.setZoom(data.zoom);
+      } else if (data.bounds) {
+        const bounds = new google.maps.LatLngBounds(
+          { lat: data.bounds.south, lng: data.bounds.west },
+          { lat: data.bounds.north, lng: data.bounds.east }
+        );
+        const panelWidth = document.querySelector('.left-panel').offsetWidth;
+        map.fitBounds(bounds, {
+          left: panelWidth + 40,
+          top: 40,
+          right: 40,
+          bottom: 40
+        });
+      }
+    } else {
+      // Views without pin data (e.g. jpn, kor) — just show breadcrumb
+      // Could be extended later with city-level pins
+    }
+
     // Update back button
-    const backBtn = document.getElementById('backBtn');
-    backBtn.classList.toggle('visible', view !== 'global');
+    document.getElementById('backBtn').classList.toggle('visible', view !== 'global');
+
     // Update breadcrumb
-    document.getElementById('breadcrumb').innerHTML = breadcrumbs[view] || '<strong>' + view.toUpperCase() + '</strong>';
+    document.getElementById('breadcrumb').innerHTML =
+      breadcrumbs[view] || '<strong>' + view.toUpperCase() + '</strong>';
   }
-  // Init
-  setView('global');
-  </script>
+
+  // ── Navigation ──
+  function navigate(target) {
+    navHistory.push(currentView);
+    setView(target);
+  }
+
+  function goBack() {
+    if (!navHistory.length) return;
+    const prev = navHistory.pop();
+    setView(prev);
+  }
+</script>
 </body>
 </html>
