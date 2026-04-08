@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;800&family=Lato:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -24,12 +26,14 @@
       height: 100vh;
       overflow: hidden;
     }
-    /* ── Google Map ── */
-    #googleMap {
+    /* ── Leaflet Map ── */
+    #map {
       position: absolute;
       inset: 0;
       z-index: 1;
     }
+    /* Push Leaflet attribution above our zoom controls */
+    .leaflet-bottom.leaflet-right { bottom: 100px; }
     /* ── Left panel ── */
     .left-panel {
       position: absolute;
@@ -168,7 +172,7 @@
       border-color: #000;
       background: rgba(0, 0, 0, 0.05);
     }
-    /* ── Map pins (used as AdvancedMarkerElement content) ── */
+    /* ── Map pins (rendered via L.divIcon) ── */
     .map-pin {
       background: #000;
       border-radius: 50%;
@@ -316,8 +320,8 @@
 </head>
 <body>
 <div class="map-container">
-  <!-- Google Map -->
-  <div id="googleMap"></div>
+  <!-- Leaflet Map -->
+  <div id="map"></div>
   <!-- Left panel -->
   <div class="left-panel">
     <div class="panel-top">
@@ -382,8 +386,6 @@
     </div>
   </div>
 </div>
-<!-- Replace YOUR_API_KEY with your Google Maps JavaScript API key -->
-<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=marker&v=weekly&callback=initMap"></script>
 <script>
   // ── Pin data with real lat/lng coordinates ──
   const PIN_DATA = {
@@ -452,73 +454,53 @@
     idn: 'Global &rsaquo; APAC &rsaquo; <strong>Indonesia</strong>',
     phl: 'Global &rsaquo; APAC &rsaquo; <strong>Philippines</strong>'
   };
-  // ── Dark map style ──
-  const MAP_STYLE = [
-    { elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
-    { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a2e' }] },
-    { elementType: 'labels.text.fill', stylers: [{ color: '#4a4a5a' }] },
-    { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a3e' }] },
-    { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a3e' }, { weight: 1 }] },
-    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e0e1a' }] },
-    { featureType: 'water', elementType: 'labels', stylers: [{ visibility: 'off' }] },
-    { featureType: 'road', stylers: [{ visibility: 'off' }] },
-    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-    { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-    { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#16213e' }] },
-    { featureType: 'administrative.land_parcel', stylers: [{ visibility: 'off' }] },
-    { featureType: 'administrative.neighborhood', stylers: [{ visibility: 'off' }] }
-  ];
   // ── State ──
-  let map;
   let currentView = 'global';
   const navHistory = [];
   let activeMarkers = [];
-  // ── Initialize Google Map ──
-  function initMap() {
-    map = new google.maps.Map(document.getElementById('googleMap'), {
-      center: PIN_DATA.global.center,
-      zoom: PIN_DATA.global.zoom,
-      styles: MAP_STYLE,
-      mapId: 'DEMO_MAP_ID',
-      disableDefaultUI: true,
-      gestureHandling: 'greedy',
-      minZoom: 2,
-      maxZoom: 18,
-      backgroundColor: '#0e0e1a'
-    });
-    // Wire zoom controls
-    document.getElementById('zoomInBtn').addEventListener('click', () => {
-      map.setZoom(map.getZoom() + 1);
-    });
-    document.getElementById('zoomOutBtn').addEventListener('click', () => {
-      map.setZoom(map.getZoom() - 1);
-    });
-    document.getElementById('expandBtn').addEventListener('click', () => {
-      setView(currentView);
-    });
-    // Show initial view
-    setView('global');
-  }
-  // ── Create a single marker ──
+  // ── Initialise Leaflet map ──
+  const map = L.map('map', {
+    center: [25, 55],
+    zoom: 3,
+    zoomControl: false,
+    attributionControl: true
+  });
+  // CartoDB Dark Matter — free, no API key required
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+  // ── Wire zoom + expand controls ──
+  document.getElementById('zoomInBtn').addEventListener('click', () => map.zoomIn());
+  document.getElementById('zoomOutBtn').addEventListener('click', () => map.zoomOut());
+  document.getElementById('expandBtn').addEventListener('click', () => setView(currentView));
+  // ── Create a single marker via L.divIcon ──
   function createMarker(pin) {
-    const el = document.createElement('div');
-    const sizeClass = pin.size || 'medium';
-    el.className = 'map-pin ' + sizeClass + (pin.inactive ? ' inactive' : '') + (pin.target ? ' clickable' : '');
-    el.innerHTML = '<span>' + pin.label + '</span>';
-    if (pin.target && !pin.inactive) {
-      el.addEventListener('click', () => navigate(pin.target));
-    }
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      map: map,
-      position: { lat: pin.lat, lng: pin.lng },
-      content: el,
-      zIndex: pin.size === 'large' ? 10 : (pin.size === 'medium' ? 5 : 1)
+    const sizes = { large: 180, medium: 100, small: 80 };
+    const px = sizes[pin.size || 'medium'];
+    const classes = 'map-pin ' + (pin.size || 'medium')
+      + (pin.inactive ? ' inactive' : '')
+      + (pin.target && !pin.inactive ? ' clickable' : '');
+    const icon = L.divIcon({
+      html: '<div class="' + classes + '"><span>' + pin.label + '</span></div>',
+      className: '',
+      iconSize: [px, px],
+      iconAnchor: [px / 2, px / 2]
     });
+    const marker = L.marker([pin.lat, pin.lng], {
+      icon,
+      zIndexOffset: pin.size === 'large' ? 1000 : pin.size === 'medium' ? 500 : 0,
+      interactive: !!(pin.target && !pin.inactive)
+    }).addTo(map);
+    if (pin.target && !pin.inactive) {
+      marker.on('click', () => navigate(pin.target));
+    }
     return marker;
   }
   // ── Clear all active markers ──
   function clearMarkers() {
-    activeMarkers.forEach(m => { m.map = null; });
+    activeMarkers.forEach(m => m.remove());
     activeMarkers = [];
   }
   // ── Set view ──
@@ -527,30 +509,23 @@
     clearMarkers();
     const data = PIN_DATA[view];
     if (data) {
-      // Create markers for this view
-      data.pins.forEach(pin => {
-        activeMarkers.push(createMarker(pin));
-      });
-      // Move the map
-      if (data.center && data.zoom) {
-        map.setCenter(data.center);
-        map.setZoom(data.zoom);
+      data.pins.forEach(pin => activeMarkers.push(createMarker(pin)));
+      if (data.center && data.zoom !== undefined) {
+        map.flyTo([data.center.lat, data.center.lng], data.zoom, { duration: 0.8 });
       } else if (data.bounds) {
-        const bounds = new google.maps.LatLngBounds(
-          { lat: data.bounds.south, lng: data.bounds.west },
-          { lat: data.bounds.north, lng: data.bounds.east }
-        );
         const panelWidth = document.querySelector('.left-panel').offsetWidth;
-        map.fitBounds(bounds, {
-          left: panelWidth + 40,
-          top: 40,
-          right: 40,
-          bottom: 40
-        });
+        map.flyToBounds(
+          L.latLngBounds(
+            [data.bounds.south, data.bounds.west],
+            [data.bounds.north, data.bounds.east]
+          ),
+          {
+            paddingTopLeft: [panelWidth + 40, 40],
+            paddingBottomRight: [40, 40],
+            duration: 0.8
+          }
+        );
       }
-    } else {
-      // Views without pin data (e.g. jpn, kor) — just show breadcrumb
-      // Could be extended later with city-level pins
     }
     // Update back button
     document.getElementById('backBtn').classList.toggle('visible', view !== 'global');
@@ -565,9 +540,10 @@
   }
   function goBack() {
     if (!navHistory.length) return;
-    const prev = navHistory.pop();
-    setView(prev);
+    setView(navHistory.pop());
   }
+  // Init
+  setView('global');
 </script>
 </body>
 </html>
