@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map Prototype — Data Centres</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;800&family=Lato:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #000;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ── Layout ── */
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Map background ── */
+    .map-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://www.figma.com/api/mcp/asset/29874efb-7bc2-43a0-9c90-91ed21cc3e05') center center / cover no-repeat;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .map-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Zoom transforms for map bg */
+    .map-bg.view-global { transform: scale(1) translate(0, 0); }
+    .map-bg.view-region { transform: scale(2.2) translate(-18%, 5%); }
+    .map-bg.view-country { transform: scale(4.5) translate(-12%, 8%); }
+
+    /* ── Left panel ── */
+    .left-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 41.67%;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 10;
+      backdrop-filter: blur(2px);
+    }
+
+    .panel-top {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .panel-title {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .panel-title h1 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 60px;
+      line-height: 60px;
+      color: #000;
+    }
+
+    .panel-title p {
+      font-family: 'Inter', sans-serif;
+      font-weight: 200;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #000;
+    }
+
+    /* ── Stat circles ── */
+    .stat-circles {
+      display: flex;
+      gap: 12px;
+    }
+
+    .stat-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1px solid #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 24px;
+      flex-shrink: 0;
+    }
+
+    .stat-circle-value {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 1.5;
+      background: linear-gradient(to right, #353535, #a6a6a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    .stat-circle-line {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, #353535, #a6a6a6);
+    }
+
+    .stat-circle-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 12px;
+      text-align: center;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .stat-circle-label.light {
+      font-weight: 200;
+      text-transform: none;
+    }
+
+    /* ── Bottom stats ── */
+    .panel-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stat-cards {
+      display: flex;
+      gap: 12px;
+    }
+
+    .stat-card {
+      flex: 1;
+      border-left: 1px solid #000;
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stat-card-value {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      background: linear-gradient(to right, #353535, #a6a6a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-card-label {
+      font-family: 'Lato', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      color: #000;
+    }
+
+    /* ── Nav arrow ── */
+    .nav-arrow {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid #cdcdcd;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #000;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .nav-arrow:hover {
+      border-color: #000;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* ── Map pins ── */
+    .pin-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .pin-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .map-pin {
+      position: absolute;
+      background: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      z-index: 6;
+    }
+
+    .map-pin:hover {
+      transform: scale(1.08);
+    }
+
+    .map-pin.clickable:hover {
+      background: #333;
+    }
+
+    .map-pin span {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-align: center;
+      user-select: none;
+    }
+
+    .map-pin.large {
+      width: 180px;
+      height: 180px;
+    }
+    .map-pin.large span {
+      font-size: 32px;
+      line-height: 32px;
+    }
+
+    .map-pin.medium {
+      width: 100px;
+      height: 100px;
+    }
+    .map-pin.medium span {
+      font-size: 24px;
+      line-height: 24px;
+    }
+
+    .map-pin.small {
+      width: 80px;
+      height: 80px;
+    }
+    .map-pin.small span {
+      font-size: 20px;
+      line-height: 20px;
+    }
+
+    .map-pin.inactive {
+      background: #6d6d6d;
+      cursor: default;
+    }
+    .map-pin.inactive:hover {
+      transform: none;
+      background: #6d6d6d;
+    }
+
+    /* ── Back button ── */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: calc(41.67% + 80px);
+      z-index: 15;
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 360px;
+      padding: 10px 20px;
+      height: 40px;
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, background 0.2s;
+    }
+
+    .back-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-btn:hover {
+      background: #333;
+    }
+
+    /* ── Map controls ── */
+    .map-controls {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .control-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid #cdcdcd;
+      background: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      transition: border-color 0.15s, background 0.15s;
+      backdrop-filter: blur(2px);
+    }
+
+    .control-btn:hover {
+      border-color: #000;
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .zoom-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      z-index: 15;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 16px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .breadcrumb strong {
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="map-container">
+
+  <!-- Map background -->
+  <div class="map-bg view-global" id="mapBg"></div>
+
+  <!-- Left panel -->
+  <div class="left-panel">
+    <div class="panel-top">
+      <div class="panel-title">
+        <h1>Data centres</h1>
+        <p>Our global data centre network</p>
+      </div>
+
+      <div class="stat-circles">
+        <div class="stat-circle">
+          <span class="stat-circle-value">318MW</span>
+          <div class="stat-circle-line"></div>
+          <span class="stat-circle-label">Operational</span>
+        </div>
+        <div class="stat-circle">
+          <span class="stat-circle-value">318MW</span>
+          <div class="stat-circle-line"></div>
+          <span class="stat-circle-label light">Under construction</span>
+        </div>
+        <div class="stat-circle">
+          <span class="stat-circle-value">318MW</span>
+          <div class="stat-circle-line"></div>
+          <span class="stat-circle-label">In development</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-bottom">
+      <div class="stat-cards">
+        <div class="stat-card">
+          <span class="stat-card-value">120+</span>
+          <span class="stat-card-label">Customers in our robust ecosystem</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card-value">1,000+</span>
+          <span class="stat-card-label">Network service providers</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card-value">43%</span>
+          <span class="stat-card-label">Renewable energy in use</span>
+        </div>
+      </div>
+
+      <button class="nav-arrow" onclick="goBack()" title="Go back">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 10H4M4 10L10 4M4 10L10 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Back button (on map) -->
+  <button class="back-btn" id="backBtn" onclick="goBack()">Back</button>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb" id="breadcrumb"><strong>Global</strong></div>
+
+  <!-- ── Pin layers ── -->
+
+  <!-- Global view: region pins -->
+  <div class="pin-layer active" id="layerGlobal">
+    <div class="map-pin large clickable" style="left: 60%; top: 12%;" onclick="navigate('emea')">
+      <span>EMEA</span>
+    </div>
+    <div class="map-pin large clickable" style="left: 75%; top: 30%;" onclick="navigate('apac')">
+      <span>APAC</span>
+    </div>
+  </div>
+
+  <!-- APAC region view: country pins -->
+  <div class="pin-layer" id="layerApac">
+    <div class="map-pin medium clickable" style="right: 12%; top: 12%;" onclick="navigate('jpn')">
+      <span>JPN</span>
+    </div>
+    <div class="map-pin medium clickable" style="right: 18%; top: 15%;" onclick="navigate('kor')">
+      <span>KOR</span>
+    </div>
+    <div class="map-pin medium clickable" style="left: 50%; top: 34%;" onclick="navigate('ind')">
+      <span>IND</span>
+    </div>
+    <div class="map-pin medium clickable" style="left: 58%; top: 36%;" onclick="navigate('tha')">
+      <span>THA</span>
+    </div>
+    <div class="map-pin medium clickable" style="left: 62%; top: 34%;" onclick="navigate('vnm')">
+      <span>VNM</span>
+    </div>
+    <div class="map-pin medium clickable" style="left: 56%; top: 53%;" onclick="navigate('mys')">
+      <span>MYS</span>
+    </div>
+    <div class="map-pin medium clickable" style="left: 60%; top: 68%;" onclick="navigate('sgp')">
+      <span>SGP</span>
+    </div>
+    <div class="map-pin medium clickable" style="left: 68%; top: 68%;" onclick="navigate('idn')">
+      <span>IDN</span>
+    </div>
+    <div class="map-pin medium clickable" style="right: 15%; top: 42%;" onclick="navigate('phl')">
+      <span>PHL</span>
+    </div>
+  </div>
+
+  <!-- EMEA region view: country pins -->
+  <div class="pin-layer" id="layerEmea">
+    <div class="map-pin medium" style="left: 55%; top: 18%;">
+      <span>GBR</span>
+    </div>
+    <div class="map-pin medium" style="left: 60%; top: 22%;">
+      <span>NLD</span>
+    </div>
+    <div class="map-pin medium" style="left: 63%; top: 25%;">
+      <span>DEU</span>
+    </div>
+    <div class="map-pin medium" style="left: 58%; top: 32%;">
+      <span>FRA</span>
+    </div>
+    <div class="map-pin medium" style="left: 70%; top: 45%;">
+      <span>ARE</span>
+    </div>
+    <div class="map-pin medium" style="left: 66%; top: 52%;">
+      <span>SAU</span>
+    </div>
+    <div class="map-pin medium" style="left: 72%; top: 36%;">
+      <span>TUR</span>
+    </div>
+  </div>
+
+  <!-- India country view: city pins -->
+  <div class="pin-layer" id="layerInd">
+    <div class="map-pin small" style="left: 58%; top: 24%;">
+      <span>DEL</span>
+    </div>
+    <div class="map-pin small" style="left: 60%; top: 32%;">
+      <span>NID</span>
+    </div>
+    <div class="map-pin small" style="left: 52%; top: 30%;">
+      <span>JAI</span>
+    </div>
+    <div class="map-pin small" style="left: 52%; top: 38%;">
+      <span>AMD</span>
+    </div>
+    <div class="map-pin small" style="left: 55%; top: 48%;">
+      <span>BOM</span>
+    </div>
+    <div class="map-pin small" style="left: 60%; top: 53%;">
+      <span>PNQ</span>
+    </div>
+    <div class="map-pin small" style="left: 64%; top: 52%;">
+      <span>HYD</span>
+    </div>
+    <div class="map-pin small" style="left: 58%; top: 64%;">
+      <span>BLR</span>
+    </div>
+    <div class="map-pin small inactive" style="left: 64%; top: 65%;">
+      <span>MAA</span>
+    </div>
+    <div class="map-pin small" style="left: 70%; top: 42%;">
+      <span>CCU</span>
+    </div>
+  </div>
+
+  <!-- Map controls -->
+  <div class="map-controls">
+    <button class="control-btn" title="Expand">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 7V3H7M13 3H17V7M17 13V17H13M7 17H3V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="zoom-row">
+      <button class="control-btn" title="Zoom out">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="control-btn" title="Zoom in">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── State ──
+  let currentView = 'global';
+  const history = [];
+
+  const layers = {
+    global: document.getElementById('layerGlobal'),
+    apac: document.getElementById('layerApac'),
+    emea: document.getElementById('layerEmea'),
+    ind: document.getElementById('layerInd')
+  };
+
+  const bgClasses = {
+    global: 'view-global',
+    apac: 'view-region',
+    emea: 'view-region',
+    ind: 'view-country',
+    // Fallback for other countries — use region zoom
+    jpn: 'view-country',
+    kor: 'view-country',
+    tha: 'view-country',
+    vnm: 'view-country',
+    mys: 'view-country',
+    sgp: 'view-country',
+    idn: 'view-country',
+    phl: 'view-country'
+  };
+
+  const breadcrumbs = {
+    global: '<strong>Global</strong>',
+    apac: 'Global &rsaquo; <strong>APAC</strong>',
+    emea: 'Global &rsaquo; <strong>EMEA</strong>',
+    ind: 'Global &rsaquo; APAC &rsaquo; <strong>India</strong>',
+    jpn: 'Global &rsaquo; APAC &rsaquo; <strong>Japan</strong>',
+    kor: 'Global &rsaquo; APAC &rsaquo; <strong>South Korea</strong>',
+    tha: 'Global &rsaquo; APAC &rsaquo; <strong>Thailand</strong>',
+    vnm: 'Global &rsaquo; APAC &rsaquo; <strong>Vietnam</strong>',
+    mys: 'Global &rsaquo; APAC &rsaquo; <strong>Malaysia</strong>',
+    sgp: 'Global &rsaquo; APAC &rsaquo; <strong>Singapore</strong>',
+    idn: 'Global &rsaquo; APAC &rsaquo; <strong>Indonesia</strong>',
+    phl: 'Global &rsaquo; APAC &rsaquo; <strong>Philippines</strong>'
+  };
+
+  function navigate(target) {
+    history.push(currentView);
+    setView(target);
+  }
+
+  function goBack() {
+    if (!history.length) return;
+    const prev = history.pop();
+    setView(prev);
+  }
+
+  function setView(view) {
+    currentView = view;
+
+    // Update pin layers
+    Object.values(layers).forEach(l => l.classList.remove('active'));
+    const layer = layers[view];
+    if (layer) layer.classList.add('active');
+
+    // Update map background
+    const bg = document.getElementById('mapBg');
+    bg.className = 'map-bg ' + (bgClasses[view] || 'view-region');
+
+    // Update back button
+    const backBtn = document.getElementById('backBtn');
+    backBtn.classList.toggle('visible', view !== 'global');
+
+    // Update breadcrumb
+    document.getElementById('breadcrumb').innerHTML = breadcrumbs[view] || '<strong>' + view.toUpperCase() + '</strong>';
+  }
+
+  // Init
+  setView('global');
+</script>
+
+</body>
+</html>
