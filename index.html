@@ -230,6 +230,21 @@
     }
     textarea { resize: vertical; min-height: 80px; }
 
+    select {
+      display: block;
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 1px solid #C8C8C8;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: #000000;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    select:focus { outline: none; border-color: #E8383A; }
+
     .inline-fields {
       display: flex;
       gap: 10px;
@@ -571,6 +586,9 @@ Key rules to humanise:
       <input type="text" id="heroHeadline" placeholder="e.g. Experience Gazette" value="Experience Gazette" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
         <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <select id="heroBylineSelect" onchange="pickHeroByline(this.value); this.value='';">
+          <option value="">— Pick from team —</option>
+        </select>
         <input type="text" id="heroBylinePhoto" placeholder="Thumbnail image URL (e.g. https://res.cloudinary.com/…/photo.jpg)"
                oninput="renderPreview()" style="margin-bottom:6px;" />
         <div class="inline-fields">
@@ -727,6 +745,40 @@ Key rules to humanise:
     renderPreview();
   }
 
+  function bylineOptionsHTML() {
+    const opts = teamMembers.map(m =>
+      `<option value="${m.id}">${esc(m.name || '(unnamed)')}${m.title ? ' — ' + esc(m.title) : ''}</option>`
+    ).join('');
+    return `<option value="">— Pick from team —</option>${opts}`;
+  }
+
+  function pickBylineForBlock(blockId, memberId) {
+    if (!memberId) return;
+    const member = teamMembers.find(m => m.id === +memberId);
+    const block = blocks.find(b => b.id === blockId);
+    if (!member || !block) return;
+    block.bylinePhoto = member.imageUrl;
+    block.bylineName = member.name;
+    block.bylineRole = member.title;
+    renderBlocks();
+    renderPreview();
+  }
+
+  function pickHeroByline(memberId) {
+    if (!memberId) return;
+    const member = teamMembers.find(m => m.id === +memberId);
+    if (!member) return;
+    document.getElementById('heroBylinePhoto').value = member.imageUrl;
+    document.getElementById('heroBylineName').value = member.name;
+    document.getElementById('heroBylineRole').value = member.title;
+    renderPreview();
+  }
+
+  function renderHeroBylineOptions() {
+    const sel = document.getElementById('heroBylineSelect');
+    if (sel) sel.innerHTML = bylineOptionsHTML();
+  }
+
   function renderButtonFields(b) {
     return `
         <div class="inline-fields" style="margin-top:4px;">
@@ -747,6 +799,9 @@ Key rules to humanise:
     return `
         <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
           <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <select onchange="pickBylineForBlock(${b.id}, this.value); this.value='';">
+            ${bylineOptionsHTML()}
+          </select>
           <input type="text" value="${escAttr(b.bylinePhoto)}" placeholder="Thumbnail image URL (e.g. https://res.cloudinary.com/…/photo.jpg)"
                  oninput="updateBlock(${b.id}, 'bylinePhoto', this.value)" style="margin-bottom:6px;" />
           <div class="inline-fields">
@@ -966,18 +1021,24 @@ Key rules to humanise:
     if (teamMembers.length >= 6) return;
     teamMembers.push({ id: ++teamIdCounter, imageUrl: '', name: '', title: '' });
     renderTeam();
+    renderHeroBylineOptions();
+    renderBlocks();
     renderPreview();
   }
 
   function removeTeamMember(id) {
     teamMembers = teamMembers.filter(t => t.id !== id);
     renderTeam();
+    renderHeroBylineOptions();
+    renderBlocks();
     renderPreview();
   }
 
   function updateTeamMember(id, field, value) {
     const m = teamMembers.find(t => t.id === id);
     if (m) m[field] = value;
+    renderHeroBylineOptions();
+    renderBlocks();
     renderPreview();
   }
 
@@ -1628,6 +1689,7 @@ Key rules to humanise:
     teamMembers.push({ id: ++teamIdCounter, imageUrl: defaultPhoto, name: t.name, title: t.title });
   });
   renderTeam();
+  renderHeroBylineOptions();
   renderLinks();
 
   addBlock('standard');
