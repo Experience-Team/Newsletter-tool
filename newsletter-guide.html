@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Create a Newsletter</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #FADADD;
+      color: #000000;
+      line-height: 1.6;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: #000000;
+      color: #fff;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar h1 { font-size: 16px; font-weight: 700; letter-spacing: .5px; }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+
+    .btn-back {
+      background: none;
+      border: 1px solid #C8C8C8;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .15s;
+      font-family: inherit;
+      display: inline-block;
+    }
+    .btn-back:hover { background: #333333; border-color: #fff; }
+
+    /* ── Main content ── */
+    .main-container {
+      max-width: 800px;
+      margin: 48px auto;
+      padding: 0 32px 80px;
+    }
+
+    /* ── Intro hero ── */
+    .hero {
+      background: #000;
+      color: #fff;
+      border-radius: 8px;
+      padding: 40px 48px;
+      margin-bottom: 40px;
+    }
+    .hero h2 {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 15px;
+      color: #C8C8C8;
+      max-width: 560px;
+    }
+    .hero .hero-link {
+      display: inline-block;
+      margin-top: 24px;
+      background: #E8383A;
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 4px;
+      transition: opacity .15s;
+    }
+    .hero .hero-link:hover { opacity: .85; }
+
+    /* ── Step sections ── */
+    .step {
+      background: #fff;
+      border-radius: 8px;
+      padding: 36px 40px;
+      margin-bottom: 24px;
+      border-left: 4px solid #E8383A;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: #E8383A;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .step h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #333333;
+      margin-bottom: 14px;
+    }
+    .step p:last-child { margin-bottom: 0; }
+
+    .step ul, .step ol {
+      font-size: 14px;
+      color: #333333;
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+    .step ul li, .step ol li { margin-bottom: 6px; }
+
+    .step a {
+      color: #E8383A;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .step a:hover { text-decoration: underline; }
+
+    /* ── Images within steps ── */
+    .step-image {
+      display: block;
+      max-width: 100%;
+      border-radius: 6px;
+      border: 1px solid #E8E8E8;
+      margin: 20px 0;
+    }
+    .step-image-caption {
+      font-size: 12px;
+      color: #888;
+      margin-top: -12px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Tips section ── */
+    .tips {
+      background: #fff;
+      border-radius: 8px;
+      padding: 36px 40px;
+      margin-bottom: 24px;
+    }
+    .tips h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #E8383A;
+    }
+    .tip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 560px) {
+      .tip-grid { grid-template-columns: 1fr; }
+    }
+    .tip-card {
+      background: #FADADD;
+      border-radius: 6px;
+      padding: 18px 20px;
+    }
+    .tip-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .tip-card p {
+      font-size: 13px;
+      color: #333333;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      text-align: center;
+      padding: 40px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .cta p {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .cta a {
+      display: inline-block;
+      background: #E8383A;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 4px;
+      transition: opacity .15s;
+    }
+    .cta a:hover { opacity: .85; }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <h1>How to Create a Newsletter</h1>
+  <div class="topbar-right">
+    <a href="/" class="btn-back">← Back to Editor</a>
+  </div>
+</div>
+
+<div class="main-container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h2>Get your newsletter out the door in minutes</h2>
+    <p>This guide walks you through the newsletter editor from start to finish — from planning your content to exporting a ready-to-send HTML file.</p>
+    <a href="/" class="hero-link">Open the Newsletter Editor →</a>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="step">
+    <div class="step-label">Step 1</div>
+    <h2>Plan your content</h2>
+    <p>Before you open the editor, spend a few minutes gathering everything you need. A little prep goes a long way.</p>
+    <ul>
+      <li><strong>Pick a theme or focus.</strong> What's the main story this edition? One strong lead beats five scattered updates.</li>
+      <li><strong>Collect your stories.</strong> Gather links, copy, images, and contributors you want to include.</li>
+      <li><strong>Check character limits early.</strong> Headings should be under 100 characters; body text under 1,500 characters per block.</li>
+      <li><strong>Upload images first.</strong> Host all images on <a href="https://cloudinary.com" target="_blank" rel="noopener">Cloudinary</a> before you start — you'll need URLs ready to paste in.</li>
+    </ul>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step">
+    <div class="step-label">Step 2</div>
+    <h2>Fill in the editor fields</h2>
+    <p>Open the <a href="/">Newsletter Editor</a> and work through the form on the left. The live preview on the right updates as you type.</p>
+    <ol>
+      <li><strong>Header:</strong> Set the edition date (e.g. <em>April 2026</em>) and edition number.</li>
+      <li><strong>Hero image:</strong> Paste the Cloudinary URL for your main banner image. Aim for at least 1,200px wide.</li>
+      <li><strong>Content blocks:</strong> Click <em>Add Block</em> to insert sections. Choose from:
+        <ul>
+          <li><strong>Standard</strong> — heading + body text</li>
+          <li><strong>Image + Text</strong> — image alongside a text column</li>
+          <li><strong>Two Column</strong> — side-by-side content</li>
+          <li><strong>Feature</strong> — full-width highlighted section</li>
+        </ul>
+      </li>
+      <li><strong>Procrastination Station:</strong> Add 2–3 interesting links for the closing section.</li>
+      <li><strong>Footer:</strong> The footer is pre-populated — update the date if needed.</li>
+    </ol>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step">
+    <div class="step-label">Step 3</div>
+    <h2>Add and size your images</h2>
+    <p>Images make the newsletter. Follow these steps to get them in and looking right.</p>
+
+    <p><strong>How to upload to Cloudinary:</strong></p>
+    <ol>
+      <li>Go to <a href="https://cloudinary.com" target="_blank" rel="noopener">cloudinary.com</a> and sign in.</li>
+      <li>Click <strong>Upload</strong> and drag your image file in.</li>
+      <li>Once uploaded, click the image and copy the <strong>URL</strong> from the details panel.</li>
+      <li>Paste the URL into the relevant image field in the editor.</li>
+    </ol>
+
+    <p><strong>Image size guidelines:</strong></p>
+    <ul>
+      <li>Hero/banner images: <strong>1,200px wide minimum</strong></li>
+      <li>Content images: <strong>600px wide minimum</strong></li>
+      <li>Team/person thumbnails: <strong>square crop, face centred</strong></li>
+      <li>File size: <strong>under 1 MB</strong> per image</li>
+      <li>Avoid SharePoint or internal network links — they won't load for all recipients</li>
+    </ul>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step">
+    <div class="step-label">Step 4</div>
+    <h2>Preview and export</h2>
+    <p>The right-hand panel in the editor shows a live preview of your newsletter as you work. Use it to sense-check layouts and spot any copy issues.</p>
+    <p>When you're happy with everything:</p>
+    <ol>
+      <li>Scroll to the bottom of the editor and click <strong>Export HTML</strong>.</li>
+      <li>A <code>.html</code> file will download to your computer.</li>
+      <li>Import this file into your email sending platform (e.g. Campaign Monitor, Mailchimp) or send it to your email team.</li>
+    </ol>
+    <p>Tip: send a test to yourself first and check it in both desktop and mobile email clients before the full send.</p>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips">
+    <h2>Tips &amp; best practices</h2>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <h3>Write like a human</h3>
+        <p>Warm, conversational, and inclusive. Think colleague over coffee, not corporate memo. Short sentences. Active voice.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Keep paragraphs short</h3>
+        <p>2–3 sentences per paragraph maximum. Walls of text won't get read — break it up and lead with the most interesting detail.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Real photos over stock</h3>
+        <p>Candid team shots and event photos outperform generic stock imagery every time. Authentic beats polished.</p>
+      </div>
+      <div class="tip-card">
+        <h3>De-AI your drafts</h3>
+        <p>If you use AI to help write copy, run it through a de-humanisation pass. Open the <a href="/">Guidelines drawer</a> in the editor for a prompt you can use.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Check character counts</h3>
+        <p>Headings: under 100 characters. Body text: under 1,500 characters per block. The editor will warn you if you go over.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Link smartly</h3>
+        <p>Every link should open in a new tab. Use descriptive link text — avoid "click here". Make links worth clicking.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <p>Ready to build your newsletter?</p>
+    <a href="/">Open the Newsletter Editor →</a>
+  </div>
+
+</div>
+</body>
+</html>
