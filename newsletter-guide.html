@@ -403,7 +403,33 @@
       </li>
       <li><strong>An insight related to your work</strong> — A stat, finding, or observation from your projects. An image to accompany it is great — or generate one later once the content is written.</li>
       <li><strong>Return on Creativity</strong> — Rate a product, campaign, or experience on the ROC scale. What's it doing well creatively? Where could it go further?</li>
-      <li><strong>The Grapevine</strong> — 3 things the industry is talking about this month. Pull from articles, social media, or the CX weekly newsletter.</li>
+      <li>
+        <strong>The Grapevine</strong> — 3 things the industry is talking about this month. Pull from articles, social media, or the CX weekly newsletter.
+        <button class="expand-toggle" onclick="togglePrompt(this)">🔍 On the Grapevine — Research Prompt</button>
+        <div class="expand-content">
+          <div class="prompt-box">Search the web for 3 things people are actively talking about right now in [insert your topic — e.g. CX and AI / sustainability / workplace culture / fintech] from the past month.
+
+Quality rules:
+- Only use sources from recognised industry publications, research firms, or credible news outlets (e.g. Gartner, Forrester, Harvard Business Review, The Guardian, Reuters, BBC, industry-specific trade press). No blogs, listicles, or content marketing pieces.
+- Prioritise findings that include real data, studies, or named expert quotes — not opinion or speculation.
+- Avoid anything that feels like a press release or vendor pitch.
+
+What makes a good pick:
+- Something genuinely surprising, counterintuitive, or that challenges a common assumption
+- Something with a clear "so what" for a broad audience — not just specialists
+- A mix of angles where possible (e.g. one data story, one industry shift, one human/cultural angle)
+
+Output format — return each item as a single line only:
+[emoji] [Catchy, conversational headline as a hyperlink to the source]
+
+Example:
+💸 Gartner Says AI Customer Service Will Cost More Than Human Agents by 2030
+
+No summaries, no explanations — just the three headlines, ready to drop into the newsletter.
+
+You can swap the topic in the first line to make this work for any section of the newsletter, any team, any week.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        </div>
+      </li>
       <li><strong>3 Procrastination Station links</strong> — Fun, amusing, or educational links. These are surprise links, so readers just see an image — no descriptive text needed. Just find an image for each.</li>
     </ul>
   </div>
