@@ -386,6 +386,7 @@
     </div>
   </div>
 </div>
+
 <script>
   // ── Pin data with real lat/lng coordinates ──
   const PIN_DATA = {
@@ -439,6 +440,7 @@
       ]
     }
   };
+Main
   // ── Breadcrumb labels ──
   const breadcrumbs = {
     global: '<strong>Global</strong>',
@@ -454,10 +456,12 @@
     idn: 'Global &rsaquo; APAC &rsaquo; <strong>Indonesia</strong>',
     phl: 'Global &rsaquo; APAC &rsaquo; <strong>Philippines</strong>'
   };
+Main
   // ── State ──
   let currentView = 'global';
   const navHistory = [];
   let activeMarkers = [];
+Main
   // ── Initialise Leaflet map ──
   const map = L.map('map', {
     center: [25, 55],
@@ -465,16 +469,19 @@
     zoomControl: false,
     attributionControl: true
   });
+Main
   // CartoDB Dark Matter — free, no API key required
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: 'abcd',
     maxZoom: 19
   }).addTo(map);
+Main
   // ── Wire zoom + expand controls ──
   document.getElementById('zoomInBtn').addEventListener('click', () => map.zoomIn());
   document.getElementById('zoomOutBtn').addEventListener('click', () => map.zoomOut());
   document.getElementById('expandBtn').addEventListener('click', () => setView(currentView));
+Main
   // ── Create a single marker via L.divIcon ──
   function createMarker(pin) {
     const sizes = { large: 180, medium: 100, small: 80 };
@@ -482,34 +489,31 @@
     const classes = 'map-pin ' + (pin.size || 'medium')
       + (pin.inactive ? ' inactive' : '')
       + (pin.target && !pin.inactive ? ' clickable' : '');
+Main
     const icon = L.divIcon({
       html: '<div class="' + classes + '"><span>' + pin.label + '</span></div>',
       className: '',
       iconSize: [px, px],
       iconAnchor: [px / 2, px / 2]
     });
+Main
     const marker = L.marker([pin.lat, pin.lng], {
       icon,
       zIndexOffset: pin.size === 'large' ? 1000 : pin.size === 'medium' ? 500 : 0,
       interactive: !!(pin.target && !pin.inactive)
     }).addTo(map);
-    if (pin.target && !pin.inactive) {
-      marker.on('click', () => navigate(pin.target));
-    }
-    return marker;
-  }
+Main
   // ── Clear all active markers ──
   function clearMarkers() {
     activeMarkers.forEach(m => m.remove());
     activeMarkers = [];
   }
+Main
   // ── Set view ──
   function setView(view) {
     currentView = view;
     clearMarkers();
-    const data = PIN_DATA[view];
-    if (data) {
-      data.pins.forEach(pin => activeMarkers.push(createMarker(pin)));
+Main
       if (data.center && data.zoom !== undefined) {
         map.flyTo([data.center.lat, data.center.lng], data.zoom, { duration: 0.8 });
       } else if (data.bounds) {
@@ -527,21 +531,23 @@
         );
       }
     }
-    // Update back button
-    document.getElementById('backBtn').classList.toggle('visible', view !== 'global');
+Main
     // Update breadcrumb
     document.getElementById('breadcrumb').innerHTML =
       breadcrumbs[view] || '<strong>' + view.toUpperCase() + '</strong>';
   }
+Main
   // ── Navigation ──
   function navigate(target) {
     navHistory.push(currentView);
     setView(target);
   }
+Main
   function goBack() {
     if (!navHistory.length) return;
     setView(navHistory.pop());
   }
+
   // Init
   setView('global');
 </script>

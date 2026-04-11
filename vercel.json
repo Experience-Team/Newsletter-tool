@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/newsletter-editor.html" }
+    { "source": "/", "destination": "/newsletter-editor.html" },
+    { "source": "/map", "destination": "/map.html" }
   ]
 }
