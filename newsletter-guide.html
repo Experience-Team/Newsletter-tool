@@ -291,6 +291,21 @@
     }
     .cta a:hover { opacity: .85; }
 
+    /* ── Close section button ── */
+    .close-section-btn {
+      background: none;
+      border: none;
+      color: #E8383A;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 10px 0 2px;
+      display: block;
+      text-decoration: underline;
+    }
+    .close-section-btn:hover { color: #C42F31; }
+
     /* ── Gather checklist ── */
     .gather-list {
       list-style: none;
@@ -361,7 +376,7 @@
   <div class="step" id="plan">
     <div class="step-label">Step 1</div>
     <h2>Plan your content</h2>
-    <p>Before you start writing, gather everything you need. You can use the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeInTO8u8QNnPTNcL7HZBZ0nxxWSiERP8Od9YMtG6bkp4NWbg/viewform" target="_blank" rel="noopener">content planning form</a> to structure your ideas — or work through the checklist below directly.</p>
+    <p>Use the <a href="https://ogilvyone-aunz.atlassian.net/wiki/spaces/ED/pages/2223177797/Experience+Gazette" target="_blank" rel="noopener">Experience Gazette Confluence page</a> to plan your content from a template — then paste the finished copy into the newsletter builder section by section.</p>
     <p style="background:#FADADD; border-left:3px solid #E8383A; padding:10px 14px; border-radius:4px; margin-bottom:16px;"><strong>Leave images until last.</strong> You'll need the written content first to generate illustrations in ChatGPT, so focus on copy and links before sourcing any visuals.</p>
     <p>Here's everything you'll need to gather:</p>
     <ul class="gather-list">
@@ -399,6 +414,7 @@
           <div class="quote-category">CX and product thinking</div>
           <div class="quote-item">"Culture, leadership, and employee engagement are the essentials for great customer experience."<cite>– Clare Muscutt</cite></div>
           <div class="quote-item">"Like art, design must function by filling a need and provide value to the person using it. A design that isn't useful is a design that has failed."<cite>– Yael Levey</cite></div>
+          <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
         </div>
       </li>
       <li><strong>An insight related to your work</strong> — A stat, finding, or observation from your projects. An image to accompany it is great — or generate one later once the content is written.</li>
@@ -428,9 +444,36 @@ Example:
 No summaries, no explanations — just the three headlines, ready to drop into the newsletter.
 
 You can swap the topic in the first line to make this work for any section of the newsletter, any team, any week.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
         </div>
       </li>
-      <li><strong>3 Procrastination Station links</strong> — Fun, amusing, or educational links. These are surprise links, so readers just see an image — no descriptive text needed. Just find an image for each.</li>
+      <li>
+        <strong>3 Procrastination Station links</strong> — Fun, amusing, or educational links. These are surprise links, so readers just see an image — no descriptive text needed. Just find an image for each.
+        <button class="expand-toggle" onclick="togglePrompt(this)">Procrastination Station — Research Prompt</button>
+        <div class="expand-content">
+          <div class="prompt-box">Search the web for 3 fun, interesting, or genuinely useful things to try online right now — games, tools, interactive experiences, or educational rabbit holes. Prioritise things from the past 2–3 months that feel fresh and discoverable, not household names.
+
+Quality rules:
+- Stick to credible sources: Product Hunt, Hacker News, The Verge, Wired, The Guardian, Kottke, or similar. No listicles, no "top 10 tools for productivity" roundups.
+- Prioritise things that went viral organically — hit #1 on Hacker News, spread by word of mouth, or got written up because someone genuinely loved them.
+- Free or free-to-try strongly preferred. No paywalled tools.
+- Avoid anything work-specific, jargon-heavy, or that requires technical knowledge to enjoy.
+
+What makes a good pick:
+- Something you'd send to a friend with "just try this"
+- A mix of types where possible — e.g. one game, one creative tool, one educational or mind-expanding experience
+- Things with a clear "wow" or "I didn't know this existed" moment
+
+Output format — return each as a short paragraph with:
+- The name as a hyperlink to where people can try it
+- One sentence on what it is
+- One sentence on why it's worth 10 minutes of your time
+- A suggested image description for the editor to source (no emojis)
+
+No rankings, no scores — just three things genuinely worth clicking.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
+        </div>
+      </li>
     </ul>
   </div>
 
@@ -590,6 +633,7 @@ How to interpret content:
 Output: A single detailed illustration matching all rules above. No explanation. No text outside the image. Prioritise balance, avoid edge cut-offs, and ensure the composition is perfectly centred within the frame.
 
 [PASTE CONTENT BELOW]<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
       </div>
     </div>
 
@@ -638,6 +682,7 @@ How to interpret content:
 Output: A single detailed illustration matching all rules above. No explanation. No text in the image.
 
 [PASTE CONTENT BELOW]<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
       </div>
     </div>
   </div>
@@ -666,10 +711,19 @@ Output: A single detailed illustration matching all rules above. No explanation.
   sections.forEach(function(s) { observer.observe(s); });
 
   function togglePrompt(btn) {
+    if (!btn.dataset.closedText) btn.dataset.closedText = btn.textContent;
     var content = btn.nextElementSibling;
     var isOpen = content.classList.contains('open');
     content.classList.toggle('open', !isOpen);
-    btn.textContent = isOpen ? 'Show prompt' : 'Hide prompt';
+    btn.textContent = isOpen ? btn.dataset.closedText : 'Close ↑';
+  }
+
+  function closeSection(closeBtn) {
+    var content = closeBtn.closest('.expand-content');
+    var toggle = content.previousElementSibling;
+    if (toggle && toggle.classList.contains('expand-toggle')) {
+      togglePrompt(toggle);
+    }
   }
 
   function copyPrompt(btn) {
