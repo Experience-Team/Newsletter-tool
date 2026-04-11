@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/newsletter-editor.html" },
-    { "source": "/map", "destination": "/map.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/map", "destination": "/map.html" },
+    { "source": "/newsletter-guide", "destination": "/newsletter-guide.html" }
   ]
 }
