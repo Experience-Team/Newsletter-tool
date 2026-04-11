@@ -43,123 +43,6 @@
       font-family: inherit;
     }
     .btn-guidelines:hover { background: #333333; border-color: #fff; }
-
-    /* ── Guidelines drawer ── */
-    .drawer-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,.4);
-      z-index: 200;
-      opacity: 0;
-      transition: opacity .25s;
-    }
-    .drawer-overlay.open { display: block; opacity: 1; }
-
-    .drawer {
-      position: fixed;
-      top: 0; right: -420px; bottom: 0;
-      width: 400px;
-      background: #fff;
-      box-shadow: -4px 0 24px rgba(0,0,0,.15);
-      z-index: 201;
-      transition: right .3s cubic-bezier(.4,0,.2,1);
-      overflow-y: auto;
-      padding: 28px 28px 40px;
-    }
-    .drawer.open { right: 0; }
-
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #E8383A;
-    }
-    .drawer-header h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #000000;
-    }
-    .btn-close-drawer {
-      background: none;
-      border: 1px solid #C8C8C8;
-      border-radius: 4px;
-      color: #C8C8C8;
-      font-size: 18px;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .15s;
-      line-height: 1;
-    }
-    .btn-close-drawer:hover { color: #E8383A; border-color: #E8383A; }
-
-    .drawer h3 {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #E8383A;
-      margin: 24px 0 10px 0;
-    }
-    .drawer h3:first-of-type { margin-top: 0; }
-    .drawer p {
-      font-size: 14px;
-      color: #333;
-      line-height: 1.7;
-      margin-bottom: 12px;
-    }
-    .drawer ul {
-      font-size: 14px;
-      color: #333;
-      line-height: 1.7;
-      margin: 0 0 12px 20px;
-    }
-    .drawer pre {
-      background: #F5F5F5;
-      border: 1px solid #E0E0E0;
-      border-radius: 4px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: #333;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .drawer .copy-btn {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: #E8383A;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      font-size: 11px;
-      padding: 3px 8px;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    .drawer .copy-btn:hover { background: #C42F31; }
-    .drawer .expand-toggle {
-      background: none;
-      border: 1px solid #C8C8C8;
-      border-radius: 4px;
-      color: #333;
-      font-size: 13px;
-      padding: 6px 12px;
-      cursor: pointer;
-      font-family: inherit;
-      margin-bottom: 12px;
-      transition: all .15s;
-    }
-    .drawer .expand-toggle:hover { border-color: #E8383A; color: #E8383A; }
     .char-counter {
       font-size: 11px;
       color: #888;
@@ -462,81 +345,6 @@
 </head>
 <body>
 
-<!-- Guidelines drawer -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="guidelinesDrawer">
-  <div class="drawer-header">
-    <h2>Newsletter Guidelines</h2>
-    <button class="btn-close-drawer" onclick="closeDrawer()">&times;</button>
-  </div>
-  <h3>Writing Tone</h3>
-  <p>Keep it warm, conversational, and inclusive. Write as though you're talking to a colleague over coffee &mdash; not delivering a corporate memo. Avoid jargon unless it's widely understood across the business.</p>
-  <ul>
-    <li>Use active voice and short sentences where possible.</li>
-    <li>Lead with the most interesting or relevant detail.</li>
-    <li>Keep paragraphs to 2&ndash;3 sentences. Walls of text won't get read.</li>
-  </ul>
-  <h3>Image Guidance</h3>
-  <p>Use high-quality images that feel authentic &mdash; real team photos, candid shots from events, and project visuals work best. Avoid generic stock photography where possible.</p>
-  <ul>
-    <li>Images should be at least 600px wide for full-width sections.</li>
-    <li>Team thumbnails should be square and cropped to show the face clearly.</li>
-    <li>Host all images on Cloudinary or another reliable CDN. Avoid SharePoint or internal links.</li>
-  </ul>
-  <h3>Section Usage</h3>
-  <p>Aim for 3&ndash;5 content sections per edition. Too many sections means nothing gets the attention it deserves.</p>
-  <ul>
-    <li><strong>Standard</strong> &mdash; Best for announcements, updates, and standalone stories.</li>
-    <li><strong>Image + Text</strong> &mdash; Good for spotlights, profiles, and visual stories.</li>
-    <li><strong>Two Column</strong> &mdash; Use for quick-hit updates like dates, stats, or paired items.</li>
-    <li><strong>Feature</strong> &mdash; Reserve for the single most important story of the edition. The red background draws the eye, so use it sparingly.</li>
-  </ul>
-  <h3>The Procrastination Station</h3>
-  <p>Choose three links that are genuinely useful or inspiring. Mix it up &mdash; an industry article, an internal resource, and something fun or creative works well.</p>
-
-  <h3>Cloudinary Images</h3>
-  <p>All images should be hosted on Cloudinary. To upload:</p>
-  <ul>
-    <li>Log in to your Cloudinary account.</li>
-    <li>Click <strong>Upload</strong> in the top right and select your image.</li>
-    <li>Once uploaded, click the image to open it, then copy the URL from the address bar or use the &ldquo;Copy URL&rdquo; button.</li>
-    <li>Paste the URL into the relevant image field in the editor.</li>
-  </ul>
-
-  <h3>Image Guidelines</h3>
-  <ul>
-    <li><strong>Hero image:</strong> 1200px wide recommended.</li>
-    <li><strong>Content images:</strong> 600px wide recommended.</li>
-    <li><strong>File types:</strong> JPG, PNG, or GIF.</li>
-    <li><strong>File size:</strong> Keep images under 1&nbsp;MB.</li>
-    <li>Team thumbnails should be square and cropped to show the face clearly.</li>
-  </ul>
-
-  <h3>Character Counts</h3>
-  <p>Keep your content tight and scannable:</p>
-  <ul>
-    <li><strong>Headings:</strong> Under 100 characters.</li>
-    <li><strong>Body copy</strong> (What we&rsquo;re working on sections): No longer than 1,500 characters.</li>
-  </ul>
-  <p>Live character counters appear beneath the relevant fields in the editor. They turn <span style="color:#E8383A;font-weight:700;">red</span> when you exceed the limit.</p>
-
-  <h3>Using AI? De-AI it first.</h3>
-  <p>Using AI is fine, but run your draft through this prompt before publishing:</p>
-  <button class="expand-toggle" onclick="var el=this.nextElementSibling; if(el.style.display==='none'){el.style.display='block';this.textContent='Collapse prompt';}else{el.style.display='none';this.textContent='Expand prompt';}">Expand prompt</button>
-  <div style="display:none;">
-    <pre style="position:relative;"><button class="copy-btn" onclick="var t=this.parentElement.querySelector('code').textContent;navigator.clipboard.writeText(t);this.textContent='Copied!';var b=this;setTimeout(function(){b.textContent='Copy';},1500);">Copy</button><code>Write [insert topic or content brief here, e.g., "a 500-word blog post on UX design trends in 2026"]. Make it sound like natural human writing from a UX designer at a Sydney agency—conversational, varied, with some personal flair or Aussie references if fitting. Use short sentences mixed with longer ones. Vary vocabulary; avoid overusing words like "delve," "tapestry," "pivotal," "underscore," "crucial," "landmark," "enduring," "vibrant," "intricate," "bolstered," "fostering," or "showcasing."
-
-Key rules to humanise:
-- No em dashes (—) except once max; use commas, parentheses, or periods instead.
-- Skip promo fluff like "marks a pivotal moment" or "rich tapestry" — stick to facts with neutral tone.
-- Avoid "not just X, but Y" parallels, rule-of-three lists, or vague attributions ("experts say").
-- No bolding phrases, title-case headings, or inline lists with colons after bold headers.
-- Use straight quotes ", not curly " "; simple apostrophes '.
-- End without "in summary" or "future outlook" — just wrap naturally.
-- Include contractions (it's, we're), casual transitions (so, but, yeah), and one quirky opinion or example.
-- Revise any draft output against Wikipedia's AI signs (en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing): fix legacy emphasis, superficial analysis, or copula avoidance (prefer "is a hub" over "serves as a hub"). Output plain text only, no markdown.</code></pre>
-  </div>
-</div>
 
 <!-- Top bar -->
 <div class="topbar">
@@ -544,7 +352,6 @@ Key rules to humanise:
   <div class="topbar-right">
     <span class="hint">Fill in the form on the left &mdash; the preview updates live</span>
     <a href="/newsletter-guide" class="btn-guidelines" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">How to create a newsletter</a>
-    <button class="btn-guidelines" onclick="openDrawer()">Guidelines</button>
   </div>
 </div>
 
@@ -695,16 +502,6 @@ Key rules to humanise:
 </div>
 
 <script>
-  // ── Guidelines drawer ──
-  function openDrawer() {
-    document.getElementById('drawerOverlay').classList.add('open');
-    document.getElementById('guidelinesDrawer').classList.add('open');
-  }
-  function closeDrawer() {
-    document.getElementById('drawerOverlay').classList.remove('open');
-    document.getElementById('guidelinesDrawer').classList.remove('open');
-  }
-
   // ── State ──
   let blocks = [];
   let blockIdCounter = 0;
