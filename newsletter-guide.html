@@ -28,11 +28,58 @@
     }
     .topbar h1 { font-size: 16px; font-weight: 700; letter-spacing: .5px; }
 
+    /* ── Page layout ── */
+    .page-wrapper {
+      display: flex;
+      max-width: 1080px;
+      margin: 48px auto;
+      padding: 0 32px;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    /* ── Side nav ── */
+    .side-nav {
+      width: 168px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 70px;
+    }
+    .side-nav-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .side-nav-link {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      text-decoration: none;
+      padding: 5px 0 5px 12px;
+      border-left: 2px solid #E8E8E8;
+      line-height: 1.4;
+      transition: color .15s, border-color .15s;
+      margin-bottom: 2px;
+    }
+    .side-nav-link:hover { color: #E8383A; border-left-color: #E8383A; }
+    .side-nav-link.active { color: #E8383A; border-left-color: #E8383A; font-weight: 600; }
+
+    @media (max-width: 720px) {
+      .page-wrapper { flex-direction: column; gap: 24px; padding: 0 20px; }
+      .side-nav { width: 100%; position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+      .side-nav-title { width: 100%; margin-bottom: 4px; }
+      .side-nav-link { border-left: none; border-bottom: 2px solid #E8E8E8; padding: 4px 0; margin-bottom: 0; }
+      .side-nav-link.active, .side-nav-link:hover { border-bottom-color: #E8383A; }
+    }
+
     /* ── Main content ── */
     .main-container {
-      max-width: 800px;
-      margin: 48px auto;
-      padding: 0 32px 80px;
+      flex: 1;
+      min-width: 0;
+      padding-bottom: 80px;
     }
 
     /* ── Expandable prompt blocks ── */
@@ -295,10 +342,23 @@
   <h1>How to Create a Newsletter</h1>
 </div>
 
+<div class="page-wrapper">
+
+<nav class="side-nav">
+  <div class="side-nav-title">On this page</div>
+  <a href="#plan" class="side-nav-link">Plan your content</a>
+  <a href="#wpp-open" class="side-nav-link">Format with WPP Open</a>
+  <a href="#fill-in" class="side-nav-link">Fill in the editor</a>
+  <a href="#images" class="side-nav-link">Add images</a>
+  <a href="#export" class="side-nav-link">Preview &amp; export</a>
+  <a href="#tips" class="side-nav-link">Tips</a>
+  <a href="#ai-tools" class="side-nav-link">AI illustrations</a>
+</nav>
+
 <div class="main-container">
 
   <!-- Step 1 -->
-  <div class="step">
+  <div class="step" id="plan">
     <div class="step-label">Step 1</div>
     <h2>Plan your content</h2>
     <p>Before you start writing, gather everything you need. You can use the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeInTO8u8QNnPTNcL7HZBZ0nxxWSiERP8Od9YMtG6bkp4NWbg/viewform" target="_blank" rel="noopener">content planning form</a> to structure your ideas — or work through the checklist below directly.</p>
@@ -307,7 +367,7 @@
     <ul class="gather-list">
       <li><strong>2–3 projects</strong> — What are people working on, or have recently completed? This doesn't have to be limited to the CX team.</li>
       <li><strong>A trivia question</strong> — Doesn't have to be CX-related. Something fun and surprising works well.</li>
-      <li><strong>1–2 project images</strong> — If you don't have images yet, no problem. You can generate illustrations in ChatGPT later once you have the written content.</li>
+      <li><strong>1–2 project images</strong>. If you don't have images yet, no problem. You can generate illustrations in ChatGPT later once you have the written content (instructions further down).</li>
       <li>
         <strong>A CX-related quote</strong> — Choose one that feels relevant to this edition's theme. Aim to include diverse perspectives across editions — mix genders, backgrounds, and disciplines.
         <button class="expand-toggle" onclick="togglePrompt(this)">See quote options</button>
@@ -349,10 +409,10 @@
   </div>
 
   <!-- Step 2 -->
-  <div class="step">
+  <div class="step" id="wpp-open">
     <div class="step-label">Step 2</div>
     <h2>Format your copy with WPP Open</h2>
-    <p>Before you start building, run your raw content through the <a href="#" target="_blank" rel="noopener">WPP Open tone of voice agent</a>. It automatically rewrites your draft to match our voice — saving you editing time and keeping every edition consistent.</p>
+    <p>Before you start building, run your raw content through the <a href="https://imagine.wpp.ai/chat/uMF3xBgESQxPy0lUuJmtG/persona/9ekiSS5j7Jp7TzMbQyTPB?backToLink=%2FuMF3xBgESQxPy0lUuJmtG&resultId=NrsqCGuuIgFtHx9aDtUim" target="_blank" rel="noopener">WPP Open tone of voice agent</a>. It automatically rewrites your draft to match our voice — saving you editing time and keeping every edition consistent.</p>
     <ol>
       <li>Gather all your raw copy — headlines, body text, links, and any notes.</li>
       <li>Paste it into the WPP Open agent.</li>
@@ -362,7 +422,7 @@
   </div>
 
   <!-- Step 3 -->
-  <div class="step">
+  <div class="step" id="fill-in">
     <div class="step-label">Step 3</div>
     <h2>Fill in the editor fields</h2>
     <p>Work through the form on the left — the live preview on the right updates as you type.</p>
@@ -383,7 +443,7 @@
   </div>
 
   <!-- Step 4 -->
-  <div class="step">
+  <div class="step" id="images">
     <div class="step-label">Step 4</div>
     <h2>Add and size your images</h2>
     <p>Images make the newsletter. Follow these steps to get them in and looking right.</p>
@@ -407,7 +467,7 @@
   </div>
 
   <!-- Step 5 -->
-  <div class="step">
+  <div class="step" id="export">
     <div class="step-label">Step 5</div>
     <h2>Preview and export</h2>
     <p>The right-hand panel in the editor shows a live preview of your newsletter as you work. Use it to sense-check layouts and spot any copy issues.</p>
@@ -421,7 +481,7 @@
   </div>
 
   <!-- Tips -->
-  <div class="tips">
+  <div class="tips" id="tips">
     <h2>Tips &amp; best practices</h2>
     <div class="tip-grid">
       <div class="tip-card">
@@ -452,7 +512,7 @@
   </div>
 
   <!-- AI Image Generation -->
-  <div class="prompt-section">
+  <div class="prompt-section" id="ai-tools">
     <div class="step-label">AI Tools</div>
     <h2>Generate illustrations with ChatGPT</h2>
     <p>Use <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a> to create custom illustrations for your newsletter. Paste your section content at the end of the relevant prompt below — it will generate a branded illustration in our red-on-white style.</p>
@@ -558,8 +618,27 @@ Output: A single detailed illustration matching all rules above. No explanation.
 
 
 </div>
+</div>
 
 <script>
+  // ── Scroll spy ──
+  var navLinks = document.querySelectorAll('.side-nav-link');
+  var sections = Array.from(document.querySelectorAll('[id]')).filter(function(el) {
+    return document.querySelector('.side-nav-link[href="#' + el.id + '"]');
+  });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        navLinks.forEach(function(l) { l.classList.remove('active'); });
+        var link = document.querySelector('.side-nav-link[href="#' + entry.target.id + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  sections.forEach(function(s) { observer.observe(s); });
+
   function togglePrompt(btn) {
     var content = btn.nextElementSibling;
     var isOpen = content.classList.contains('open');
