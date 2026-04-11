@@ -1116,7 +1116,7 @@ Key rules to humanise:
     const img = new Image();
     img.onload = () => { el.textContent = ''; el.className = ''; };
     img.onerror = () => {
-      el.textContent = "Image couldn't be loaded \u2014 check the URL and make sure it's publicly accessible.";
+      el.textContent = "Image couldn't be loaded — check the URL and make sure it's publicly accessible.";
       el.className = 'img-warning';
     };
     img.src = url;
