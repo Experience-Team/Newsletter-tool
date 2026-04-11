@@ -243,6 +243,49 @@
       transition: opacity .15s;
     }
     .cta a:hover { opacity: .85; }
+
+    /* ── Gather checklist ── */
+    .gather-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+    .gather-list > li {
+      padding: 14px 0;
+      border-bottom: 1px solid #F0F0F0;
+      font-size: 14px;
+      color: #333333;
+      line-height: 1.6;
+    }
+    .gather-list > li:last-child { border-bottom: none; padding-bottom: 0; }
+    .gather-list .expand-toggle { margin-top: 10px; }
+
+    /* ── Quote list ── */
+    .quote-category {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #E8383A;
+      margin: 18px 0 8px;
+    }
+    .quote-category:first-child { margin-top: 4px; }
+    .quote-item {
+      border-left: 2px solid #E8E8E8;
+      padding: 6px 0 6px 14px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: #333;
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .quote-item cite {
+      display: block;
+      font-style: normal;
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -258,12 +301,50 @@
   <div class="step">
     <div class="step-label">Step 1</div>
     <h2>Plan your content</h2>
-    <p>Before you open the editor, spend a few minutes gathering everything you need. A little prep goes a long way.</p>
-    <ul>
-      <li><strong>Pick a theme or focus.</strong> What's the main story this edition? One strong lead beats five scattered updates.</li>
-      <li><strong>Collect your stories.</strong> Gather links, copy, images, and contributors you want to include.</li>
-      <li><strong>Check character limits early.</strong> Headings should be under 100 characters; body text under 1,500 characters per block.</li>
-      <li><strong>Upload images first.</strong> Host all images on <a href="https://cloudinary.com" target="_blank" rel="noopener">Cloudinary</a> before you start — you'll need URLs ready to paste in.</li>
+    <p>Before you start writing, gather everything you need. You can use the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeInTO8u8QNnPTNcL7HZBZ0nxxWSiERP8Od9YMtG6bkp4NWbg/viewform" target="_blank" rel="noopener">content planning form</a> to structure your ideas — or work through the checklist below directly.</p>
+    <p style="background:#FADADD; border-left:3px solid #E8383A; padding:10px 14px; border-radius:4px; margin-bottom:16px;"><strong>Leave images until last.</strong> You'll need the written content first to generate illustrations in ChatGPT, so focus on copy and links before sourcing any visuals.</p>
+    <p>Here's everything you'll need to gather:</p>
+    <ul class="gather-list">
+      <li><strong>2–3 projects</strong> — What are people working on, or have recently completed? This doesn't have to be limited to the CX team.</li>
+      <li><strong>A trivia question</strong> — Doesn't have to be CX-related. Something fun and surprising works well.</li>
+      <li><strong>1–2 project images</strong> — If you don't have images yet, no problem. You can generate illustrations in ChatGPT later once you have the written content.</li>
+      <li>
+        <strong>A CX-related quote</strong> — Choose one that feels relevant to this edition's theme. Aim to include diverse perspectives across editions — mix genders, backgrounds, and disciplines.
+        <button class="expand-toggle" onclick="togglePrompt(this)">See quote options</button>
+        <div class="expand-content">
+          <div class="quote-category">Design (general)</div>
+          <div class="quote-item">"Design isn't just what it looks like and feels like. Design is how it works."<cite>– Steve Jobs</cite></div>
+          <div class="quote-item">"You cannot understand good design if you do not understand people."<cite>– Dieter Rams</cite></div>
+          <div class="quote-item">"Good design is not about what medium you're working in, it's about thinking hard about what you want to do and what you have to work with before you start."<cite>– MaryAnn F. Kohl</cite></div>
+          <div class="quote-item">"Design brings content into focus; design makes function visible."<cite>– Jennifer Morla</cite></div>
+          <div class="quote-item">"Design is as much an act of spacing as an act of marking."<cite>– Ellen Lupton</cite></div>
+
+          <div class="quote-category">UX and usability</div>
+          <div class="quote-item">"People ignore design that ignores people."<cite>– Frank Chimero</cite></div>
+          <div class="quote-item">"Good UX is good business."<cite>– Andrew Kucheriavy</cite></div>
+          <div class="quote-item">"Want your users to fall in love with your designs? Fall in love with your users."<cite>– Dana Chisnell</cite></div>
+          <div class="quote-item">"The next big thing is the one that makes the last big thing usable."<cite>– Blake Ross</cite></div>
+          <div class="quote-item">"We must design for the way people behave, not for how we would wish them to behave."<cite>– Don Norman</cite></div>
+          <div class="quote-item">"You can't get what you want without giving your customers what they want."<cite>– Andrew Kucheriavy</cite></div>
+          <div class="quote-item">"Don't find customers for your products, find products for your customers."<cite>– Seth Godin</cite></div>
+          <div class="quote-item">"The best UX is invisible. If you're doing it right, no one will notice."<cite>– Rei Kamis</cite></div>
+
+          <div class="quote-category">Research, process, and teams</div>
+          <div class="quote-item">"To find ideas, find problems. To find problems, talk to people."<cite>– Widely attributed to UX research culture</cite></div>
+          <div class="quote-item">"You can find more problems in half a day than you can fix in a month."<cite>– Steve Krug</cite></div>
+          <div class="quote-item">"Designers can have an impact and shape how technology affects people and empowers them."<cite>– Jon Yablonski</cite></div>
+          <div class="quote-item">"Designers must act as stewards of design rather than dictators."<cite>– Cassie McDaniel</cite></div>
+          <div class="quote-item">"Design is not only about shelter, it should be able to excite you, to calm you, to make you think."<cite>– Zaha Hadid</cite></div>
+
+          <div class="quote-category">CX and product thinking</div>
+          <div class="quote-item">"Culture, leadership, and employee engagement are the essentials for great customer experience."<cite>– Clare Muscutt</cite></div>
+          <div class="quote-item">"Like art, design must function by filling a need and provide value to the person using it. A design that isn't useful is a design that has failed."<cite>– Yael Levey</cite></div>
+        </div>
+      </li>
+      <li><strong>An insight related to your work</strong> — A stat, finding, or observation from your projects. An image to accompany it is great — or generate one later once the content is written.</li>
+      <li><strong>Return on Creativity</strong> — Rate a product, campaign, or experience on the ROC scale. What's it doing well creatively? Where could it go further?</li>
+      <li><strong>The Grapevine</strong> — 3 things the industry is talking about this month. Pull from articles, social media, or the CX weekly newsletter.</li>
+      <li><strong>3 Procrastination Station links</strong> — Fun, amusing, or educational links. These are surprise links, so readers just see an image — no descriptive text needed. Just find an image for each.</li>
     </ul>
   </div>
 
@@ -275,7 +356,7 @@
     <ol>
       <li>Gather all your raw copy — headlines, body text, links, and any notes.</li>
       <li>Paste it into the WPP Open agent.</li>
-      <li>Copy the formatted output and use it to populate the newsletter editor in the next step.</li>
+      <li>Copy the formatted output and use it as your copy as you fill in each section.</li>
     </ol>
     <p>Tip: paste one section at a time if you have a long edition — it gives you more control over the output.</p>
   </div>
@@ -284,7 +365,7 @@
   <div class="step">
     <div class="step-label">Step 3</div>
     <h2>Fill in the editor fields</h2>
-    <p>Open the <a href="/">Newsletter Editor</a> and work through the form on the left. The live preview on the right updates as you type.</p>
+    <p>Work through the form on the left — the live preview on the right updates as you type.</p>
     <ol>
       <li><strong>Header:</strong> Set the edition date (e.g. <em>April 2026</em>) and edition number.</li>
       <li><strong>Hero image:</strong> Paste the Cloudinary URL for your main banner image. Aim for at least 1,200px wide.</li>
@@ -475,11 +556,6 @@ Output: A single detailed illustration matching all rules above. No explanation.
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta">
-    <p>Ready to build your newsletter?</p>
-    <a href="/">Open the Newsletter Editor →</a>
-  </div>
 
 </div>
 
