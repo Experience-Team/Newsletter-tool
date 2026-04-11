@@ -35,6 +35,92 @@
       padding: 0 32px 80px;
     }
 
+    /* ── Expandable prompt blocks ── */
+    .prompt-section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 36px 40px;
+      margin-bottom: 24px;
+      border-left: 4px solid #E8383A;
+    }
+    .prompt-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .prompt-section p {
+      font-size: 14px;
+      color: #333333;
+      margin-bottom: 14px;
+    }
+    .prompt-section a {
+      color: #E8383A;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .prompt-section a:hover { text-decoration: underline; }
+    .expand-toggle {
+      background: none;
+      border: 1px solid #C8C8C8;
+      border-radius: 4px;
+      color: #333;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 0;
+      transition: all .15s;
+      display: block;
+    }
+    .expand-toggle:hover { border-color: #E8383A; color: #E8383A; }
+    .expand-content {
+      display: none;
+      margin-top: 16px;
+    }
+    .expand-content.open { display: block; }
+    .prompt-box {
+      background: #F5F5F5;
+      border: 1px solid #E0E0E0;
+      border-radius: 4px;
+      padding: 16px 16px 40px;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #333;
+      position: relative;
+      font-family: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: #E8383A;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .copy-btn:hover { background: #C42F31; }
+    .prompt-group {
+      margin-bottom: 20px;
+    }
+    .prompt-group:last-child { margin-bottom: 0; }
+    .prompt-group-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
     /* ── Step sections ── */
     .step {
       background: #fff;
@@ -184,6 +270,19 @@
   <!-- Step 2 -->
   <div class="step">
     <div class="step-label">Step 2</div>
+    <h2>Format your copy with WPP Open</h2>
+    <p>Before you start building, run your raw content through the <a href="#" target="_blank" rel="noopener">WPP Open tone of voice agent</a>. It automatically rewrites your draft to match our voice — saving you editing time and keeping every edition consistent.</p>
+    <ol>
+      <li>Gather all your raw copy — headlines, body text, links, and any notes.</li>
+      <li>Paste it into the WPP Open agent.</li>
+      <li>Copy the formatted output and use it to populate the newsletter editor in the next step.</li>
+    </ol>
+    <p>Tip: paste one section at a time if you have a long edition — it gives you more control over the output.</p>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step">
+    <div class="step-label">Step 3</div>
     <h2>Fill in the editor fields</h2>
     <p>Open the <a href="/">Newsletter Editor</a> and work through the form on the left. The live preview on the right updates as you type.</p>
     <ol>
@@ -202,9 +301,9 @@
     </ol>
   </div>
 
-  <!-- Step 3 -->
+  <!-- Step 4 -->
   <div class="step">
-    <div class="step-label">Step 3</div>
+    <div class="step-label">Step 4</div>
     <h2>Add and size your images</h2>
     <p>Images make the newsletter. Follow these steps to get them in and looking right.</p>
 
@@ -226,9 +325,9 @@
     </ul>
   </div>
 
-  <!-- Step 4 -->
+  <!-- Step 5 -->
   <div class="step">
-    <div class="step-label">Step 4</div>
+    <div class="step-label">Step 5</div>
     <h2>Preview and export</h2>
     <p>The right-hand panel in the editor shows a live preview of your newsletter as you work. Use it to sense-check layouts and spot any copy issues.</p>
     <p>When you're happy with everything:</p>
@@ -258,7 +357,7 @@
       </div>
       <div class="tip-card">
         <h3>De-AI your drafts</h3>
-        <p>If you use AI to help write copy, run it through a de-humanisation pass. Open the <a href="/">Guidelines drawer</a> in the editor for a prompt you can use.</p>
+        <p>If you use AI to help write copy, run it through the WPP Open tone of voice agent first, then do a quick sense-check before pasting into the editor.</p>
       </div>
       <div class="tip-card">
         <h3>Check character counts</h3>
@@ -271,6 +370,111 @@
     </div>
   </div>
 
+  <!-- AI Image Generation -->
+  <div class="prompt-section">
+    <div class="step-label">AI Tools</div>
+    <h2>Generate illustrations with ChatGPT</h2>
+    <p>Use <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a> to create custom illustrations for your newsletter. Paste your section content at the end of the relevant prompt below — it will generate a branded illustration in our red-on-white style.</p>
+    <p>Copy your newsletter content, then expand the prompt you need, copy it, and paste it into ChatGPT with your content at the bottom.</p>
+
+    <div class="prompt-group">
+      <div class="prompt-group-label">Hero image (1200 &times; 600px)</div>
+      <button class="expand-toggle" onclick="togglePrompt(this)">Show prompt</button>
+      <div class="expand-content">
+        <div class="prompt-box">You are an illustration generator.
+You will receive newsletter content after this prompt. Your job is to:
+1. Extract the key themes, ideas, metaphors, and concepts.
+2. Translate them into a single, densely packed illustrated scene made up of symbolic objects (not literal scenes).
+3. Combine everything into a cohesive composition where all elements overlap and connect like a busy, whimsical cityscape.
+
+Style (strictly follow every time):
+* Use only the colour #EB3F43 on a pure white background.
+* Hand-drawn linework with visible texture (ballpoint pen / fine-tip marker feel).
+* Slightly wonky isometric perspective — intentionally imperfect, organic.
+* Extremely dense composition — no empty space, everything interwoven.
+* Every object must have a unique decorative fill pattern (dots, stripes, florals, grids, stars, hearts, cross-hatching, etc.).
+* Include organic filler elements (vines, leaves, flowers, clouds) weaving between objects to soften gaps.
+* No people. No faces. No realistic shading. No gradients.
+* The mood should feel playful, warm, detailed, and explorable.
+
+Composition rules:
+* Format as a wide hero banner (1200×600px).
+* Ensure the composition is perfectly centred with safe margins — nothing cropped at edges.
+* Balance visual weight evenly left to right.
+* Layer objects so everything feels connected, not floating.
+
+Typography integration:
+* Seamlessly integrate the heading: "Experience Gazette"
+* Use a clean sans-serif style.
+* The text should feel embedded in the illustration (surrounded, partially overlapped, or framed by objects), not just placed on top.
+
+How to interpret content:
+* Do NOT illustrate literally.
+* Convert ideas into symbolic objects:
+    * Behavioural science → levers, switches, pathways, branching decisions
+    * UX / systems → screens, wireframes, grids, puzzle pieces
+    * AI / robotics → sensors, robotic arms, eyes, signal waves
+    * Data → charts, nodes, dashboards, magnifiers
+    * Strategy / growth → ladders, keys, vaults, arrows
+    * Summer / lifestyle → fruit, drinks, sun shapes, tropical elements
+    * Transport / future tech → cars, tracks, networks, routes
+* Then layer all objects together tightly into one unified scene.
+
+Output: A single detailed illustration matching all rules above. No explanation. No text outside the image. Prioritise balance, avoid edge cut-offs, and ensure the composition is perfectly centred within the frame.
+
+[PASTE CONTENT BELOW]<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-group">
+      <div class="prompt-group-label">Section images (1200 &times; 400px)</div>
+      <button class="expand-toggle" onclick="togglePrompt(this)">Show prompt</button>
+      <div class="expand-content">
+        <div class="prompt-box">You are an illustration generator.
+You will receive content after this prompt. Your job is to:
+1. Extract the key themes, ideas, metaphors, and concepts.
+2. Translate them into a single illustrated scene made up of symbolic objects and diverse people interacting with them.
+3. Combine everything into a cohesive composition where elements are thoughtfully arranged with breathing room — busy enough to be interesting, spacious enough to be readable.
+
+Style (strictly follow every time):
+* Use only the colour #EB3F43 on a pure white background.
+* Hand-drawn linework with visible texture (ballpoint pen / fine-tip marker feel).
+* Slightly wonky isometric perspective — intentionally imperfect, organic.
+* Moderate density — aim for 60–70% coverage of the frame. Leave intentional pockets of white space to let the eye rest.
+* Objects should have varied decorative fill patterns (dots, stripes, florals, grids, stars, hearts, cross-hatching, etc.) but not every single object needs one — some can be simple outlines.
+* Include organic filler elements (vines, leaves, flowers, clouds) sparingly to connect sections.
+* Include 3–5 small, simple figures of diverse people (different body shapes, hair textures, heights, abilities) interacting with the objects — climbing, pointing, carrying, sitting on, reaching toward. Keep figures stylised and minimal (no detailed facial features — just suggested expressions through posture and gesture).
+* No realistic shading. No gradients. No photographic detail.
+* The mood should feel playful, warm, and inviting — like an editorial spot illustration scaled up.
+
+Composition rules:
+* Format as a wide hero banner (1200×400px).
+* Ensure the composition is perfectly centred with safe margins — nothing cropped at edges.
+* Balance visual weight evenly left to right.
+* Use 2–3 larger anchor objects to ground the scene, with smaller objects and figures arranged around them.
+* Layer objects so they feel connected but not claustrophobic — overlap is fine, but each key element should be individually distinguishable.
+
+How to interpret content:
+* Do NOT illustrate literally.
+* Convert ideas into symbolic objects:
+    * Behavioural science → levers, switches, pathways, branching decisions
+    * UX / systems → screens, wireframes, grids, puzzle pieces
+    * AI / robotics → sensors, robotic arms, eyes, signal waves
+    * Data → charts, nodes, dashboards, magnifiers
+    * Strategy / growth → ladders, keys, vaults, arrows
+    * Summer / lifestyle → fruit, drinks, sun shapes, tropical elements
+    * Transport / future tech → cars, tracks, networks, routes
+    * Communication / alignment → megaphones, bridges, intersecting paths, swim lanes
+    * Onboarding / journeys → open doors, winding roads, signposts, stepping stones
+* Then arrange all objects and figures together into one unified scene with clear visual hierarchy.
+
+Output: A single detailed illustration matching all rules above. No explanation. No text in the image.
+
+[PASTE CONTENT BELOW]<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="cta">
     <p>Ready to build your newsletter?</p>
@@ -278,5 +482,24 @@
   </div>
 
 </div>
+
+<script>
+  function togglePrompt(btn) {
+    var content = btn.nextElementSibling;
+    var isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    btn.textContent = isOpen ? 'Show prompt' : 'Hide prompt';
+  }
+
+  function copyPrompt(btn) {
+    var box = btn.parentElement;
+    // Get text content excluding the button text
+    var text = box.childNodes[0].textContent;
+    navigator.clipboard.writeText(text.trim()).then(function() {
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1800);
+    });
+  }
+</script>
 </body>
 </html>
