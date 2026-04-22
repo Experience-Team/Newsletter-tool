@@ -496,8 +496,6 @@
     <!-- Content Blocks -->
     <div class="form-section">
       <div class="form-section-title">Content Sections</div>
-      <label for="contentEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="contentEyebrow" placeholder="e.g. What we're working on" value="What we're working on" oninput="renderPreview()" />
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
         <div class="add-menu" id="addMenu">
@@ -1233,7 +1231,6 @@
     const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
 
-    const contentEyebrow = val('contentEyebrow') || '';
     const footer         = val('footerMessage') || '';
     const logoUrl        = val('logoUrl') || '';
     const triviaEmoji    = val('triviaEmoji') || '';
@@ -1427,7 +1424,7 @@
                 </tr>
                 <tr>
                   <td style="padding: 16px 0 0 0;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">Current Project</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0; padding-bottom: 8px; border-bottom: 1px solid #050505;">Current Project</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                   ${imagesHTML}
                       <tr>
@@ -1474,18 +1471,9 @@
     // Wrap content blocks
     let contentSectionHTML = '';
     if (contentBlocksHTML) {
-      const contentLabelHTML = contentEyebrow ? `
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td style="padding: 40px 0 24px 0; border-bottom: 2px solid #E8383A;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">${esc(contentEyebrow)}</span>
-                  </td>
-                </tr>
-              </table>` : '';
       contentSectionHTML = `
           <tr>
             <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
-              ${contentLabelHTML}
               ${contentBlocksHTML}
             </td>
           </tr>`;
@@ -1633,7 +1621,7 @@
   function getFormState() {
     const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
-      'triviaQuestion','triviaEmoji','contentEyebrow','linksEyebrow','linksSubheading',
+      'triviaQuestion','triviaEmoji','linksEyebrow','linksSubheading',
       'footerMessage','triviaAnswer','triviaImageUrl','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
     const fields = {};
