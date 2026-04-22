@@ -469,7 +469,7 @@
         </div>
       </div>
       <label for="heroBody">Body</label>
-      <textarea id="heroBody" rows="4" placeholder="e.g. A lot has happened across the business this month &mdash; from product milestones to team growth and a few wins worth celebrating." oninput="renderPreview()"></textarea>
+      <textarea id="heroBody" rows="4" placeholder="Set a positive tone for the Gazette. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo dapibus lectus, sed lacinia nisi pellentesque sed. Aliquam erat volutpat. In tincidunt massa id rutrum hendrerit. Phasellus semper purus id ante blandit, ut hendrerit lorem lobortis. Maecenas risus justo, blandit et metus et, aliquam porttitor augue." oninput="renderPreview()"></textarea>
     </div>
 
     <!-- Trivia Question -->
@@ -1187,7 +1187,7 @@
     const edDate         = val('editionDate') || '';
     const edNum          = val('editionNumber') || '';
     const heroImageUrl   = val('heroImageUrl') || '';
-    const headline       = val('heroHeadline') || `Welcome to ${MONTHS[new Date().getMonth()]}'s CX Gazette`;
+    const headline       = val('heroHeadline') || "Welcome to [Month's] CX Gazette";
     const heroBylineName  = val('heroBylineName') || '';
     const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
@@ -1622,7 +1622,7 @@
   // ── Init ──
   const defaultPhoto = 'https://res.cloudinary.com/dxfep8qat/image/upload/v1773735345/samples/animals/cat.jpg';
   const defaultTeam = [
-    { name: 'Arran Peck',      title: 'Experience Design Director' },
+    { name: 'Arran Peck',      title: 'Senior CX Specialist' },
     { name: 'Abe Atiya',       title: 'Experience Director' },
     { name: 'Yolandi Lehner',  title: 'Senior CX Designer' },
     { name: 'Maryam Mahlberg', title: 'Senior CX Designer' },
@@ -1637,7 +1637,7 @@
   renderHeroBylineOptions();
   renderLinks();
 
-  document.getElementById('heroHeadline').value = `Welcome to ${MONTHS[new Date().getMonth()]}'s CX Gazette`;
+  document.getElementById('heroHeadline').value = "Welcome to [Month's] CX Gazette";
 
   addBlock('standard');
   renderPreview();
