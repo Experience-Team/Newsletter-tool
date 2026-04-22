@@ -475,7 +475,9 @@
     <!-- Trivia Question -->
     <div class="form-section">
       <div class="form-section-title">Trivia Question</div>
-      <label for="triviaQuestion">Question</label>
+      <label for="triviaEyebrow">Section Label</label>
+      <input type="text" id="triviaEyebrow" value="Trivia" oninput="renderPreview()" />
+      <label for="triviaQuestion" style="margin-top:10px;">Question</label>
       <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
       <label for="triviaEmoji" style="margin-top:10px;">Emoji <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <div class="emoji-suggestions">
@@ -495,7 +497,7 @@
 
     <!-- Content Blocks -->
     <div class="form-section">
-      <div class="form-section-title">Content Sections</div>
+      <div class="form-section-title">Current projects</div>
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
         <div class="add-menu" id="addMenu">
@@ -520,7 +522,9 @@
     <!-- Insight -->
     <div class="form-section">
       <div class="form-section-title">Insight</div>
-      <label for="insightHeading">Heading</label>
+      <label for="insightEyebrow">Section Label</label>
+      <input type="text" id="insightEyebrow" value="Insight" oninput="renderPreview()" />
+      <label for="insightHeading" style="margin-top:10px;">Heading</label>
       <input type="text" id="insightHeading" value="A catchy heading" oninput="renderPreview()" />
       <label for="insightImageUrl" style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="insightImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
@@ -542,7 +546,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     <!-- ROC -->
     <div class="form-section">
       <div class="form-section-title">ROC</div>
-      <label for="rocHeading">Heading</label>
+      <label for="rocEyebrow">Section Label</label>
+      <input type="text" id="rocEyebrow" value="ROC" oninput="renderPreview()" />
+      <label for="rocHeading" style="margin-top:10px;">Heading</label>
       <input type="text" id="rocHeading" value="Catchy heading" oninput="renderPreview()" />
       <label for="rocImageUrl" style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="rocImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
@@ -598,7 +604,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     <!-- Trivia Answer -->
     <div class="form-section">
       <div class="form-section-title">Trivia Answer</div>
-      <label for="triviaAnswer">Answer</label>
+      <label for="triviaAnswerEyebrow">Section Label</label>
+      <input type="text" id="triviaAnswerEyebrow" value="Trivia Answer" oninput="renderPreview()" />
+      <label for="triviaAnswer" style="margin-top:10px;">Answer</label>
       <textarea id="triviaAnswer" rows="2" placeholder="e.g. 1995" oninput="renderPreview()"></textarea>
       <label for="triviaLinkLabel" style="margin-top:10px;">Link Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="triviaLinkLabel" placeholder="e.g. Learn more" oninput="renderPreview()" />
@@ -661,7 +669,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     } else if (type === 'feature') {
       Object.assign(base, { eyebrow: '', featureImageUrl: '', heading: '', subheading: '', h2heading: '', body: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'current-project') {
-      Object.assign(base, { heading: '', imageLayout: '1x', image1Url: '', image1Alt: '', image2Url: '', image2Alt: '', image3Url: '', image3Alt: '', image4Url: '', image4Alt: '', body: '', whatThisMeans: '' });
+      Object.assign(base, { eyebrow: 'Current Project', heading: '', imageLayout: '1x', image1Url: '', image1Alt: '', image2Url: '', image2Alt: '', image3Url: '', image3Alt: '', image4Url: '', image4Alt: '', body: '', whatThisMeans: '' });
     }
     blocks.push(base);
     document.getElementById('addMenu').classList.remove('open');
@@ -900,7 +908,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       if (imgCount >= 3) imageFields += imgField(3);
       if (imgCount >= 4) imageFields += imgField(4);
       return `
-        <label>Image Layout</label>
+        <label>Section Label</label>
+        <input type="text" value="${escAttr(b.eyebrow)}"
+               oninput="updateBlock(${b.id}, 'eyebrow', this.value)" />
+        <label style="margin-top:10px;">Image Layout</label>
         <div style="display:flex;gap:6px;margin-bottom:10px;">
           ${layoutBtn('1x','1×')}${layoutBtn('2x','2×')}${layoutBtn('3x','3×')}${layoutBtn('4x','4×')}
         </div>
@@ -1347,11 +1358,13 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const logoUrl        = val('logoUrl') || '';
     const quoteText      = val('quoteText') || '';
     const quoteAuthor    = val('quoteAuthor') || '';
+    const insightEyebrow  = val('insightEyebrow') || 'Insight';
     const insightHeading  = val('insightHeading') || '';
     const insightImageUrl = val('insightImageUrl') || '';
     const insightBody     = val('insightBody') || '';
     const insightLinkLabel = val('insightLinkLabel') || '';
     const insightLinkUrl   = val('insightLinkUrl') || '';
+    const rocEyebrow      = val('rocEyebrow') || 'ROC';
     const rocHeading      = val('rocHeading') || '';
     const rocImageUrl     = val('rocImageUrl') || '';
     const rocProductName  = val('rocProductName') || '';
@@ -1363,7 +1376,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const rocLinkLabel    = val('rocLinkLabel') || '';
     const rocLinkUrl      = val('rocLinkUrl') || '';
     const triviaEmoji    = val('triviaEmoji') || '';
+    const triviaEyebrow  = val('triviaEyebrow') || 'Trivia';
     const triviaQuestion = val('triviaQuestion') || '';
+    const triviaAnswerEyebrow = val('triviaAnswerEyebrow') || 'Trivia Answer';
     const triviaAnswer   = val('triviaAnswer') || '';
     const triviaLinkLabel = val('triviaLinkLabel') || '';
     const triviaLinkUrl  = val('triviaLinkUrl') || '';
@@ -1549,7 +1564,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid #E8383A;">Current Project</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid #E8383A;">${esc(b.eyebrow || 'Current Project')}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                   ${imagesHTML}
                       <tr>
@@ -1680,7 +1695,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                 <tr>
                   <td align="center" style="text-align: center;">
                     ${triviaEmoji ? `<p style="font-size: 24px; line-height: 1; margin: 0 0 18px 0; text-align: center;">${esc(triviaEmoji)}</p>` : ''}
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 18px 0; text-align: center;">Trivia</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 18px 0; text-align: center;">${esc(triviaEyebrow)}</p>
                     <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 18px 0; text-align: center;">${esc(triviaQuestion)}</p>
                     <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-style: italic; color: #ffffff; margin: 0; text-align: center;">Scroll to the bottom to find out the answer.</p>
                   </td>
@@ -1721,7 +1736,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">Insight</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(insightEyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
@@ -1766,7 +1781,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">ROC</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(rocEyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
@@ -1833,7 +1848,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <!-- TRIVIA ANSWER -->
           ${triviaAnswer ? `<tr>
             <td style="background-color: #FADADD; padding: 32px 40px;">
-              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">Trivia Answer</p>
+              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; color: #E8383A; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
             </td>
@@ -1875,11 +1890,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   function getFormState() {
     const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
-      'triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
-      'insightHeading','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
-      'rocHeading','rocImageUrl','rocProductName','rocScore','rocBody','rocProsTitle','rocConsTitle','rocLinkLabel','rocLinkUrl',
+      'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
+      'insightEyebrow','insightHeading','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
+      'rocEyebrow','rocHeading','rocImageUrl','rocProductName','rocScore','rocBody','rocProsTitle','rocConsTitle','rocLinkLabel','rocLinkUrl',
       'linksEyebrow','linksSubheading',
-      'footerMessage','triviaAnswer','triviaLinkLabel','triviaLinkUrl',
+      'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
     const fields = {};
     fieldIds.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.value; });
