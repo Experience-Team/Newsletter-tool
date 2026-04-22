@@ -499,7 +499,6 @@
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
         <div class="add-menu" id="addMenu">
-          <button onclick="addBlock('standard')"><strong>Standard</strong><span>Full-width heading, body text, optional image</span></button>
           <button onclick="addBlock('image-text')"><strong>Image + Text</strong><span>Image on the left, text on the right</span></button>
           <button onclick="addBlock('two-column')"><strong>Two Column</strong><span>Two equal columns, each with heading &amp; body</span></button>
           <button onclick="addBlock('feature')"><strong>Feature</strong><span>Red highlight block for key announcements</span></button>
@@ -722,7 +721,7 @@
   }
 
   function renderBlockFields(b) {
-    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature', 'current-project': 'Current Project' };
+    const typeLabels = { 'current-project': 'Current Project', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature' };
     if (b.type === 'image-text') {
       return `
         <div class="inline-fields">
@@ -884,7 +883,7 @@
   }
 
   function renderBlocks() {
-    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature', 'current-project': 'Current Project' };
+    const typeLabels = { 'current-project': 'Current Project', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature' };
     const container = document.getElementById('blocksContainer');
     container.innerHTML = blocks.map((b, i) => `
       <div class="content-block">
@@ -1746,7 +1745,7 @@
 
   document.getElementById('heroHeadline').value = "Welcome to [Month's] CX Gazette";
 
-  addBlock('standard');
+  addBlock('current-project');
   renderPreview();
 
   loadFromLocalStorage();
