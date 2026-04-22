@@ -41,8 +41,10 @@
       cursor: pointer;
       transition: all .15s;
       font-family: inherit;
+      position: relative;
     }
     .btn-guidelines:hover { background: #333333; border-color: #fff; }
+    .btn-guidelines:hover .btn-tooltip { visibility: visible; opacity: 1; }
     .draft-banner {
       background: #1a1a1a;
       color: #C8C8C8;
@@ -374,8 +376,8 @@
   <h1>Newsletter Editor</h1>
   <div class="topbar-right">
     <span class="hint">Fill in the form on the left &mdash; the preview updates live</span>
-    <button class="btn-guidelines" onclick="saveDraftFile()">Save draft</button>
-    <button class="btn-guidelines" onclick="document.getElementById('loadDraftInput').click()">Load draft</button>
+    <button class="btn-guidelines" onclick="saveDraftFile()">Save draft<span class="btn-tooltip">Downloads your current newsletter as a .json file. To save, just click the button &mdash; a file named gazette-draft-[date].json will download automatically. Use this to back up your work or share a draft with someone else.</span></button>
+    <button class="btn-guidelines" onclick="document.getElementById('loadDraftInput').click()">Load draft<span class="btn-tooltip">Restores a previously saved draft from a .json file. Click the button, select your gazette-draft file, and your content will reload automatically. This replaces your current content.</span></button>
     <input type="file" id="loadDraftInput" accept=".json" style="display:none" onchange="loadDraftFile(this)">
     <a href="/newsletter-guide" class="btn-guidelines" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">How to create a newsletter</a>
   </div>
