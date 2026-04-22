@@ -45,6 +45,16 @@
     }
     .btn-guidelines:hover { background: #333333; border-color: #fff; }
     .btn-guidelines:hover .btn-tooltip { visibility: visible; opacity: 1; }
+    .btn-guidelines .btn-tooltip {
+      bottom: auto;
+      top: calc(100% + 10px);
+    }
+    .btn-guidelines .btn-tooltip::after {
+      top: auto;
+      bottom: 100%;
+      border-top-color: transparent;
+      border-bottom-color: #000000;
+    }
     .draft-banner {
       background: #1a1a1a;
       color: #C8C8C8;
