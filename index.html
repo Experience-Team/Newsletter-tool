@@ -505,6 +505,7 @@
           <button onclick="addBlock('image-text')"><strong>Image + Text</strong><span>Image on the left, text on the right</span></button>
           <button onclick="addBlock('two-column')"><strong>Two Column</strong><span>Two equal columns, each with heading &amp; body</span></button>
           <button onclick="addBlock('feature')"><strong>Feature</strong><span>Red highlight block for key announcements</span></button>
+          <button onclick="addBlock('current-project')"><strong>Current Project</strong><span>Project overview with images, body and 'what this means for you'</span></button>
         </div>
         <button class="btn-add" onclick="toggleAddMenu(event)">+ Add Section</button>
       </div>
@@ -597,6 +598,8 @@
       Object.assign(base, { leftHeading: '', leftBody: '', rightHeading: '', rightBody: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'feature') {
       Object.assign(base, { eyebrow: '', featureImageUrl: '', heading: '', subheading: '', h2heading: '', body: '', btnLabel: '', btnUrl: '' });
+    } else if (type === 'current-project') {
+      Object.assign(base, { heading: '', imageLayout: '1x', image1Url: '', image1Alt: '', image2Url: '', image2Alt: '', image3Url: '', image3Alt: '', image4Url: '', image4Alt: '', body: '', whatThisMeans: '' });
     }
     blocks.push(base);
     document.getElementById('addMenu').classList.remove('open');
@@ -708,7 +711,7 @@
         }
       });
       // body (1500 char limit)
-      var bodyFields = ['body', 'leftBody', 'rightBody'];
+      var bodyFields = ['body', 'leftBody', 'rightBody', 'whatThisMeans'];
       bodyFields.forEach(function(f) {
         var el = document.getElementById('cc_' + b.id + '_' + f);
         if (el) {
@@ -721,7 +724,7 @@
   }
 
   function renderBlockFields(b) {
-    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature' };
+    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature', 'current-project': 'Current Project' };
     if (b.type === 'image-text') {
       return `
         <div class="inline-fields">
@@ -809,6 +812,50 @@
         ${charCounter(b.id, 'body', 1500)}
         ${renderButtonFields(b)}
         ${renderBylineFields(b)}`;
+    } else if (b.type === 'current-project') {
+      const layout = b.imageLayout || '1x';
+      const imgCount = layout === '1x' ? 1 : layout === '2x' ? 2 : layout === '3x' ? 3 : 4;
+      const layoutBtn = (val, label) =>
+        `<button type="button" onclick="updateBlock(${b.id},'imageLayout','${val}'); renderBlocks();"
+                 style="padding:5px 12px;border:1px solid ${layout===val?'#E8383A':'#ddd'};background:${layout===val?'#E8383A':'#fff'};color:${layout===val?'#fff':'#333'};border-radius:4px;cursor:pointer;font-size:13px;">${label}</button>`;
+      const imgField = (n) => `
+        <div class="inline-fields" style="margin-top:8px;">
+          <div class="field">
+            <label>Image ${n} URL</label>
+            <input type="text" value="${escAttr(b['image'+n+'Url'])}" placeholder="e.g. https://res.cloudinary.com/…/photo.jpg"
+                   oninput="processImageUrl(this,'imgMsg_${b.id}_${n}',function(u){updateBlock(${b.id},'image${n}Url',u);})"
+                   onpaste="var s=this;setTimeout(function(){processImageUrl(s,'imgMsg_${b.id}_${n}',function(u){updateBlock(${b.id},'image${n}Url',u);});},0)" />
+          </div>
+          <div class="field-narrow">
+            <label>Alt Text</label>
+            <input type="text" value="${escAttr(b['image'+n+'Alt'])}" placeholder="Describe the image"
+                   oninput="updateBlock(${b.id},'image${n}Alt',this.value)" />
+          </div>
+        </div>
+        <div id="imgMsg_${b.id}_${n}"></div>`;
+      let imageFields = imgField(1);
+      if (imgCount >= 2) imageFields += imgField(2);
+      if (imgCount >= 3) imageFields += imgField(3);
+      if (imgCount >= 4) imageFields += imgField(4);
+      return `
+        <label>Image Layout</label>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          ${layoutBtn('1x','1×')}${layoutBtn('2x','2×')}${layoutBtn('3x','3×')}${layoutBtn('4x','4×')}
+        </div>
+        ${imageFields}
+        <label style="margin-top:10px;">Heading</label>
+        <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Project Name"
+               oninput="updateBlock(${b.id},'heading',this.value)" />
+        ${charCounter(b.id,'heading',100)}
+        ${renderBylineFields(b)}
+        <label>Body</label>
+        <textarea rows="4" placeholder="Describe the project..."
+                  oninput="updateBlock(${b.id},'body',this.value)">${esc(b.body)}</textarea>
+        ${charCounter(b.id,'body',1500)}
+        <label>What This Means For You <span style="font-weight:400;color:#C8C8C8;font-style:italic;">(italic in email)</span></label>
+        <textarea rows="3" placeholder="Explain the impact or relevance for the reader..."
+                  oninput="updateBlock(${b.id},'whatThisMeans',this.value)">${esc(b.whatThisMeans)}</textarea>
+        ${charCounter(b.id,'whatThisMeans',1500)}`;
     }
     // standard
     return `
@@ -839,7 +886,7 @@
   }
 
   function renderBlocks() {
-    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature' };
+    const typeLabels = { 'standard': 'Standard', 'image-text': 'Image + Text', 'two-column': 'Two Column', 'feature': 'Feature', 'current-project': 'Current Project' };
     const container = document.getElementById('blocksContainer');
     container.innerHTML = blocks.map((b, i) => `
       <div class="content-block">
@@ -1313,6 +1360,87 @@
                   </td>
                 </tr>
                 <!--[if mso]></table><![endif]-->
+                ${separatorHTML}
+              </table>`;
+      } else if (b.type === 'current-project') {
+        if (!b.heading && !b.body && !b.image1Url) return;
+        const layout = b.imageLayout || '1x';
+        const halfW = 252;
+        const img = (n, w) => b['image'+n+'Url']
+          ? `<img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" />`
+          : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
+        let imagesHTML = '';
+        if (layout === '1x') {
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>`;
+        } else if (layout === '2x') {
+          imagesHTML = `<tr>
+                    <td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>`;
+        } else if (layout === '3x') {
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>
+                  <tr>
+                    <td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(2,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(3,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>`;
+        } else {
+          // 4x: two rows of two
+          imagesHTML = `<tr>
+                    <td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(3,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(4,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>`;
+        }
+        const whatHTML = b.whatThisMeans ? `
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${nl2br(b.whatThisMeans)}</p>` : '';
+        contentBlocksHTML += `
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: ${topPad}px 0 0 0; border-bottom: 2px solid #E8383A; font-size: 0; line-height: 0;">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px 0 0 0;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">Current Project</p>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                  ${imagesHTML}
+                      <tr>
+                        <td valign="top">
+                          <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
+                          ${generateBylineHTML(b, '#616161')}
+                          ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                          ${whatHTML}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
                 ${separatorHTML}
               </table>`;
       } else {
