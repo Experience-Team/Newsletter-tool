@@ -543,45 +543,17 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="insightLinkUrl" placeholder="https://" oninput="renderPreview()" />
     </div>
 
-    <!-- ROC -->
+    <!-- Post-quote content -->
     <div class="form-section">
-      <div class="form-section-title">ROC</div>
-      <label for="rocEyebrow">Section Label</label>
-      <input type="text" id="rocEyebrow" value="ROC" oninput="renderPreview()" />
-      <label for="rocHeading" style="margin-top:10px;">Heading</label>
-      <input type="text" id="rocHeading" value="Catchy heading" oninput="renderPreview()" />
-      <label for="rocImageUrl" style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="rocImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
-             oninput="processImageUrl(this, 'rocImageUrlMsg', function() { renderPreview(); })"
-             onpaste="setTimeout(function(){ processImageUrl(document.getElementById('rocImageUrl'), 'rocImageUrlMsg', function() { renderPreview(); }); }, 0)" />
-      <div id="rocImageUrlMsg"></div>
-      <label for="rocProductName" style="margin-top:10px;">Product Name</label>
-      <input type="text" id="rocProductName" placeholder="e.g. Salesforce" oninput="renderPreview()" />
-      <label for="rocScore" style="margin-top:10px;">Score</label>
-      <select id="rocScore" onchange="renderPreview()" style="width:100%;padding:8px 10px;border:1px solid #E0E0E0;border-radius:4px;font-size:14px;background:#fff;color:#000;">
-        <option value="1">1 – Negative</option>
-        <option value="2">2 – Invisible</option>
-        <option value="3">3 – Miniscule</option>
-        <option value="4">4 – Good</option>
-        <option value="5">5 – Inspiring</option>
-        <option value="6">6 – Contagious</option>
-        <option value="7" selected>7 – Transformative</option>
-        <option value="8">8 – Legendary</option>
-      </select>
-      <label for="rocBody" style="margin-top:10px;">Body</label>
-      <textarea id="rocBody" rows="4" oninput="renderPreview()">Lorem ipsum dolor sit amet consectetur. Blandit fermentum cursus ac id elementum rhoncus. Volutpat varius tempus mattis lectus cras. Suspendisse at non nec diam. Mus consequat vel neque dui. Mauris sagittis cras tincidunt lorem.</textarea>
-      <label for="rocProsTitle" style="margin-top:10px;">Pros Heading</label>
-      <input type="text" id="rocProsTitle" value="👍  The good" oninput="renderPreview()" />
-      <div id="rocProsContainer"></div>
-      <button class="btn-add" onclick="addRocPro()" style="margin-top:8px;">+ Add item</button>
-      <label for="rocConsTitle" style="margin-top:16px;">Cons Heading</label>
-      <input type="text" id="rocConsTitle" value="👎  The tricky bits" oninput="renderPreview()" />
-      <div id="rocConsContainer"></div>
-      <button class="btn-add" onclick="addRocCon()" style="margin-top:8px;">+ Add item</button>
-      <label for="rocLinkLabel" style="margin-top:16px;">Button Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="rocLinkLabel" value="Learn more" oninput="renderPreview()" />
-      <label for="rocLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="rocLinkUrl" placeholder="https://" oninput="renderPreview()" />
+      <div class="form-section-title">Post-quote content</div>
+      <div id="pqBlocksContainer"></div>
+      <div class="add-section-wrap">
+        <div class="add-menu" id="pqAddMenu">
+          <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
+          <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
+        </div>
+        <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
+      </div>
     </div>
 
     <!-- Interesting Links -->
@@ -1006,52 +978,326 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     `).join('');
   }
 
-  // ── ROC lists ──
-  const ROC_SCORE_LABELS = ['','Negative','Invisible','Miniscule','Good','Inspiring','Contagious','Transformative','Legendary'];
-  let rocProsList = [];
-  let rocProsIdCounter = 0;
-  let rocConsList = [];
-  let rocConsIdCounter = 0;
+  // ── Post-quote blocks (ROC / Generic Content) ──
+  const PQ_SCORE_LABELS = ['','Negative','Invisible','Miniscule','Good','Inspiring','Contagious','Transformative','Legendary'];
+  let pqBlocks = [];
+  let pqBlockIdCounter = 0;
 
-  function updateRocItem(list, id, text) {
-    const item = list.find(x => x.id === id);
-    if (item) item.text = text;
+  function addPqBlock(type) {
+    const id = ++pqBlockIdCounter;
+    const b = { id, type };
+    if (type === 'roc') {
+      Object.assign(b, {
+        eyebrow: 'ROC', heading: 'Catchy heading', imageUrl: '',
+        productName: '', score: '7',
+        body: 'Lorem ipsum dolor sit amet consectetur. Blandit fermentum cursus ac id elementum rhoncus. Volutpat varius tempus mattis lectus cras. Suspendisse at non nec diam.',
+        prosTitle: '👍  The good', prosItems: [], prosIdCounter: 0,
+        consTitle: '👎  The tricky bits', consItems: [], consIdCounter: 0,
+        linkLabel: 'Learn more', linkUrl: ''
+      });
+      ['Lorem ipsum dolor sit amet consectetur. Eget quis interdum arcu vel. Nulla elit dolor sapien aliquam ut.',
+       'Lorem ipsum dolor sit amet consectetur. In quis aliquam eget netus euismod neque gravida ut quam.',
+       'Lorem ipsum dolor sit amet consectetur. Malesuada enim volutpat elementum in arcu hendrerit.']
+        .forEach(t => b.prosItems.push({ id: ++b.prosIdCounter, text: t }));
+      ['Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim ut semper.',
+       'Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim.',
+       'Lorem ipsum dolor sit amet consectetur. Ultrices sapien mauris sollicitudin nibh elementum.']
+        .forEach(t => b.consItems.push({ id: ++b.consIdCounter, text: t }));
+    } else {
+      Object.assign(b, {
+        eyebrow: 'Generic Content', heading: '',
+        bylineName: '', bylineRole: '',
+        imageLayout: '1x',
+        image1Url: '', image1Alt: '', image2Url: '', image2Alt: '',
+        image3Url: '', image3Alt: '', image4Url: '', image4Alt: '',
+        body: '', whatThisMeans: ''
+      });
+    }
+    pqBlocks.push(b);
+    document.getElementById('pqAddMenu').classList.remove('open');
+    renderPqBlocks();
     renderPreview();
   }
 
-  function renderRocList(list, containerId, removeFn) {
-    const container = document.getElementById(containerId);
+  function removePqBlock(id) {
+    pqBlocks = pqBlocks.filter(b => b.id !== id);
+    renderPqBlocks(); renderPreview();
+  }
+
+  function updatePqBlock(id, field, value) {
+    const b = pqBlocks.find(b => b.id === id);
+    if (b) b[field] = value;
+    renderPreview();
+  }
+
+  function addPqPro(bid) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (b) { b.prosItems.push({ id: ++b.prosIdCounter, text: '' }); renderPqBlocks(); renderPreview(); }
+  }
+  function removePqPro(bid, iid) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (b) { b.prosItems = b.prosItems.filter(x => x.id !== iid); renderPqBlocks(); renderPreview(); }
+  }
+  function updatePqPro(bid, iid, text) {
+    const b = pqBlocks.find(b => b.id === bid);
+    const item = b && b.prosItems.find(x => x.id === iid);
+    if (item) { item.text = text; renderPreview(); }
+  }
+  function addPqCon(bid) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (b) { b.consItems.push({ id: ++b.consIdCounter, text: '' }); renderPqBlocks(); renderPreview(); }
+  }
+  function removePqCon(bid, iid) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (b) { b.consItems = b.consItems.filter(x => x.id !== iid); renderPqBlocks(); renderPreview(); }
+  }
+  function updatePqCon(bid, iid, text) {
+    const b = pqBlocks.find(b => b.id === bid);
+    const item = b && b.consItems.find(x => x.id === iid);
+    if (item) { item.text = text; renderPreview(); }
+  }
+
+  function togglePqMenu(event) {
+    event.stopPropagation();
+    document.getElementById('pqAddMenu').classList.toggle('open');
+  }
+
+  function renderPqBlocks() {
+    const container = document.getElementById('pqBlocksContainer');
     if (!container) return;
-    container.innerHTML = list.map((item, i) => `
-      <div class="content-block" style="margin-top:8px;">
-        <div class="block-header">
-          <span class="block-number">Item ${i + 1}</span>
-          <button class="btn-remove" onclick="${removeFn}(${item.id})">Remove</button>
-        </div>
-        <textarea rows="2" oninput="updateRocItem(${containerId === 'rocProsContainer' ? 'rocProsList' : 'rocConsList'}, ${item.id}, this.value)">${escAttr(item.text)}</textarea>
-      </div>`).join('');
+    container.innerHTML = pqBlocks.map((b) => {
+      const typeLabel = b.type === 'roc' ? 'ROC' : 'Generic Content';
+      let fields = '';
+      if (b.type === 'roc') {
+        const prosHTML = b.prosItems.map((item, i) => `
+          <div class="content-block" style="margin-top:8px;">
+            <div class="block-header">
+              <span class="block-number">Item ${i+1}</span>
+              <button class="btn-remove" onclick="removePqPro(${b.id},${item.id})">Remove</button>
+            </div>
+            <textarea rows="2" oninput="updatePqPro(${b.id},${item.id},this.value)">${escAttr(item.text)}</textarea>
+          </div>`).join('');
+        const consHTML = b.consItems.map((item, i) => `
+          <div class="content-block" style="margin-top:8px;">
+            <div class="block-header">
+              <span class="block-number">Item ${i+1}</span>
+              <button class="btn-remove" onclick="removePqCon(${b.id},${item.id})">Remove</button>
+            </div>
+            <textarea rows="2" oninput="updatePqCon(${b.id},${item.id},this.value)">${escAttr(item.text)}</textarea>
+          </div>`).join('');
+        fields = `
+          <label>Section Label</label>
+          <input type="text" value="${escAttr(b.eyebrow)}" oninput="updatePqBlock(${b.id},'eyebrow',this.value)" />
+          <label style="margin-top:10px;">Heading</label>
+          <input type="text" value="${escAttr(b.heading)}" oninput="updatePqBlock(${b.id},'heading',this.value)" />
+          <label style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.imageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
+                 oninput="processImageUrl(this,'pqImgMsg_${b.id}',function(u){updatePqBlock(${b.id},'imageUrl',u);})"
+                 onpaste="var s=this;setTimeout(function(){processImageUrl(s,'pqImgMsg_${b.id}',function(u){updatePqBlock(${b.id},'imageUrl',u);});},0)" />
+          <div id="pqImgMsg_${b.id}"></div>
+          <label style="margin-top:10px;">Product Name</label>
+          <input type="text" value="${escAttr(b.productName)}" placeholder="e.g. Salesforce" oninput="updatePqBlock(${b.id},'productName',this.value)" />
+          <label style="margin-top:10px;">Score</label>
+          <select onchange="updatePqBlock(${b.id},'score',this.value)" style="width:100%;padding:8px 10px;border:1px solid #E0E0E0;border-radius:4px;font-size:14px;background:#fff;color:#000;">
+            ${PQ_SCORE_LABELS.slice(1).map((l,i) => `<option value="${i+1}"${String(b.score)==String(i+1)?' selected':''}>${i+1} – ${l}</option>`).join('')}
+          </select>
+          <label style="margin-top:10px;">Body</label>
+          <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
+          <label style="margin-top:10px;">Pros Heading</label>
+          <input type="text" value="${escAttr(b.prosTitle)}" oninput="updatePqBlock(${b.id},'prosTitle',this.value)" />
+          ${prosHTML}
+          <button class="btn-add" onclick="addPqPro(${b.id})" style="margin-top:8px;">+ Add item</button>
+          <label style="margin-top:16px;">Cons Heading</label>
+          <input type="text" value="${escAttr(b.consTitle)}" oninput="updatePqBlock(${b.id},'consTitle',this.value)" />
+          ${consHTML}
+          <button class="btn-add" onclick="addPqCon(${b.id})" style="margin-top:8px;">+ Add item</button>
+          <label style="margin-top:16px;">Button Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.linkLabel)}" oninput="updatePqBlock(${b.id},'linkLabel',this.value)" />
+          <label style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.linkUrl)}" placeholder="https://" oninput="updatePqBlock(${b.id},'linkUrl',this.value)" />`;
+      } else {
+        const layout = b.imageLayout || '1x';
+        const imgCount = layout === '1x' ? 1 : layout === '2x' ? 2 : layout === '3x' ? 3 : 4;
+        const layoutBtn = (v, lbl) =>
+          `<button type="button" onclick="updatePqBlock(${b.id},'imageLayout','${v}');renderPqBlocks();"
+                   style="padding:5px 12px;border:1px solid ${layout===v?'#E8383A':'#ddd'};background:${layout===v?'#E8383A':'#fff'};color:${layout===v?'#fff':'#333'};border-radius:4px;cursor:pointer;font-size:13px;">${lbl}</button>`;
+        const imgField = (n) => `
+          <div class="inline-fields" style="margin-top:8px;">
+            <div class="field">
+              <label>Image ${n} URL</label>
+              <input type="text" value="${escAttr(b['image'+n+'Url'])}" placeholder="e.g. https://res.cloudinary.com/…/photo.jpg"
+                     oninput="processImageUrl(this,'pqImgMsg_${b.id}_${n}',function(u){updatePqBlock(${b.id},'image${n}Url',u);})"
+                     onpaste="var s=this;setTimeout(function(){processImageUrl(s,'pqImgMsg_${b.id}_${n}',function(u){updatePqBlock(${b.id},'image${n}Url',u);});},0)" />
+            </div>
+            <div class="field-narrow">
+              <label>Alt Text</label>
+              <input type="text" value="${escAttr(b['image'+n+'Alt'])}" placeholder="Describe the image"
+                     oninput="updatePqBlock(${b.id},'image${n}Alt',this.value)" />
+            </div>
+          </div>
+          <div id="pqImgMsg_${b.id}_${n}"></div>`;
+        let imageFields = imgField(1);
+        if (imgCount >= 2) imageFields += imgField(2);
+        if (imgCount >= 3) imageFields += imgField(3);
+        if (imgCount >= 4) imageFields += imgField(4);
+        fields = `
+          <label>Section Label</label>
+          <input type="text" value="${escAttr(b.eyebrow)}" oninput="updatePqBlock(${b.id},'eyebrow',this.value)" />
+          <label style="margin-top:10px;">Heading</label>
+          <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Redesigning checkout" oninput="updatePqBlock(${b.id},'heading',this.value)" />
+          <label style="margin-top:10px;">Image Layout</label>
+          <div style="display:flex;gap:6px;margin-bottom:10px;">
+            ${layoutBtn('1x','1 Image')}${layoutBtn('2x','2 Images')}${layoutBtn('3x','3 Images')}${layoutBtn('4x','4 Images')}
+          </div>
+          ${imageFields}
+          <label style="margin-top:10px;">Byline Name <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.bylineName)}" placeholder="e.g. Jane Smith" oninput="updatePqBlock(${b.id},'bylineName',this.value)" />
+          <label style="margin-top:10px;">Byline Role <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.bylineRole)}" placeholder="e.g. Senior CX Designer" oninput="updatePqBlock(${b.id},'bylineRole',this.value)" />
+          <label style="margin-top:10px;">Body</label>
+          <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
+          <label style="margin-top:10px;">What this means for you <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <textarea rows="3" oninput="updatePqBlock(${b.id},'whatThisMeans',this.value)">${escAttr(b.whatThisMeans)}</textarea>`;
+      }
+      return `
+        <div class="content-block">
+          <div class="block-header">
+            <span class="block-number">${typeLabel}</span>
+            <button class="btn-remove" onclick="removePqBlock(${b.id})">Remove</button>
+          </div>
+          ${fields}
+        </div>`;
+    }).join('');
   }
 
-  function renderRocLists() {
-    renderRocList(rocProsList, 'rocProsContainer', 'removeRocPro');
-    renderRocList(rocConsList, 'rocConsContainer', 'removeRocCon');
-  }
-
-  function addRocPro() {
-    rocProsList.push({ id: ++rocProsIdCounter, text: '' });
-    renderRocLists(); renderPreview();
-  }
-  function removeRocPro(id) {
-    rocProsList = rocProsList.filter(x => x.id !== id);
-    renderRocLists(); renderPreview();
-  }
-  function addRocCon() {
-    rocConsList.push({ id: ++rocConsIdCounter, text: '' });
-    renderRocLists(); renderPreview();
-  }
-  function removeRocCon(id) {
-    rocConsList = rocConsList.filter(x => x.id !== id);
-    renderRocLists(); renderPreview();
+  function generatePqBlocksHTML() {
+    return pqBlocks.map(b => {
+      if (b.type === 'roc') {
+        if (!b.heading) return '';
+        const scoreNum = parseInt(b.score || '7', 10);
+        const scoreLabel = PQ_SCORE_LABELS[scoreNum] || '';
+        return `<tr>
+            <td style="background-color: #ffffff; padding: 40px 40px 32px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(b.eyebrow)}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 16px;">
+                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
+                    ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]-->
+                    <img src="${esc(b.imageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" />
+                    <!--[if mso]></td></tr></table><![endif]-->` : ''}
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
+                      <tr>
+                        <td align="center" style="background-color: #FADADD; padding: 24px; text-align: center;">
+                          ${b.productName ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(b.productName)}</p>` : ''}
+                          <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #E8383A; margin: 0; line-height: 1.2;">${scoreNum} – ${esc(scoreLabel)}</p>
+                        </td>
+                      </tr>
+                    </table>
+                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0 0 32px 0;">${nl2br(b.body)}</p>` : ''}
+                    ${b.prosItems.length ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(b.prosTitle)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
+                      ${b.prosItems.map((item, i) => `<tr><td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < b.prosItems.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
+                    </table>` : ''}
+                    ${b.consItems.length ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(b.consTitle)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
+                      ${b.consItems.map((item, i) => `<tr><td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
+                    </table>` : ''}
+                    ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0"><tr><td>
+                      <!--[if mso]>
+                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(b.linkUrl)}" style="height:44px;v-text-anchor:middle;width:160px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A">
+                        <w:anchorlock/><center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(b.linkLabel)}</center>
+                      </v:roundrect><![endif]-->
+                      <!--[if !mso]><!-->
+                      <table border="0" cellpadding="0" cellspacing="0"><tr>
+                        <td align="center" style="background-color: #E8383A; border-radius: 4px;">
+                          <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.linkLabel)}</a>
+                        </td>
+                      </tr></table>
+                      <!--<![endif]-->
+                    </td></tr></table>` : ''}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
+      } else {
+        if (!b.heading && !b.body && !b.image1Url) return '';
+        const layout = b.imageLayout || '1x';
+        const halfW = 252;
+        const img = (n, w) => b['image'+n+'Url']
+          ? `<img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" />`
+          : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
+        let imagesHTML = '';
+        if (layout === '1x') {
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>`;
+        } else if (layout === '2x') {
+          imagesHTML = `<tr><td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td></tr>`;
+        } else if (layout === '3x') {
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>
+                  <tr><td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(2,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(3,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td></tr>`;
+        } else {
+          imagesHTML = `<tr><td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td></tr>
+                  <tr><td style="padding-bottom:16px;">
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(3,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(4,halfW)}</td>
+                      </tr></table>
+                      <!--[if mso]></td></tr></table><![endif]-->
+                    </td></tr>`;
+        }
+        const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
+        const whatHTML = b.whatThisMeans ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${nl2br(b.whatThisMeans)}</p>` : '';
+        return `<tr>
+            <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: 40px 0 0 0;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid #E8383A;">${esc(b.eyebrow)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      ${imagesHTML}
+                      <tr>
+                        <td valign="top">
+                          <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
+                          ${bylineHTML}
+                          ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                          ${whatHTML}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
+      }
+    }).join('');
   }
 
   // ── Team members ──
@@ -1364,17 +1610,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const insightBody     = val('insightBody') || '';
     const insightLinkLabel = val('insightLinkLabel') || '';
     const insightLinkUrl   = val('insightLinkUrl') || '';
-    const rocEyebrow      = val('rocEyebrow') || 'ROC';
-    const rocHeading      = val('rocHeading') || '';
-    const rocImageUrl     = val('rocImageUrl') || '';
-    const rocProductName  = val('rocProductName') || '';
-    const rocScoreNum     = parseInt(val('rocScore') || '7', 10);
-    const rocScoreLabel   = ROC_SCORE_LABELS[rocScoreNum] || '';
-    const rocBody         = val('rocBody') || '';
-    const rocProsTitle    = val('rocProsTitle') || '';
-    const rocConsTitle    = val('rocConsTitle') || '';
-    const rocLinkLabel    = val('rocLinkLabel') || '';
-    const rocLinkUrl      = val('rocLinkUrl') || '';
     const triviaEmoji    = val('triviaEmoji') || '';
     const triviaEyebrow  = val('triviaEyebrow') || 'Trivia';
     const triviaQuestion = val('triviaQuestion') || '';
@@ -1730,6 +1965,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             </td>
           </tr>` : ''}
 
+          <!-- POST-QUOTE BLOCKS -->
+          ${generatePqBlocksHTML()}
+
           <!-- INSIGHT -->
           ${insightHeading || insightBody ? `<tr>
             <td style="background-color: #FADADD; padding: 40px 40px 32px 40px;">
@@ -1762,73 +2000,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                             <tr>
                               <td align="center" style="background-color: #E8383A; border-radius: 4px;">
                                 <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(insightLinkLabel)}</a>
-                              </td>
-                            </tr>
-                          </table>
-                          <!--<![endif]-->
-                        </td>
-                      </tr>
-                    </table>` : ''}
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>` : ''}
-
-          <!-- ROC -->
-          ${rocHeading ? `<tr>
-            <td style="background-color: #ffffff; padding: 40px 40px 32px 40px;">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(rocEyebrow)}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 16px;">
-                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(rocHeading)}</h2>
-                    ${rocImageUrl ? `
-                    <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]-->
-                    <img src="${esc(rocImageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" />
-                    <!--[if mso]></td></tr></table><![endif]-->` : ''}
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
-                      <tr>
-                        <td align="center" style="background-color: #FADADD; padding: 24px; text-align: center;">
-                          ${rocProductName ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(rocProductName)}</p>` : ''}
-                          <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #E8383A; margin: 0; line-height: 1.2;">${rocScoreNum} – ${esc(rocScoreLabel)}</p>
-                        </td>
-                      </tr>
-                    </table>
-                    ${rocBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0 0 32px 0;">${nl2br(rocBody)}</p>` : ''}
-                    ${rocProsList.length ? `
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(rocProsTitle)}</p>
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
-                      ${rocProsList.map((item, i) => `<tr>
-                        <td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < rocProsList.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td>
-                      </tr>`).join('')}
-                    </table>` : ''}
-                    ${rocConsList.length ? `
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(rocConsTitle)}</p>
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
-                      ${rocConsList.map((item, i) => `<tr>
-                        <td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < rocConsList.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td>
-                      </tr>`).join('')}
-                    </table>` : ''}
-                    ${rocLinkLabel && rocLinkUrl ? `
-                    <table border="0" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td>
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(rocLinkUrl)}" style="height:44px;v-text-anchor:middle;width:160px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A">
-                            <w:anchorlock/>
-                            <center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(rocLinkLabel)}</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <table border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td align="center" style="background-color: #E8383A; border-radius: 4px;">
-                                <a href="${esc(rocLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(rocLinkLabel)}</a>
                               </td>
                             </tr>
                           </table>
@@ -1892,7 +2063,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'insightEyebrow','insightHeading','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
-      'rocEyebrow','rocHeading','rocImageUrl','rocProductName','rocScore','rocBody','rocProsTitle','rocConsTitle','rocLinkLabel','rocLinkUrl',
       'linksEyebrow','linksSubheading',
       'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
@@ -1905,12 +2075,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       blocks: JSON.parse(JSON.stringify(blocks)),
       interestingLinks: JSON.parse(JSON.stringify(interestingLinks)),
       teamMembers: JSON.parse(JSON.stringify(teamMembers)),
-      rocProsList: JSON.parse(JSON.stringify(rocProsList)),
-      rocConsList: JSON.parse(JSON.stringify(rocConsList)),
+      pqBlocks: JSON.parse(JSON.stringify(pqBlocks)),
       blockIdCounter,
       teamIdCounter,
-      rocProsIdCounter,
-      rocConsIdCounter,
+      pqBlockIdCounter,
     };
   }
 
@@ -1924,14 +2092,12 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     if (state.interestingLinks && state.interestingLinks.length === 3) interestingLinks = state.interestingLinks;
     teamMembers = state.teamMembers || [];
     teamIdCounter = state.teamIdCounter || 0;
-    rocProsList = state.rocProsList || [];
-    rocProsIdCounter = state.rocProsIdCounter || 0;
-    rocConsList = state.rocConsList || [];
-    rocConsIdCounter = state.rocConsIdCounter || 0;
+    pqBlocks = state.pqBlocks || [];
+    pqBlockIdCounter = state.pqBlockIdCounter || 0;
     renderBlocks();
     renderLinks();
     renderTeam();
-    renderRocLists();
+    renderPqBlocks();
     renderHeroBylineOptions();
     updateCharCounters();
     renderPreview();
@@ -2028,16 +2194,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   renderHeroBylineOptions();
   renderLinks();
 
-  // Default ROC list items
-  ['Lorem ipsum dolor sit amet consectetur. Eget quis interdum arcu vel. Nulla elit dolor sapien aliquam ut.',
-   'Lorem ipsum dolor sit amet consectetur. In quis aliquam eget netus euismod neque gravida ut quam.',
-   'Lorem ipsum dolor sit amet consectetur. Malesuada enim volutpat elementum in arcu hendrerit pellentesque.']
-    .forEach(t => rocProsList.push({ id: ++rocProsIdCounter, text: t }));
-  ['Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim ut semper.',
-   'Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim ut semper.',
-   'Lorem ipsum dolor sit amet consectetur. Ultrices sapien mauris sollicitudin nibh elementum. Dignissim diam.']
-    .forEach(t => rocConsList.push({ id: ++rocConsIdCounter, text: t }));
-  renderRocLists();
+  addPqBlock('roc');
+  renderPqBlocks();
 
   document.getElementById('heroHeadline').value = "Welcome to [Month's] CX Gazette";
 
