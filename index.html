@@ -43,6 +43,29 @@
       font-family: inherit;
     }
     .btn-guidelines:hover { background: #333333; border-color: #fff; }
+    .draft-banner {
+      background: #1a1a1a;
+      color: #C8C8C8;
+      font-size: 12px;
+      padding: 8px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid #333;
+    }
+    .draft-banner-dismiss {
+      background: none;
+      border: 1px solid #555;
+      border-radius: 4px;
+      color: #C8C8C8;
+      font-size: 11px;
+      padding: 3px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .draft-banner-dismiss:hover { border-color: #aaa; color: #fff; }
     .char-counter {
       font-size: 11px;
       color: #888;
@@ -351,8 +374,16 @@
   <h1>Newsletter Editor</h1>
   <div class="topbar-right">
     <span class="hint">Fill in the form on the left &mdash; the preview updates live</span>
+    <button class="btn-guidelines" onclick="saveDraftFile()">Save draft</button>
+    <button class="btn-guidelines" onclick="document.getElementById('loadDraftInput').click()">Load draft</button>
+    <input type="file" id="loadDraftInput" accept=".json" style="display:none" onchange="loadDraftFile(this)">
     <a href="/newsletter-guide" class="btn-guidelines" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">How to create a newsletter</a>
   </div>
+</div>
+
+<div id="draftBanner" class="draft-banner" style="display:none;">
+  <span id="draftBannerText"></span>
+  <button class="draft-banner-dismiss" onclick="document.getElementById('draftBanner').style.display='none'">Dismiss</button>
 </div>
 
 <div class="editor-layout">
@@ -1425,9 +1456,93 @@
 </html>`;
   }
 
+  // ── Draft save / restore ──
+  function getFormState() {
+    const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
+      'heroHeadline','heroBylinePhoto','heroBylineName','heroBylineRole','heroBody',
+      'triviaQuestion','contentEyebrow','linksEyebrow','linksSubheading',
+      'footerMessage','triviaAnswer','triviaImageUrl','triviaLinkLabel','triviaLinkUrl',
+      'teamEyebrow'];
+    const fields = {};
+    fieldIds.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.value; });
+    return {
+      version: 1,
+      savedAt: new Date().toISOString(),
+      fields,
+      blocks: JSON.parse(JSON.stringify(blocks)),
+      interestingLinks: JSON.parse(JSON.stringify(interestingLinks)),
+      teamMembers: JSON.parse(JSON.stringify(teamMembers)),
+      blockIdCounter,
+      teamIdCounter,
+    };
+  }
+
+  function restoreFormState(state) {
+    Object.entries(state.fields || {}).forEach(([id, value]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = value;
+    });
+    blocks = state.blocks || [];
+    blockIdCounter = state.blockIdCounter || 0;
+    if (state.interestingLinks && state.interestingLinks.length === 3) interestingLinks = state.interestingLinks;
+    teamMembers = state.teamMembers || [];
+    teamIdCounter = state.teamIdCounter || 0;
+    renderBlocks();
+    renderLinks();
+    renderTeam();
+    renderHeroBylineOptions();
+    updateCharCounters();
+    renderPreview();
+  }
+
+  function saveToLocalStorage() {
+    try { localStorage.setItem('gazette-draft', JSON.stringify(getFormState())); } catch(e) {}
+  }
+
+  function loadFromLocalStorage() {
+    try {
+      const raw = localStorage.getItem('gazette-draft');
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      restoreFormState(state);
+      const dt = new Date(state.savedAt);
+      document.getElementById('draftBannerText').textContent = 'Draft restored from ' + dt.toLocaleString();
+      document.getElementById('draftBanner').style.display = 'flex';
+    } catch(e) {}
+  }
+
+  function saveDraftFile() {
+    const json = JSON.stringify(getFormState(), null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gazette-draft-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function loadDraftFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        restoreFormState(JSON.parse(e.target.result));
+      } catch(err) {
+        alert('Could not load draft: invalid or corrupted file.');
+      }
+    };
+    reader.readAsText(file);
+    input.value = '';
+  }
+
   // ── Render preview ──
   function renderPreview() {
     document.getElementById('previewFrame').innerHTML = generateEmailHTML();
+    saveToLocalStorage();
   }
 
   // ── Export HTML ──
@@ -1472,6 +1587,9 @@
 
   addBlock('standard');
   renderPreview();
+
+  loadFromLocalStorage();
+  setInterval(saveToLocalStorage, 30000);
 </script>
 
 </body>
