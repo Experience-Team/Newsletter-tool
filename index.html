@@ -539,6 +539,45 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="insightLinkUrl" placeholder="https://" oninput="renderPreview()" />
     </div>
 
+    <!-- ROC -->
+    <div class="form-section">
+      <div class="form-section-title">ROC</div>
+      <label for="rocHeading">Heading</label>
+      <input type="text" id="rocHeading" value="Catchy heading" oninput="renderPreview()" />
+      <label for="rocImageUrl" style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="rocImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
+             oninput="processImageUrl(this, 'rocImageUrlMsg', function() { renderPreview(); })"
+             onpaste="setTimeout(function(){ processImageUrl(document.getElementById('rocImageUrl'), 'rocImageUrlMsg', function() { renderPreview(); }); }, 0)" />
+      <div id="rocImageUrlMsg"></div>
+      <label for="rocProductName" style="margin-top:10px;">Product Name</label>
+      <input type="text" id="rocProductName" placeholder="e.g. Salesforce" oninput="renderPreview()" />
+      <label for="rocScore" style="margin-top:10px;">Score</label>
+      <select id="rocScore" onchange="renderPreview()" style="width:100%;padding:8px 10px;border:1px solid #E0E0E0;border-radius:4px;font-size:14px;background:#fff;color:#000;">
+        <option value="1">1 – Negative</option>
+        <option value="2">2 – Invisible</option>
+        <option value="3">3 – Miniscule</option>
+        <option value="4">4 – Good</option>
+        <option value="5">5 – Inspiring</option>
+        <option value="6">6 – Contagious</option>
+        <option value="7" selected>7 – Transformative</option>
+        <option value="8">8 – Legendary</option>
+      </select>
+      <label for="rocBody" style="margin-top:10px;">Body</label>
+      <textarea id="rocBody" rows="4" oninput="renderPreview()">Lorem ipsum dolor sit amet consectetur. Blandit fermentum cursus ac id elementum rhoncus. Volutpat varius tempus mattis lectus cras. Suspendisse at non nec diam. Mus consequat vel neque dui. Mauris sagittis cras tincidunt lorem.</textarea>
+      <label for="rocProsTitle" style="margin-top:10px;">Pros Heading</label>
+      <input type="text" id="rocProsTitle" value="👍  The good" oninput="renderPreview()" />
+      <div id="rocProsContainer"></div>
+      <button class="btn-add" onclick="addRocPro()" style="margin-top:8px;">+ Add item</button>
+      <label for="rocConsTitle" style="margin-top:16px;">Cons Heading</label>
+      <input type="text" id="rocConsTitle" value="👎  The tricky bits" oninput="renderPreview()" />
+      <div id="rocConsContainer"></div>
+      <button class="btn-add" onclick="addRocCon()" style="margin-top:8px;">+ Add item</button>
+      <label for="rocLinkLabel" style="margin-top:16px;">Button Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="rocLinkLabel" value="Learn more" oninput="renderPreview()" />
+      <label for="rocLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <input type="text" id="rocLinkUrl" placeholder="https://" oninput="renderPreview()" />
+    </div>
+
     <!-- Interesting Links -->
     <div class="form-section">
       <div class="form-section-title">The Procrastination Station</div>
@@ -956,6 +995,54 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     `).join('');
   }
 
+  // ── ROC lists ──
+  const ROC_SCORE_LABELS = ['','Negative','Invisible','Miniscule','Good','Inspiring','Contagious','Transformative','Legendary'];
+  let rocProsList = [];
+  let rocProsIdCounter = 0;
+  let rocConsList = [];
+  let rocConsIdCounter = 0;
+
+  function updateRocItem(list, id, text) {
+    const item = list.find(x => x.id === id);
+    if (item) item.text = text;
+    renderPreview();
+  }
+
+  function renderRocList(list, containerId, removeFn) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = list.map((item, i) => `
+      <div class="content-block" style="margin-top:8px;">
+        <div class="block-header">
+          <span class="block-number">Item ${i + 1}</span>
+          <button class="btn-remove" onclick="${removeFn}(${item.id})">Remove</button>
+        </div>
+        <textarea rows="2" oninput="updateRocItem(${containerId === 'rocProsContainer' ? 'rocProsList' : 'rocConsList'}, ${item.id}, this.value)">${escAttr(item.text)}</textarea>
+      </div>`).join('');
+  }
+
+  function renderRocLists() {
+    renderRocList(rocProsList, 'rocProsContainer', 'removeRocPro');
+    renderRocList(rocConsList, 'rocConsContainer', 'removeRocCon');
+  }
+
+  function addRocPro() {
+    rocProsList.push({ id: ++rocProsIdCounter, text: '' });
+    renderRocLists(); renderPreview();
+  }
+  function removeRocPro(id) {
+    rocProsList = rocProsList.filter(x => x.id !== id);
+    renderRocLists(); renderPreview();
+  }
+  function addRocCon() {
+    rocConsList.push({ id: ++rocConsIdCounter, text: '' });
+    renderRocLists(); renderPreview();
+  }
+  function removeRocCon(id) {
+    rocConsList = rocConsList.filter(x => x.id !== id);
+    renderRocLists(); renderPreview();
+  }
+
   // ── Team members ──
   let teamMembers = [];
   let teamIdCounter = 0;
@@ -1265,6 +1352,16 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const insightBody     = val('insightBody') || '';
     const insightLinkLabel = val('insightLinkLabel') || '';
     const insightLinkUrl   = val('insightLinkUrl') || '';
+    const rocHeading      = val('rocHeading') || '';
+    const rocImageUrl     = val('rocImageUrl') || '';
+    const rocProductName  = val('rocProductName') || '';
+    const rocScoreNum     = parseInt(val('rocScore') || '7', 10);
+    const rocScoreLabel   = ROC_SCORE_LABELS[rocScoreNum] || '';
+    const rocBody         = val('rocBody') || '';
+    const rocProsTitle    = val('rocProsTitle') || '';
+    const rocConsTitle    = val('rocConsTitle') || '';
+    const rocLinkLabel    = val('rocLinkLabel') || '';
+    const rocLinkUrl      = val('rocLinkUrl') || '';
     const triviaEmoji    = val('triviaEmoji') || '';
     const triviaQuestion = val('triviaQuestion') || '';
     const triviaAnswer   = val('triviaAnswer') || '';
@@ -1663,6 +1760,73 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             </td>
           </tr>` : ''}
 
+          <!-- ROC -->
+          ${rocHeading ? `<tr>
+            <td style="background-color: #ffffff; padding: 40px 40px 32px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">ROC</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 16px;">
+                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(rocHeading)}</h2>
+                    ${rocImageUrl ? `
+                    <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]-->
+                    <img src="${esc(rocImageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" />
+                    <!--[if mso]></td></tr></table><![endif]-->` : ''}
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
+                      <tr>
+                        <td align="center" style="background-color: #FADADD; padding: 24px; text-align: center;">
+                          ${rocProductName ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(rocProductName)}</p>` : ''}
+                          <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #E8383A; margin: 0; line-height: 1.2;">${rocScoreNum} – ${esc(rocScoreLabel)}</p>
+                        </td>
+                      </tr>
+                    </table>
+                    ${rocBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0 0 32px 0;">${nl2br(rocBody)}</p>` : ''}
+                    ${rocProsList.length ? `
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(rocProsTitle)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
+                      ${rocProsList.map((item, i) => `<tr>
+                        <td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < rocProsList.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td>
+                      </tr>`).join('')}
+                    </table>` : ''}
+                    ${rocConsList.length ? `
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(rocConsTitle)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
+                      ${rocConsList.map((item, i) => `<tr>
+                        <td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < rocConsList.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td>
+                      </tr>`).join('')}
+                    </table>` : ''}
+                    ${rocLinkLabel && rocLinkUrl ? `
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td>
+                          <!--[if mso]>
+                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(rocLinkUrl)}" style="height:44px;v-text-anchor:middle;width:160px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A">
+                            <w:anchorlock/>
+                            <center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(rocLinkLabel)}</center>
+                          </v:roundrect>
+                          <![endif]-->
+                          <!--[if !mso]><!-->
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td align="center" style="background-color: #E8383A; border-radius: 4px;">
+                                <a href="${esc(rocLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(rocLinkLabel)}</a>
+                              </td>
+                            </tr>
+                          </table>
+                          <!--<![endif]-->
+                        </td>
+                      </tr>
+                    </table>` : ''}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>` : ''}
+
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
 
@@ -1713,6 +1877,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'insightHeading','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
+      'rocHeading','rocImageUrl','rocProductName','rocScore','rocBody','rocProsTitle','rocConsTitle','rocLinkLabel','rocLinkUrl',
       'linksEyebrow','linksSubheading',
       'footerMessage','triviaAnswer','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
@@ -1725,8 +1890,12 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       blocks: JSON.parse(JSON.stringify(blocks)),
       interestingLinks: JSON.parse(JSON.stringify(interestingLinks)),
       teamMembers: JSON.parse(JSON.stringify(teamMembers)),
+      rocProsList: JSON.parse(JSON.stringify(rocProsList)),
+      rocConsList: JSON.parse(JSON.stringify(rocConsList)),
       blockIdCounter,
       teamIdCounter,
+      rocProsIdCounter,
+      rocConsIdCounter,
     };
   }
 
@@ -1740,9 +1909,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     if (state.interestingLinks && state.interestingLinks.length === 3) interestingLinks = state.interestingLinks;
     teamMembers = state.teamMembers || [];
     teamIdCounter = state.teamIdCounter || 0;
+    rocProsList = state.rocProsList || [];
+    rocProsIdCounter = state.rocProsIdCounter || 0;
+    rocConsList = state.rocConsList || [];
+    rocConsIdCounter = state.rocConsIdCounter || 0;
     renderBlocks();
     renderLinks();
     renderTeam();
+    renderRocLists();
     renderHeroBylineOptions();
     updateCharCounters();
     renderPreview();
@@ -1838,6 +2012,17 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   renderTeam();
   renderHeroBylineOptions();
   renderLinks();
+
+  // Default ROC list items
+  ['Lorem ipsum dolor sit amet consectetur. Eget quis interdum arcu vel. Nulla elit dolor sapien aliquam ut.',
+   'Lorem ipsum dolor sit amet consectetur. In quis aliquam eget netus euismod neque gravida ut quam.',
+   'Lorem ipsum dolor sit amet consectetur. Malesuada enim volutpat elementum in arcu hendrerit pellentesque.']
+    .forEach(t => rocProsList.push({ id: ++rocProsIdCounter, text: t }));
+  ['Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim ut semper.',
+   'Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim ut semper.',
+   'Lorem ipsum dolor sit amet consectetur. Ultrices sapien mauris sollicitudin nibh elementum. Dignissim diam.']
+    .forEach(t => rocConsList.push({ id: ++rocConsIdCounter, text: t }));
+  renderRocLists();
 
   document.getElementById('heroHeadline').value = "Welcome to [Month's] CX Gazette";
 
