@@ -508,6 +508,15 @@
       </div>
     </div>
 
+    <!-- Quote -->
+    <div class="form-section">
+      <div class="form-section-title">Quote</div>
+      <label for="quoteText">Quote</label>
+      <textarea id="quoteText" rows="3" oninput="renderPreview()">"People ignore design that ignores people"</textarea>
+      <label for="quoteAuthor" style="margin-top:10px;">Attribution</label>
+      <input type="text" id="quoteAuthor" value="Frank Chimero" oninput="renderPreview()" />
+    </div>
+
     <!-- Interesting Links -->
     <div class="form-section">
       <div class="form-section-title">The Procrastination Station</div>
@@ -1232,6 +1241,8 @@
 
     const footer         = val('footerMessage') || '';
     const logoUrl        = val('logoUrl') || '';
+    const quoteText      = val('quoteText') || '';
+    const quoteAuthor    = val('quoteAuthor') || '';
     const triviaEmoji    = val('triviaEmoji') || '';
     const triviaQuestion = val('triviaQuestion') || '';
     const triviaAnswer   = val('triviaAnswer') || '';
@@ -1563,6 +1574,29 @@
           <!-- CONTENT BLOCKS -->
           ${contentSectionHTML}
 
+          <!-- QUOTE -->
+          ${quoteText ? `<tr>
+            <td style="background-color: #E8383A; padding: 48px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center" style="text-align: center;">
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 40px; font-weight: bold; font-style: italic; color: #ffffff; line-height: 1.2; margin: 0 0 18px 0; text-align: center;">${esc(quoteText)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" align="center">
+                      <tr>
+                        <td style="padding-right: 8px;">
+                          <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 17px; font-weight: bold; color: #ffffff;">💬</span>
+                        </td>
+                        ${quoteAuthor ? `<td>
+                          <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; color: #ffffff;">${esc(quoteAuthor)}</span>
+                        </td>` : ''}
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>` : ''}
+
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
 
@@ -1617,7 +1651,7 @@
   function getFormState() {
     const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
-      'triviaQuestion','triviaEmoji','linksEyebrow','linksSubheading',
+      'triviaQuestion','triviaEmoji','quoteText','quoteAuthor','linksEyebrow','linksSubheading',
       'footerMessage','triviaAnswer','triviaImageUrl','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
     const fields = {};
