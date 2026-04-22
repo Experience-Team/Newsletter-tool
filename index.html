@@ -381,7 +381,7 @@
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('logoUrl'), 'logoUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="logoUrlMsg"></div>
       <label for="heroImageUrl">Hero Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="heroImageUrl" value="https://res.cloudinary.com/dxejokjeh/image/upload/v1774218550/Gazette-hero_ih4cid.jpg" placeholder="e.g. https://yoursite.com/hero.jpg"
+      <input type="text" id="heroImageUrl" value="https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png" placeholder="e.g. https://yoursite.com/hero.jpg"
              oninput="processImageUrl(this, 'heroImageUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('heroImageUrl'), 'heroImageUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="heroImageUrlMsg"></div>
@@ -1130,7 +1130,7 @@
     // Build edition string: "March 2026 | #12"
     let editionStr = '';
     if (edDate && edNum) {
-      editionStr = esc(edDate) + '&nbsp; <span style="color:#E8383A;">|</span> &nbsp;#' + esc(edNum);
+      editionStr = esc(edDate) + '&nbsp; | &nbsp;#' + esc(edNum);
     } else if (edDate) {
       editionStr = esc(edDate);
     } else if (edNum) {
@@ -1334,46 +1334,26 @@
 
           <!-- HEADER -->
           <tr>
-            <td style="background-color: #000000; padding: 0;">
+            <td style="background-color: #E8383A; padding: 0;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td align="left" valign="middle" style="padding: 28px 40px;">
                     ${logoUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]--><img src="${esc(logoUrl)}" alt="${esc(title)}" width="120" style="display: block; max-width: 120px; width: 120px; height: auto; border: 0; outline: none; text-decoration: none;" />${'<!--[if mso]></td></tr></table><![endif]-->'}` : `<img src="https://res.cloudinary.com/dxejokjeh/image/upload/v1776818603/Ogilvy-One-logo_nbbtw6.png" alt="Ogilvy One" width="120" style="display: block; max-width: 120px; width: 120px; height: auto; border: 0; outline: none; text-decoration: none;" />`}
                   </td>
                   <td align="right" valign="middle" style="padding: 28px 40px;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #C8C8C8; text-transform: uppercase; letter-spacing: 1.5px;">${editionStr}</span>
+                    <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: normal; color: #ffffff; white-space: nowrap;">${editionStr}</span>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
 
-          <!-- Accent bar -->
+          <!-- HERO IMAGE -->
           <tr>
-            <td style="background-color: #E8383A; height: 4px; font-size: 0; line-height: 0;">&nbsp;</td>
-          </tr>
-
-          ${heroImageUrl ? `<!-- Hero image -->
-          <tr>
-            <td style="padding: 0; font-size: 0; line-height: 0;">
+            <td style="background-color: #FADADD; padding: 0; font-size: 0; line-height: 0;">
               <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><![endif]-->
-              <img src="${esc(heroImageUrl)}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" />
+              <img src="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" />
               <!--[if mso]></td></tr></table><![endif]-->
-            </td>
-          </tr>` : ''}
-
-          <!-- HERO -->
-          <tr>
-            <td style="background-color: #000000; padding: 48px 40px 52px 40px;">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td>
-                    <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #ffffff; line-height: 1.25; margin: 0 0 20px 0;">${esc(headline)}</h1>
-                    ${generateBylineHTML({ bylinePhoto: heroBylinePhoto, bylineName: heroBylineName, bylineRole: heroBylineRole }, '#C8C8C8')}
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 18px; color: #F4A9A3; line-height: 1.7; margin: 0;">${nl2br(heroBody)}</p>
-                  </td>
-                </tr>
-              </table>
             </td>
           </tr>
 
