@@ -2179,16 +2179,16 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   // ── Init ──
   const defaultPhoto = 'https://res.cloudinary.com/dxfep8qat/image/upload/v1773735345/samples/animals/cat.jpg';
   const defaultTeam = [
-    { name: 'Arran Peck',      title: 'Senior CX Specialist' },
-    { name: 'Abe Atiya',       title: 'Experience Director' },
-    { name: 'Yolandi Lehner',  title: 'Senior CX Designer' },
-    { name: 'Maryam Mahlberg', title: 'Senior CX Designer' },
-    { name: 'Christian Moore', title: 'Senior Digital Designer' },
-    { name: 'Sanjiv Menon',    title: 'Lead Experience Designer' },
-    { name: 'Monique Pompe',   title: 'Senior CX Designer' }
+    { name: 'Arran Peck',      title: 'Senior CX Specialist',     photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851134/Arran_kr85be.png' },
+    { name: 'Abe Atiya',       title: 'Experience Director',       photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851134/Abe_rufq3l.png' },
+    { name: 'Yolandi Lehner',  title: 'Senior CX Designer',        photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851136/Yolandi_exxbkq.png' },
+    { name: 'Maryam Mahlberg', title: 'Senior CX Designer',        photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851135/Maryam_mrumyu.png' },
+    { name: 'Christian Moore', title: 'Senior Digital Designer',   photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851134/Christian_agx6wa.png' },
+    { name: 'Sanjiv Menon',    title: 'Lead Experience Designer',  photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851135/Sanjiv_ojmx13.png' },
+    { name: 'Monique Pompe',   title: 'Senior CX Designer',        photo: 'https://res.cloudinary.com/dxejokjeh/image/upload/v1776851134/Monique_qdhjli.png' }
   ];
   defaultTeam.forEach(t => {
-    teamMembers.push({ id: ++teamIdCounter, imageUrl: defaultPhoto, name: t.name, title: t.title });
+    teamMembers.push({ id: ++teamIdCounter, imageUrl: t.photo, name: t.name, title: t.title });
   });
   renderTeam();
   renderHeroBylineOptions();
