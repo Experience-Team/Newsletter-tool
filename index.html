@@ -1434,14 +1434,14 @@
 
           <!-- TRIVIA QUESTION -->
           ${triviaQuestion ? `<tr>
-            <td style="background-color: #ffffff; padding: 32px 40px 32px 40px;">
+            <td style="background-color: #E8383A; padding: 32px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td>
-                    ${triviaEmoji ? `<p style="font-size: 36px; line-height: 1; margin: 0 0 10px 0;">${esc(triviaEmoji)}</p>` : ''}
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 14px 0;">Trivia</p>
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; color: #222222; line-height: 1.4; margin: 0 0 12px 0;">${esc(triviaQuestion)}</p>
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #888888; font-style: italic; margin: 0;">Scroll to the bottom to find out the answer.</p>
+                  <td align="center" style="text-align: center;">
+                    ${triviaEmoji ? `<p style="font-size: 24px; line-height: 1; margin: 0 0 18px 0; text-align: center;">${esc(triviaEmoji)}</p>` : ''}
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 18px 0; text-align: center;">Trivia</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 18px 0; text-align: center;">${esc(triviaQuestion)}</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-style: italic; color: #ffffff; margin: 0; text-align: center;">Scroll to the bottom to find out the answer.</p>
                   </td>
                 </tr>
               </table>
