@@ -78,6 +78,23 @@
       white-space: nowrap;
     }
     .draft-banner-dismiss:hover { border-color: #aaa; color: #fff; }
+    .emoji-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .emoji-suggestions button {
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px 8px;
+      transition: background .1s;
+    }
+    .emoji-suggestions button:hover { background: #e0e0e0; }
     .char-counter {
       font-size: 11px;
       color: #888;
@@ -434,7 +451,7 @@
     <div class="form-section">
       <div class="form-section-title">Introduction</div>
       <label for="heroHeadline">Headline</label>
-      <input type="text" id="heroHeadline" placeholder="e.g. Experience Gazette" value="Experience Gazette" oninput="renderPreview()" />
+      <input type="text" id="heroHeadline" placeholder="e.g. Welcome to April's CX Gazette" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
         <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
         <select id="heroBylineSelect" onchange="pickHeroByline(this.value); this.value='';">
@@ -460,6 +477,20 @@
       <div class="form-section-title">Trivia Question</div>
       <label for="triviaQuestion">Question</label>
       <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
+      <label for="triviaEmoji" style="margin-top:10px;">Emoji <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <div class="emoji-suggestions">
+        <button type="button" onclick="setTriviaEmoji('🤔')">🤔</button>
+        <button type="button" onclick="setTriviaEmoji('💡')">💡</button>
+        <button type="button" onclick="setTriviaEmoji('🎯')">🎯</button>
+        <button type="button" onclick="setTriviaEmoji('🧠')">🧠</button>
+        <button type="button" onclick="setTriviaEmoji('❓')">❓</button>
+        <button type="button" onclick="setTriviaEmoji('🏆')">🏆</button>
+        <button type="button" onclick="setTriviaEmoji('🎲')">🎲</button>
+        <button type="button" onclick="setTriviaEmoji('🔍')">🔍</button>
+        <button type="button" onclick="setTriviaEmoji('⭐')">⭐</button>
+        <button type="button" onclick="setTriviaEmoji('🎉')">🎉</button>
+      </div>
+      <input type="text" id="triviaEmoji" placeholder="Or type / paste your own" oninput="renderPreview()" />
     </div>
 
     <!-- Content Blocks -->
@@ -543,6 +574,8 @@
 </div>
 
 <script>
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
   // ── State ──
   let blocks = [];
   let blockIdCounter = 0;
@@ -589,6 +622,11 @@
       `<option value="${m.id}">${esc(m.name || '(unnamed)')}${m.title ? ' — ' + esc(m.title) : ''}</option>`
     ).join('');
     return `<option value="">— Pick from team —</option>${opts}`;
+  }
+
+  function setTriviaEmoji(emoji) {
+    document.getElementById('triviaEmoji').value = emoji;
+    renderPreview();
   }
 
   function pickBylineForBlock(blockId, memberId) {
@@ -1149,7 +1187,7 @@
     const edDate         = val('editionDate') || '';
     const edNum          = val('editionNumber') || '';
     const heroImageUrl   = val('heroImageUrl') || '';
-    const headline       = val('heroHeadline') || 'Newsletter Headline';
+    const headline       = val('heroHeadline') || `Welcome to ${MONTHS[new Date().getMonth()]}'s CX Gazette`;
     const heroBylineName  = val('heroBylineName') || '';
     const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
@@ -1157,6 +1195,7 @@
     const contentEyebrow = val('contentEyebrow') || '';
     const footer         = val('footerMessage') || '';
     const logoUrl        = val('logoUrl') || '';
+    const triviaEmoji    = val('triviaEmoji') || '';
     const triviaQuestion = val('triviaQuestion') || '';
     const triviaAnswer   = val('triviaAnswer') || '';
     const triviaImageUrl = val('triviaImageUrl') || '';
@@ -1405,6 +1444,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td>
+                    ${triviaEmoji ? `<p style="font-size: 36px; line-height: 1; margin: 0 0 10px 0;">${esc(triviaEmoji)}</p>` : ''}
                     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 14px 0;">Trivia</p>
                     <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; color: #222222; line-height: 1.4; margin: 0 0 12px 0;">${esc(triviaQuestion)}</p>
                     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #888888; font-style: italic; margin: 0;">Scroll to the bottom to find out the answer.</p>
@@ -1471,7 +1511,7 @@
   function getFormState() {
     const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
-      'triviaQuestion','contentEyebrow','linksEyebrow','linksSubheading',
+      'triviaQuestion','triviaEmoji','contentEyebrow','linksEyebrow','linksSubheading',
       'footerMessage','triviaAnswer','triviaImageUrl','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
     const fields = {};
@@ -1583,12 +1623,12 @@
   const defaultPhoto = 'https://res.cloudinary.com/dxfep8qat/image/upload/v1773735345/samples/animals/cat.jpg';
   const defaultTeam = [
     { name: 'Arran Peck',      title: 'Experience Design Director' },
-    { name: 'Abe Atiya',       title: 'Senior CX Designer' },
-    { name: 'Yolandi Lehner',  title: 'CX Designer' },
-    { name: 'Maryam Mahlberg', title: 'CX Specialist' },
-    { name: 'Christian Moore', title: 'Senior UI Designer' },
-    { name: 'Sanjiv Menon',    title: 'UI Designer' },
-    { name: 'Monique Pompe',   title: 'CX Designer' }
+    { name: 'Abe Atiya',       title: 'Experience Director' },
+    { name: 'Yolandi Lehner',  title: 'Senior CX Designer' },
+    { name: 'Maryam Mahlberg', title: 'Senior CX Designer' },
+    { name: 'Christian Moore', title: 'Senior Digital Designer' },
+    { name: 'Sanjiv Menon',    title: 'Lead Experience Designer' },
+    { name: 'Monique Pompe',   title: 'Senior CX Designer' }
   ];
   defaultTeam.forEach(t => {
     teamMembers.push({ id: ++teamIdCounter, imageUrl: defaultPhoto, name: t.name, title: t.title });
@@ -1596,6 +1636,8 @@
   renderTeam();
   renderHeroBylineOptions();
   renderLinks();
+
+  document.getElementById('heroHeadline').value = `Welcome to ${MONTHS[new Date().getMonth()]}'s CX Gazette`;
 
   addBlock('standard');
   renderPreview();
