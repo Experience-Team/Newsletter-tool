@@ -519,6 +519,19 @@
       <input type="text" id="quoteAuthor" value="Frank Chimero" oninput="renderPreview()" />
     </div>
 
+    <!-- Post-quote content -->
+    <div class="form-section">
+      <div class="form-section-title">Post-quote content</div>
+      <div id="pqBlocksContainer"></div>
+      <div class="add-section-wrap">
+        <div class="add-menu" id="pqAddMenu">
+          <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
+          <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
+        </div>
+        <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
+      </div>
+    </div>
+
     <!-- Insight -->
     <div class="form-section">
       <div class="form-section-title">Insight</div>
@@ -541,19 +554,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="insightLinkLabel" value="Learn more" oninput="renderPreview()" />
       <label for="insightLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="insightLinkUrl" placeholder="https://" oninput="renderPreview()" />
-    </div>
-
-    <!-- Post-quote content -->
-    <div class="form-section">
-      <div class="form-section-title">Post-quote content</div>
-      <div id="pqBlocksContainer"></div>
-      <div class="add-section-wrap">
-        <div class="add-menu" id="pqAddMenu">
-          <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
-          <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
-        </div>
-        <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
-      </div>
     </div>
 
     <!-- Interesting Links -->
@@ -1275,7 +1275,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${nl2br(b.whatThisMeans)}</p>` : '';
         return `<tr>
-            <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
+            <td style="padding: 0 40px 40px 40px; background-color: #ffffff;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: 40px 0 0 0;">
@@ -1965,9 +1965,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             </td>
           </tr>` : ''}
 
-          <!-- POST-QUOTE BLOCKS -->
-          ${generatePqBlocksHTML()}
-
           <!-- INSIGHT -->
           ${insightHeading || insightBody ? `<tr>
             <td style="background-color: #FADADD; padding: 40px 40px 32px 40px;">
@@ -2012,6 +2009,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               </table>
             </td>
           </tr>` : ''}
+
+          <!-- POST-QUOTE BLOCKS -->
+          ${generatePqBlocksHTML()}
 
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
