@@ -561,14 +561,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <div class="form-section-title">Trivia Answer</div>
       <label for="triviaAnswer">Answer</label>
       <textarea id="triviaAnswer" rows="2" placeholder="e.g. 1995" oninput="renderPreview()"></textarea>
-      <label for="triviaImageUrl">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
-      <input type="text" id="triviaImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
-             oninput="processImageUrl(this, 'triviaImageUrlMsg', function() { renderPreview(); })"
-             onpaste="setTimeout(function(){ processImageUrl(document.getElementById('triviaImageUrl'), 'triviaImageUrlMsg', function() { renderPreview(); }); }, 0)" />
-      <div id="triviaImageUrlMsg"></div>
-      <label for="triviaLinkLabel">Link Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="triviaLinkLabel" style="margin-top:10px;">Link Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="triviaLinkLabel" placeholder="e.g. Learn more" oninput="renderPreview()" />
-      <label for="triviaLinkUrl">Link URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="triviaLinkUrl" style="margin-top:10px;">Link URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="triviaLinkUrl" placeholder="e.g. https://example.com/history" oninput="renderPreview()" />
     </div>
 
@@ -1273,7 +1268,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const triviaEmoji    = val('triviaEmoji') || '';
     const triviaQuestion = val('triviaQuestion') || '';
     const triviaAnswer   = val('triviaAnswer') || '';
-    const triviaImageUrl = val('triviaImageUrl') || '';
     const triviaLinkLabel = val('triviaLinkLabel') || '';
     const triviaLinkUrl  = val('triviaLinkUrl') || '';
 
@@ -1672,26 +1666,20 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
 
+          <!-- TRIVIA ANSWER -->
+          ${triviaAnswer ? `<tr>
+            <td style="background-color: #FADADD; padding: 32px 40px;">
+              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">Trivia Answer</p>
+              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; color: #E8383A; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
+              ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
+            </td>
+          </tr>` : ''}
+
           <!-- FOOTER -->
           <tr>
             <td style="background-color: #000000; padding: 36px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${footerContentHTML}
-                ${triviaAnswer ? `<!-- TRIVIA ANSWER -->
-                <tr>
-                  <td style="padding: 0 0 24px 0;">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                      <tr>
-                        <td style="border-top: 1px solid #333333; padding-top: 20px;">
-                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">Trivia Answer</p>
-                          ${triviaImageUrl ? `<img src="${esc(triviaImageUrl)}" alt="" width="120" style="display: block; width: 120px; max-width: 120px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 12px 0;" />` : ''}
-                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: #ffffff; line-height: 1.5; margin: 0 0 8px 0;">${esc(triviaAnswer)}</p>
-                          ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>` : ''}
                 ${generateTeamHTML()}
                 <tr>
                   <td style="border-top: 1px solid #333333; padding-bottom: 20px; font-size: 0; line-height: 0;">&nbsp;</td>
@@ -1726,7 +1714,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       'triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'insightHeading','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
       'linksEyebrow','linksSubheading',
-      'footerMessage','triviaAnswer','triviaImageUrl','triviaLinkLabel','triviaLinkUrl',
+      'footerMessage','triviaAnswer','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
     const fields = {};
     fieldIds.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.value; });
