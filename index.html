@@ -440,8 +440,6 @@
         <select id="heroBylineSelect" onchange="pickHeroByline(this.value); this.value='';">
           <option value="">— Pick from team —</option>
         </select>
-        <input type="text" id="heroBylinePhoto" placeholder="Thumbnail image URL (e.g. https://res.cloudinary.com/…/photo.jpg)"
-               oninput="renderPreview()" style="margin-bottom:6px;" />
         <div class="inline-fields">
           <div class="field">
             <input type="text" id="heroBylineName" placeholder="Name — Leave blank for no by-line. For guest editors, enter their details manually."
@@ -557,7 +555,7 @@
 
   function addBlock(type) {
     type = type || 'standard';
-    const base = { id: ++blockIdCounter, type, bylinePhoto: '', bylineName: '', bylineRole: '' };
+    const base = { id: ++blockIdCounter, type, bylineName: '', bylineRole: '' };
     if (type === 'standard') {
       Object.assign(base, { heading: '', body: '', imageUrl: '', imageAlt: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'image-text') {
@@ -598,7 +596,6 @@
     const member = teamMembers.find(m => m.id === +memberId);
     const block = blocks.find(b => b.id === blockId);
     if (!member || !block) return;
-    block.bylinePhoto = member.imageUrl;
     block.bylineName = member.name;
     block.bylineRole = member.title;
     renderBlocks();
@@ -609,7 +606,6 @@
     if (!memberId) return;
     const member = teamMembers.find(m => m.id === +memberId);
     if (!member) return;
-    document.getElementById('heroBylinePhoto').value = member.imageUrl;
     document.getElementById('heroBylineName').value = member.name;
     document.getElementById('heroBylineRole').value = member.title;
     renderPreview();
@@ -643,8 +639,6 @@
           <select onchange="pickBylineForBlock(${b.id}, this.value); this.value='';">
             ${bylineOptionsHTML()}
           </select>
-          <input type="text" value="${escAttr(b.bylinePhoto)}" placeholder="Thumbnail image URL (e.g. https://res.cloudinary.com/…/photo.jpg)"
-                 oninput="updateBlock(${b.id}, 'bylinePhoto', this.value)" style="margin-bottom:6px;" />
           <div class="inline-fields">
             <div class="field">
               <input type="text" value="${escAttr(b.bylineName)}" placeholder="Name — Leave blank for no by-line. For guest editors, enter their details manually."
@@ -859,7 +853,7 @@
   let teamIdCounter = 0;
 
   function addTeamMember() {
-    if (teamMembers.length >= 6) return;
+    if (teamMembers.length >= 7) return;
     teamMembers.push({ id: ++teamIdCounter, imageUrl: '', name: '', title: '' });
     renderTeam();
     renderHeroBylineOptions();
@@ -886,7 +880,7 @@
   function renderTeam() {
     const container = document.getElementById('teamContainer');
     const btn = document.getElementById('addTeamBtn');
-    btn.style.display = teamMembers.length >= 6 ? 'none' : '';
+    btn.style.display = teamMembers.length >= 7 ? 'none' : '';
     container.innerHTML = teamMembers.map((m, i) => `
       <div class="content-block">
         <div class="block-header">
@@ -1156,7 +1150,6 @@
     const edNum          = val('editionNumber') || '';
     const heroImageUrl   = val('heroImageUrl') || '';
     const headline       = val('heroHeadline') || 'Newsletter Headline';
-    const heroBylinePhoto = val('heroBylinePhoto') || '';
     const heroBylineName  = val('heroBylineName') || '';
     const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
@@ -1182,14 +1175,11 @@
 
     function generateBylineHTML(b, textColor) {
       const c = textColor || '#888888';
-      if (!b.bylineName && !b.bylineRole && !b.bylinePhoto) return '';
-      const photoHTML = b.bylinePhoto
-        ? `<img src="${esc(b.bylinePhoto)}" alt="" width="32" height="32" style="display:block; width:32px; height:32px; border-radius:50%; border:0; outline:none;" />`
-        : '';
+      if (!b.bylineName && !b.bylineRole) return '';
       const nameHTML = b.bylineName ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:bold; color:${c};">${esc(b.bylineName)}</span>` : '';
       const roleHTML = b.bylineRole ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:normal; color:${c};">${esc(b.bylineRole)}</span>` : '';
       const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; color:' + c + ';"> &middot; </span>' : '';
-      return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:12px;"><tr>${photoHTML ? '<td valign="middle" style="padding-right:8px;">' + photoHTML + '</td>' : ''}<td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
+      return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:12px;"><tr><td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
     }
 
     let contentBlocksHTML = '';
@@ -1471,7 +1461,7 @@
   // ── Draft save / restore ──
   function getFormState() {
     const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
-      'heroHeadline','heroBylinePhoto','heroBylineName','heroBylineRole','heroBody',
+      'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaQuestion','contentEyebrow','linksEyebrow','linksSubheading',
       'footerMessage','triviaAnswer','triviaImageUrl','triviaLinkLabel','triviaLinkUrl',
       'teamEyebrow'];
@@ -1583,12 +1573,13 @@
   // ── Init ──
   const defaultPhoto = 'https://res.cloudinary.com/dxfep8qat/image/upload/v1773735345/samples/animals/cat.jpg';
   const defaultTeam = [
-    { name: 'Alex Morgan', title: 'Experience Design Director' },
-    { name: 'Priya Sharma', title: 'Senior CX Designer' },
-    { name: 'James Chen', title: 'CX Designer' },
-    { name: 'Lucia Fernandez', title: 'CX Specialist' },
-    { name: 'Sam Nguyen', title: 'Senior UI Designer' },
-    { name: 'Olivia Hart', title: 'UI Designer' }
+    { name: 'Arran Peck',      title: 'Experience Design Director' },
+    { name: 'Abe Atiya',       title: 'Senior CX Designer' },
+    { name: 'Yolandi Lehner',  title: 'CX Designer' },
+    { name: 'Maryam Mahlberg', title: 'CX Specialist' },
+    { name: 'Christian Moore', title: 'Senior UI Designer' },
+    { name: 'Sanjiv Menon',    title: 'UI Designer' },
+    { name: 'Monique Pompe',   title: 'CX Designer' }
   ];
   defaultTeam.forEach(t => {
     teamMembers.push({ id: ++teamIdCounter, imageUrl: defaultPhoto, name: t.name, title: t.title });
