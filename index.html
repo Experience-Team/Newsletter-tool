@@ -134,8 +134,24 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: #E8383A;
-      margin-bottom: 16px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+    .form-section.open .form-section-title { margin-bottom: 16px; }
+    .section-chevron {
+      font-style: normal;
+      font-size: 14px;
+      color: #C8C8C8;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .form-section.open .section-chevron { transform: rotate(180deg); }
+    .form-section-body { display: none; }
+    .form-section.open .form-section-body { display: block; }
 
     label {
       display: block;
@@ -424,7 +440,8 @@
 
     <!-- Header -->
     <div class="form-section">
-      <div class="form-section-title">Header</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Header <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <div class="inline-fields">
         <div class="field">
           <label for="editionDate">Date</label>
@@ -445,11 +462,13 @@
              oninput="processImageUrl(this, 'heroImageUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('heroImageUrl'), 'heroImageUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="heroImageUrlMsg"></div>
+      </div>
     </div>
 
     <!-- Introduction -->
     <div class="form-section">
-      <div class="form-section-title">Introduction</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Introduction <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Welcome to April's CX Gazette" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
@@ -470,11 +489,13 @@
       </div>
       <label for="heroBody">Body</label>
       <textarea id="heroBody" rows="4" placeholder="Keep to around 900 characters / 130 words." oninput="renderPreview()">Set a positive tone for the Gazette. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo dapibus lectus, sed lacinia nisi pellentesque sed. Aliquam erat volutpat. In tincidunt massa id rutrum hendrerit. Phasellus semper purus id ante blandit, ut hendrerit lorem lobortis. Maecenas risus justo, blandit et metus et, aliquam porttitor augue.</textarea>
+      </div>
     </div>
 
     <!-- Trivia Question -->
     <div class="form-section">
-      <div class="form-section-title">Trivia Question</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Trivia Question <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="triviaEyebrow">Section Label</label>
       <input type="text" id="triviaEyebrow" value="Trivia" oninput="renderPreview()" />
       <label for="triviaQuestion" style="margin-top:10px;">Question</label>
@@ -493,11 +514,13 @@
         <button type="button" onclick="setTriviaEmoji('🎉')">🎉</button>
       </div>
       <input type="text" id="triviaEmoji" placeholder="Or type / paste your own" oninput="renderPreview()" />
+      </div>
     </div>
 
     <!-- Content Blocks -->
     <div class="form-section">
-      <div class="form-section-title">Current projects</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Current projects <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
         <div class="add-menu" id="addMenu">
@@ -508,20 +531,24 @@
         </div>
         <button class="btn-add" onclick="toggleAddMenu(event)">+ Add Section</button>
       </div>
+      </div>
     </div>
 
     <!-- Quote -->
     <div class="form-section">
-      <div class="form-section-title">Quote</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Quote <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="quoteText">Quote</label>
       <textarea id="quoteText" rows="3" oninput="renderPreview()">"People ignore design that ignores people"</textarea>
       <label for="quoteAuthor" style="margin-top:10px;">Attribution</label>
       <input type="text" id="quoteAuthor" value="Frank Chimero" oninput="renderPreview()" />
+      </div>
     </div>
 
     <!-- Post-quote content -->
     <div class="form-section">
-      <div class="form-section-title">Post-quote content</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Post-quote content <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <div id="pqBlocksContainer"></div>
       <div class="add-section-wrap">
         <div class="add-menu" id="pqAddMenu">
@@ -530,11 +557,13 @@
         </div>
         <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
       </div>
+      </div>
     </div>
 
     <!-- Insight -->
     <div class="form-section">
-      <div class="form-section-title">Insight</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Insight <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="insightEyebrow">Section Label</label>
       <input type="text" id="insightEyebrow" value="Insight" oninput="renderPreview()" />
       <label for="insightHeading" style="margin-top:10px;">Heading</label>
@@ -554,28 +583,34 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="insightLinkLabel" value="Learn more" oninput="renderPreview()" />
       <label for="insightLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="insightLinkUrl" placeholder="https://" oninput="renderPreview()" />
+      </div>
     </div>
 
     <!-- Interesting Links -->
     <div class="form-section">
-      <div class="form-section-title">The Procrastination Station</div>
+      <div class="form-section-title" onclick="toggleSection(this)">The Procrastination Station <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="linksEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="linksEyebrow" placeholder="e.g. The Procrastination Station" value="The Procrastination Station" oninput="renderPreview()" />
       <label for="linksSubheading">Subheading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="linksSubheading" placeholder="e.g. Here's our roundup of fun internet things to keep you…busy. Dive in!" value="Here's our roundup of fun internet things to keep you…busy. Dive in!" oninput="renderPreview()" />
       <div id="linksContainer"></div>
+      </div>
     </div>
 
     <!-- Footer -->
     <div class="form-section">
-      <div class="form-section-title">Footer</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Footer <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="footerMessage">Sign-off Message</label>
       <textarea id="footerMessage" rows="3" placeholder="e.g. Thanks for reading! Reach out to the comms team if you have something to share in next month's edition." oninput="renderPreview()"></textarea>
+      </div>
     </div>
 
     <!-- Trivia Answer -->
     <div class="form-section">
-      <div class="form-section-title">Trivia Answer</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Trivia Answer <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="triviaAnswerEyebrow">Section Label</label>
       <input type="text" id="triviaAnswerEyebrow" value="Trivia Answer" oninput="renderPreview()" />
       <label for="triviaAnswer" style="margin-top:10px;">Answer</label>
@@ -584,15 +619,18 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="triviaLinkLabel" placeholder="e.g. Learn more" oninput="renderPreview()" />
       <label for="triviaLinkUrl" style="margin-top:10px;">Link URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="triviaLinkUrl" placeholder="e.g. https://example.com/history" oninput="renderPreview()" />
+      </div>
     </div>
 
     <!-- Team -->
     <div class="form-section">
-      <div class="form-section-title">Your Team This Edition</div>
+      <div class="form-section-title" onclick="toggleSection(this)">Your Team This Edition <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
       <label for="teamEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="teamEyebrow" placeholder="e.g. Made with love by all of us" value="Made with love by all of us" oninput="renderPreview()" />
       <div id="teamContainer"></div>
       <button class="btn-add" id="addTeamBtn" onclick="addTeamMember()" style="margin-top:8px;">+ Add Team Member</button>
+      </div>
     </div>
 
   </div>
@@ -622,6 +660,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   // ── State ──
   let blocks = [];
   let blockIdCounter = 0;
+
+  function toggleSection(titleEl) {
+    titleEl.closest('.form-section').classList.toggle('open');
+  }
 
   function toggleAddMenu(e) {
     e.stopPropagation();
