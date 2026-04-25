@@ -597,10 +597,25 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       </div>
     </div>
 
+    <!-- The Grapevine -->
+    <div class="form-section">
+      <div class="form-section-title" onclick="toggleSection(this)">The Grapevine <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
+      <div id="grapevineSectionThemeToggle"></div>
+      <input type="hidden" id="grapevineSectionTheme" value="default" />
+      <label for="grapevineEyebrow">Section Label</label>
+      <input type="text" id="grapevineEyebrow" value="🍇 The Grapevine" oninput="renderPreview()" />
+      <div id="grapevineContainer"></div>
+      <button class="btn-add" onclick="addGrapevineLink()" style="margin-top:8px;">+ Add Link</button>
+      </div>
+    </div>
+
     <!-- Interesting Links -->
     <div class="form-section">
       <div class="form-section-title" onclick="toggleSection(this)">The Procrastination Station <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
+      <div id="linksSectionThemeToggle"></div>
+      <input type="hidden" id="linksSectionTheme" value="default" />
       <label for="linksEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="linksEyebrow" placeholder="e.g. The Procrastination Station" value="The Procrastination Station" oninput="renderPreview()" />
       <label for="linksSubheading">Subheading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
@@ -622,6 +637,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     <div class="form-section">
       <div class="form-section-title" onclick="toggleSection(this)">Trivia Answer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
+      <div id="triviaAnswerThemeToggle"></div>
+      <input type="hidden" id="triviaAnswerTheme" value="default" />
       <label for="triviaAnswerEyebrow">Section Label</label>
       <input type="text" id="triviaAnswerEyebrow" value="Trivia Answer" oninput="renderPreview()" />
       <label for="triviaAnswer" style="margin-top:10px;">Answer</label>
@@ -1073,6 +1090,133 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     `).join('');
   }
 
+  // ── Section theme toggle helper ──
+  function pqThemeBtn(b, val, label) {
+    const active = 'padding:5px 12px;border:1px solid #E8383A;background:#E8383A;color:#fff;border-radius:4px;cursor:pointer;font-size:13px;';
+    const inactive = 'padding:5px 12px;border:1px solid #ddd;background:#fff;color:#333;border-radius:4px;cursor:pointer;font-size:13px;';
+    return `<button type="button" style="${(b.theme||'default')===val?active:inactive}" onclick="updatePqBlock(${b.id},'theme','${val}');renderPqBlocks();">${label}</button>`;
+  }
+
+  function sectionThemeToggle(fieldId, currentVal) {
+    const active = 'padding:5px 12px;border:1px solid #E8383A;background:#E8383A;color:#fff;border-radius:4px;cursor:pointer;font-size:13px;';
+    const inactive = 'padding:5px 12px;border:1px solid #ddd;background:#fff;color:#333;border-radius:4px;cursor:pointer;font-size:13px;';
+    return `<div style="display:flex;gap:6px;margin-bottom:12px;">
+      <button type="button" style="${currentVal==='default'?active:inactive}" onclick="set_${fieldId}_theme('default')">Default</button>
+      <button type="button" style="${currentVal==='alt'?active:inactive}" onclick="set_${fieldId}_theme('alt')">Alternate</button>
+    </div>`;
+  }
+
+  function set_grapevineSectionTheme_theme(v) {
+    document.getElementById('grapevineSectionTheme').value = v;
+    document.getElementById('grapevineSectionThemeToggle').innerHTML = sectionThemeToggle('grapevineSectionTheme', v);
+    renderPreview();
+  }
+  function set_linksSectionTheme_theme(v) {
+    document.getElementById('linksSectionTheme').value = v;
+    document.getElementById('linksSectionThemeToggle').innerHTML = sectionThemeToggle('linksSectionTheme', v);
+    renderPreview();
+  }
+  function set_triviaAnswerTheme_theme(v) {
+    document.getElementById('triviaAnswerTheme').value = v;
+    document.getElementById('triviaAnswerThemeToggle').innerHTML = sectionThemeToggle('triviaAnswerTheme', v);
+    renderPreview();
+  }
+
+  function refreshSectionThemeToggles() {
+    const gv = (document.getElementById('grapevineSectionTheme') || {}).value || 'default';
+    const ls = (document.getElementById('linksSectionTheme') || {}).value || 'default';
+    const ta = (document.getElementById('triviaAnswerTheme') || {}).value || 'default';
+    const gvEl = document.getElementById('grapevineSectionThemeToggle');
+    const lsEl = document.getElementById('linksSectionThemeToggle');
+    const taEl = document.getElementById('triviaAnswerThemeToggle');
+    if (gvEl) gvEl.innerHTML = sectionThemeToggle('grapevineSectionTheme', gv);
+    if (lsEl) lsEl.innerHTML = sectionThemeToggle('linksSectionTheme', ls);
+    if (taEl) taEl.innerHTML = sectionThemeToggle('triviaAnswerTheme', ta);
+  }
+
+  // ── The Grapevine ──
+  let grapevineSectionLinks = [];
+  let grapevineLinkIdCounter = 0;
+
+  function addGrapevineLink() {
+    grapevineSectionLinks.push({ id: ++grapevineLinkIdCounter, emoji: '', text: '', url: '' });
+    renderGrapevineLinks();
+    renderPreview();
+  }
+
+  function removeGrapevineLink(id) {
+    grapevineSectionLinks = grapevineSectionLinks.filter(l => l.id !== id);
+    renderGrapevineLinks();
+    renderPreview();
+  }
+
+  function updateGrapevineLink(id, field, value) {
+    const l = grapevineSectionLinks.find(l => l.id === id);
+    if (l) l[field] = value;
+    renderPreview();
+  }
+
+  function renderGrapevineLinks() {
+    const container = document.getElementById('grapevineContainer');
+    if (!container) return;
+    container.innerHTML = grapevineSectionLinks.map((l, i) => `
+      <div class="content-block" style="margin-top:8px;">
+        <div class="block-header">
+          <span class="block-number">Link ${i + 1}</span>
+          <button class="btn-remove" onclick="removeGrapevineLink(${l.id})">Remove</button>
+        </div>
+        <div class="inline-fields">
+          <div class="field-narrow">
+            <label>Emoji</label>
+            <input type="text" value="${escAttr(l.emoji)}" placeholder="e.g. 💸" oninput="updateGrapevineLink(${l.id},'emoji',this.value)" />
+          </div>
+          <div class="field">
+            <label>Link Text</label>
+            <input type="text" value="${escAttr(l.text)}" placeholder="Headline or description" oninput="updateGrapevineLink(${l.id},'text',this.value)" />
+          </div>
+        </div>
+        <label style="margin-top:8px;">Link URL</label>
+        <input type="text" value="${escAttr(l.url)}" placeholder="https://" oninput="updateGrapevineLink(${l.id},'url',this.value)" />
+      </div>`).join('');
+  }
+
+  function generateGrapevineHTML() {
+    const active = grapevineSectionLinks.filter(l => l.text || l.url);
+    if (!active.length) return '';
+    const theme = val('grapevineSectionTheme') || 'default';
+    const bg   = theme === 'alt' ? '#ffffff' : '#E8383A';
+    const fg   = theme === 'alt' ? '#050505' : '#ffffff';
+    const bord = theme === 'alt' ? '#050505' : '#ffffff';
+    const eyebrow = esc(val('grapevineEyebrow') || '🍇 The Grapevine');
+    const items = active.map(l => {
+      const inner = l.url
+        ? `<a href="${esc(l.url)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${fg}; text-decoration: underline; line-height: 1.4;">${esc(l.text)}</a>`
+        : `<span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${fg}; line-height: 1.4;">${esc(l.text)}</span>`;
+      return `<tr>
+              <td style="padding: 20px 0; border-bottom: 1px solid ${theme==='alt'?'#e0e0e0':'rgba(255,255,255,0.2)'};">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td valign="top" style="width:30px; padding-right:10px; font-size:20px; line-height:1.3; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; color:${fg}; white-space:nowrap;">${esc(l.emoji)}</td>
+                    <td valign="top">${inner}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>`;
+    }).join('');
+    return `<tr>
+            <td style="background-color: ${bg}; padding: 0 40px 40px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding-top: 50px; padding-bottom: 26px; border-bottom: 2px solid ${bord};">
+                    <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px;">${eyebrow}</span>
+                  </td>
+                </tr>
+                ${items}
+              </table>
+            </td>
+          </tr>`;
+  }
+
   // ── Post-quote blocks (ROC / Generic Content) ──
   const PQ_SCORE_LABELS = ['','Negative','Invisible','Miniscule','Good','Inspiring','Contagious','Transformative','Legendary'];
   let pqBlocks = [];
@@ -1085,6 +1229,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       Object.assign(b, {
         eyebrow: 'ROC', heading: 'Catchy heading', imageUrl: '',
         bylineName: '', bylineRole: '',
+        theme: 'default',
         productName: '', score: '7',
         body: 'Lorem ipsum dolor sit amet consectetur. Blandit fermentum cursus ac id elementum rhoncus. Volutpat varius tempus mattis lectus cras. Suspendisse at non nec diam.',
         prosTitle: '👍  The good', prosItems: [], prosIdCounter: 0,
@@ -1103,6 +1248,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       Object.assign(b, {
         heading: 'Catchy heading',
         bylineName: '', bylineRole: '',
+        theme: 'default',
         body: 'Lorem ipsum dolor sit amet consectetur. Tortor amet pellentesque accumsan diam nam quis nec id. Arcu duis nisl cursus faucibus in elementum eu orci lacus.',
         bottomLine: 'Lorem ipsum dolor sit amet consectetur. Viverra odio turpis a pulvinar feugiat libero vitae elit eleifend.'
       });
@@ -1110,6 +1256,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       Object.assign(b, {
         eyebrow: 'Generic Content', heading: '',
         bylineName: '', bylineRole: '',
+        theme: 'default',
         imageLayout: '1x',
         image1Url: '', image1Alt: '', image2Url: '', image2Alt: '',
         image3Url: '', image3Alt: '', image4Url: '', image4Alt: '',
@@ -1189,6 +1336,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             <textarea rows="2" oninput="updatePqCon(${b.id},${item.id},this.value)">${escAttr(item.text)}</textarea>
           </div>`).join('');
         fields = `
+          <label>Colour Theme</label>
+          <div style="display:flex;gap:6px;margin-bottom:10px;">${pqThemeBtn(b,'default','Default')}${pqThemeBtn(b,'alt','Alternate')}</div>
           <label>Section Label</label>
           <input type="text" value="${escAttr(b.eyebrow)}" oninput="updatePqBlock(${b.id},'eyebrow',this.value)" />
           <label style="margin-top:10px;">Heading</label>
@@ -1221,6 +1370,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <input type="text" value="${escAttr(b.linkUrl)}" placeholder="https://" oninput="updatePqBlock(${b.id},'linkUrl',this.value)" />`;
       } else if (b.type === 'signal') {
         fields = `
+          <label>Colour Theme</label>
+          <div style="display:flex;gap:6px;margin-bottom:10px;">${pqThemeBtn(b,'default','Default')}${pqThemeBtn(b,'alt','Alternate')}</div>
           <label>Heading</label>
           <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. The future of CX" oninput="updatePqBlock(${b.id},'heading',this.value)" />
           ${renderPqBylineFields(b)}
@@ -1254,6 +1405,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         if (imgCount >= 3) imageFields += imgField(3);
         if (imgCount >= 4) imageFields += imgField(4);
         fields = `
+          <label>Colour Theme</label>
+          <div style="display:flex;gap:6px;margin-bottom:10px;">${pqThemeBtn(b,'default','Default')}${pqThemeBtn(b,'alt','Alternate')}</div>
           <label>Section Label</label>
           <input type="text" value="${escAttr(b.eyebrow)}" oninput="updatePqBlock(${b.id},'eyebrow',this.value)" />
           <label style="margin-top:10px;">Heading</label>
@@ -1286,12 +1439,17 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         if (!b.heading) return '';
         const scoreNum = parseInt(b.score || '7', 10);
         const scoreLabel = PQ_SCORE_LABELS[scoreNum] || '';
+        const rocIsAlt = (b.theme || 'default') === 'alt';
+        const rocBg      = rocIsAlt ? '#f1f1f1' : '#ffffff';
+        const rocEyebrow = rocIsAlt ? '#050505' : '#E8383A';
+        const rocScoreBg = rocIsAlt ? '#050505' : '#FADADD';
+        const rocScoreFg = rocIsAlt ? '#ffffff' : '#E8383A';
         return `<tr>
-            <td style="background-color: #ffffff; padding: 40px 40px 32px 40px;">
+            <td style="background-color: ${rocBg}; padding: 40px 40px 32px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(b.eyebrow)}</p>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid ${rocEyebrow};">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${rocEyebrow}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(b.eyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
@@ -1303,9 +1461,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
                       <tr>
-                        <td align="center" style="background-color: #FADADD; padding: 24px; text-align: center;">
-                          ${b.productName ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(b.productName)}</p>` : ''}
-                          <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #E8383A; margin: 0; line-height: 1.2;">${scoreNum} – ${esc(scoreLabel)}</p>
+                        <td align="center" style="background-color: ${rocScoreBg}; padding: 24px; text-align: center;">
+                          ${b.productName ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${rocScoreFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(b.productName)}</p>` : ''}
+                          <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: ${rocScoreFg}; margin: 0; line-height: 1.2;">${scoreNum} – ${esc(scoreLabel)}</p>
                         </td>
                       </tr>
                     </table>
@@ -1338,32 +1496,36 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           </tr>`;
       } else if (b.type === 'signal') {
         if (!b.heading && !b.body) return '';
+        const sigIsAlt = (b.theme || 'default') === 'alt';
+        const sigBg   = sigIsAlt ? '#ffffff' : '#E8383A';
+        const sigFg   = sigIsAlt ? '#050505' : '#ffffff';
+        const sigBord = sigIsAlt ? '#050505' : '#ffffff';
         const bylineHTML = (b.bylineName || b.bylineRole)
-          ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #ffffff; margin: 0 0 16px 0;"><span style="font-weight: bold;">${esc(b.bylineName)}</span>${b.bylineName && b.bylineRole ? ' &middot; ' : ''}<span style="font-weight: normal;">${esc(b.bylineRole)}</span></p>`
+          ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: ${sigFg}; margin: 0 0 16px 0;"><span style="font-weight: bold;">${esc(b.bylineName)}</span>${b.bylineName && b.bylineRole ? ' &middot; ' : ''}<span style="font-weight: normal;">${esc(b.bylineRole)}</span></p>`
           : '';
         const bottomLineHTML = b.bottomLine
           ? `<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 28px;">
                 <tr>
                   <td>
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.bottomLine)}</p>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${sigFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: ${sigFg}; line-height: 1.7; margin: 0;">${nl2br(b.bottomLine)}</p>
                   </td>
                 </tr>
               </table>`
           : '';
         return `<tr>
-            <td style="background-color: #E8383A; padding: 40px 40px 48px 40px;">
+            <td style="background-color: ${sigBg}; padding: 40px 40px 48px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid #ffffff;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0;">🚦The Signal</p>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBord};">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${sigFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">🚦The Signal</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding-top: 16px;">
-                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #ffffff; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
+                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: ${sigFg}; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
                     ${bylineHTML}
-                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: ${sigFg}; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
                     ${bottomLineHTML}
                   </td>
                 </tr>
@@ -1417,10 +1579,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td></tr>`;
         }
+        const genBg = (b.theme || 'default') === 'alt' ? '#f1f1f1' : '#ffffff';
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${nl2br(b.whatThisMeans)}</p>` : '';
         return `<tr>
-            <td style="padding: 0 40px 40px 40px; background-color: #ffffff;">
+            <td style="padding: 0 40px 40px 40px; background-color: ${genBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: 40px 0 0 0;">
@@ -1637,7 +1800,12 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const active = interestingLinks.filter(l => l.imageUrl || l.linkUrl || l.caption);
     if (!active.length) return '';
 
-    const linksEyebrow = val('linksEyebrow') || '';
+    const linksTheme    = val('linksSectionTheme') || 'default';
+    const linksBg       = linksTheme === 'alt' ? '#f1f1f1' : '#050505';
+    const linksLabelFg  = linksTheme === 'alt' ? '#050505' : '#FADADD';
+    const linksSubFg    = linksTheme === 'alt' ? '#050505' : '#FADADD';
+    const linksCaptionFg = linksTheme === 'alt' ? '#050505' : '#ffffff';
+    const linksEyebrow  = val('linksEyebrow') || '';
     const linksSubheading = val('linksSubheading') || '';
     const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="80" style="margin: 0 auto;"><tr><td width="80" height="80" align="center" valign="middle" style="width:80px; height:80px; border-radius:50%; background-color:#C8C8C8; font-size:0; line-height:0;">&nbsp;</td></tr></table>`;
 
@@ -1651,7 +1819,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         img = placeholderCircle;
       }
       const captionHTML = l.caption
-        ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; color: #000000; margin: 10px 0 0 0; line-height: 1.4; text-align: center;">${esc(l.caption)}</p>`
+        ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; color: ${linksCaptionFg}; margin: 10px 0 0 0; line-height: 1.4; text-align: center;">${esc(l.caption)}</p>`
         : '';
       return `<td valign="top" align="center" style="padding: 0 12px; width: 33.33%;">
                 ${img}
@@ -1661,24 +1829,24 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
     const linksLabelRow = linksEyebrow ? `
                 <tr>
-                  <td style="padding: 32px 0 20px 0; border-top: 2px solid #E8383A;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #000000; text-transform: uppercase; letter-spacing: 2px;">${esc(linksEyebrow)}</span>
+                  <td style="padding: 32px 0 20px 0; border-top: 2px solid ${linksLabelFg};">
+                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${linksLabelFg}; text-transform: uppercase; letter-spacing: 2px;">${esc(linksEyebrow)}</span>
                   </td>
                 </tr>` : `
                 <tr>
-                  <td style="padding: 16px 0 0 0; border-top: 2px solid #E8383A;">&nbsp;</td>
+                  <td style="padding: 16px 0 0 0; border-top: 2px solid ${linksLabelFg};">&nbsp;</td>
                 </tr>`;
 
     const linksSubheadingRow = linksSubheading ? `
                 <tr>
                   <td style="padding: 0 0 16px 0;">
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px; color: #555555; margin: 0; line-height: 1.5;">${esc(linksSubheading)}</p>
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px; color: ${linksSubFg}; margin: 0; line-height: 1.5;">${esc(linksSubheading)}</p>
                   </td>
                 </tr>` : '';
 
     return `
           <tr>
-            <td style="padding: 0 40px 40px 40px; background-color: #ffffff;">
+            <td style="padding: 0 40px 40px 40px; background-color: ${linksBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${linksLabelRow}
                 ${linksSubheadingRow}
@@ -1766,6 +1934,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const triviaAnswer   = val('triviaAnswer') || '';
     const triviaLinkLabel = val('triviaLinkLabel') || '';
     const triviaLinkUrl  = val('triviaLinkUrl') || '';
+    const triviaTheme    = val('triviaAnswerTheme') || 'default';
+    const triviaBg       = triviaTheme === 'alt' ? '#050505' : '#FADADD';
+    const triviaFg       = triviaTheme === 'alt' ? '#ffffff' : '#E8383A';
 
     const editionStr = edDate ? esc(edDate) : '';
 
@@ -2155,15 +2326,18 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <!-- POST-QUOTE BLOCKS -->
           ${generatePqBlocksHTML()}
 
+          <!-- THE GRAPEVINE -->
+          ${generateGrapevineHTML()}
+
           <!-- INTERESTING LINKS -->
           ${generateLinksHTML()}
 
           <!-- TRIVIA ANSWER -->
           ${triviaAnswer ? `<tr>
-            <td style="background-color: #FADADD; padding: 32px 40px;">
-              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(triviaAnswerEyebrow)}</p>
-              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; color: #E8383A; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
-              ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
+            <td style="background-color: ${triviaBg}; padding: 32px 40px;">
+              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(triviaAnswerEyebrow)}</p>
+              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
+              ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
             </td>
           </tr>` : ''}
 
@@ -2193,8 +2367,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'insightEyebrow','insightHeading','insightBylineName','insightBylineRole','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
-      'linksEyebrow','linksSubheading',
-      'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl',
+      'grapevineSectionTheme','grapevineEyebrow',
+      'linksEyebrow','linksSubheading','linksSectionTheme',
+      'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
       'teamEyebrow'];
     const fields = {};
     fieldIds.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.value; });
@@ -2206,9 +2381,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       interestingLinks: JSON.parse(JSON.stringify(interestingLinks)),
       teamMembers: JSON.parse(JSON.stringify(teamMembers)),
       pqBlocks: JSON.parse(JSON.stringify(pqBlocks)),
+      grapevineSectionLinks: JSON.parse(JSON.stringify(grapevineSectionLinks)),
       blockIdCounter,
       teamIdCounter,
       pqBlockIdCounter,
+      grapevineLinkIdCounter,
     };
   }
 
@@ -2224,11 +2401,15 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     teamIdCounter = state.teamIdCounter || 0;
     pqBlocks = state.pqBlocks || [];
     pqBlockIdCounter = state.pqBlockIdCounter || 0;
+    grapevineSectionLinks = state.grapevineSectionLinks || [];
+    grapevineLinkIdCounter = state.grapevineLinkIdCounter || 0;
     renderBlocks();
     renderLinks();
+    renderGrapevineLinks();
     renderTeam();
     renderPqBlocks();
     renderHeroBylineOptions();
+    refreshSectionThemeToggles();
     updateCharCounters();
     renderPreview();
   }
@@ -2323,9 +2504,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   renderTeam();
   renderHeroBylineOptions();
   renderLinks();
+  renderGrapevineLinks();
 
   addPqBlock('roc');
   renderPqBlocks();
+  refreshSectionThemeToggles();
 
   document.getElementById('heroHeadline').value = "Welcome to [Month's] CX Gazette";
 
