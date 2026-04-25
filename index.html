@@ -550,6 +550,7 @@
         <div class="add-menu" id="pqAddMenu">
           <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
           <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
+          <button onclick="addPqBlock('signal')"><strong>🚦 The Signal</strong><span>Opinion piece with heading, byline, body and bottom line</span></button>
         </div>
         <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
       </div>
@@ -1041,6 +1042,13 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
        'Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim.',
        'Lorem ipsum dolor sit amet consectetur. Ultrices sapien mauris sollicitudin nibh elementum.']
         .forEach(t => b.consItems.push({ id: ++b.consIdCounter, text: t }));
+    } else if (type === 'signal') {
+      Object.assign(b, {
+        heading: 'Catchy heading',
+        bylineName: '', bylineRole: '',
+        body: 'Lorem ipsum dolor sit amet consectetur. Tortor amet pellentesque accumsan diam nam quis nec id. Arcu duis nisl cursus faucibus in elementum eu orci lacus.',
+        bottomLine: 'Lorem ipsum dolor sit amet consectetur. Viverra odio turpis a pulvinar feugiat libero vitae elit eleifend.'
+      });
     } else {
       Object.assign(b, {
         eyebrow: 'Generic Content', heading: '',
@@ -1104,7 +1112,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const container = document.getElementById('pqBlocksContainer');
     if (!container) return;
     container.innerHTML = pqBlocks.map((b) => {
-      const typeLabel = b.type === 'roc' ? 'ROC' : 'Generic Content';
+      const typeLabel = b.type === 'roc' ? 'ROC' : b.type === 'signal' ? '🚦 The Signal' : 'Generic Content';
       let fields = '';
       if (b.type === 'roc') {
         const prosHTML = b.prosItems.map((item, i) => `
@@ -1153,6 +1161,18 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <input type="text" value="${escAttr(b.linkLabel)}" oninput="updatePqBlock(${b.id},'linkLabel',this.value)" />
           <label style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
           <input type="text" value="${escAttr(b.linkUrl)}" placeholder="https://" oninput="updatePqBlock(${b.id},'linkUrl',this.value)" />`;
+      } else if (b.type === 'signal') {
+        fields = `
+          <label>Heading</label>
+          <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. The future of CX" oninput="updatePqBlock(${b.id},'heading',this.value)" />
+          <label style="margin-top:10px;">Byline Name <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.bylineName)}" placeholder="e.g. Abe Atiya" oninput="updatePqBlock(${b.id},'bylineName',this.value)" />
+          <label style="margin-top:10px;">Byline Role <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <input type="text" value="${escAttr(b.bylineRole)}" placeholder="e.g. Experience Director" oninput="updatePqBlock(${b.id},'bylineRole',this.value)" />
+          <label style="margin-top:10px;">Body</label>
+          <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
+          <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <textarea rows="3" oninput="updatePqBlock(${b.id},'bottomLine',this.value)">${escAttr(b.bottomLine)}</textarea>`;
       } else {
         const layout = b.imageLayout || '1x';
         const imgCount = layout === '1x' ? 1 : layout === '2x' ? 2 : layout === '3x' ? 3 : 4;
@@ -1258,6 +1278,40 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                       </tr></table>
                       <!--<![endif]-->
                     </td></tr></table>` : ''}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
+      } else if (b.type === 'signal') {
+        if (!b.heading && !b.body) return '';
+        const bylineHTML = (b.bylineName || b.bylineRole)
+          ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #ffffff; margin: 0 0 16px 0;"><span style="font-weight: bold;">${esc(b.bylineName)}</span>${b.bylineName && b.bylineRole ? ' &middot; ' : ''}<span style="font-weight: normal;">${esc(b.bylineRole)}</span></p>`
+          : '';
+        const bottomLineHTML = b.bottomLine
+          ? `<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 28px;">
+                <tr>
+                  <td>
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.bottomLine)}</p>
+                  </td>
+                </tr>
+              </table>`
+          : '';
+        return `<tr>
+            <td style="background-color: #E8383A; padding: 40px 40px 48px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid #ffffff;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin: 0;">🚦The Signal</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 16px;">
+                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #ffffff; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
+                    ${bylineHTML}
+                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                    ${bottomLineHTML}
                   </td>
                 </tr>
               </table>
