@@ -447,10 +447,6 @@
           <label for="editionDate">Date</label>
           <input type="text" id="editionDate" placeholder="e.g. March 2026" oninput="renderPreview()" />
         </div>
-        <div class="field-narrow">
-          <label for="editionNumber">Edition</label>
-          <input type="text" id="editionNumber" placeholder="e.g. 12" oninput="renderPreview()" />
-        </div>
       </div>
       <label for="logoUrl">Logo Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="logoUrl" placeholder="e.g. https://yoursite.com/logo.png"
@@ -545,9 +541,9 @@
       </div>
     </div>
 
-    <!-- Post-quote content -->
+    <!-- Optional content -->
     <div class="form-section">
-      <div class="form-section-title" onclick="toggleSection(this)">Post-quote content <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)">Optional content <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <div id="pqBlocksContainer"></div>
       <div class="add-section-wrap">
@@ -1635,7 +1631,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   function generateEmailHTML() {
     const title          = 'Newsletter';
     const edDate         = val('editionDate') || '';
-    const edNum          = val('editionNumber') || '';
     const heroImageUrl   = val('heroImageUrl') || '';
     const headline       = val('heroHeadline') || "Welcome to [Month's] CX Gazette";
     const heroBylineName  = val('heroBylineName') || '';
@@ -1660,15 +1655,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const triviaLinkLabel = val('triviaLinkLabel') || '';
     const triviaLinkUrl  = val('triviaLinkUrl') || '';
 
-    // Build edition string: "March 2026 | #12"
-    let editionStr = '';
-    if (edDate && edNum) {
-      editionStr = esc(edDate) + '&nbsp; | &nbsp;#' + esc(edNum);
-    } else if (edDate) {
-      editionStr = esc(edDate);
-    } else if (edNum) {
-      editionStr = '#' + esc(edNum);
-    }
+    const editionStr = edDate ? esc(edDate) : '';
 
     function generateBylineHTML(b, textColor) {
       const c = textColor || '#888888';
@@ -2073,18 +2060,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${footerContentHTML}
                 ${generateTeamHTML()}
-                <tr>
-                  <td style="border-top: 1px solid #333333; padding-bottom: 20px; font-size: 0; line-height: 0;">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td align="center">
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 13px; color: #C8C8C8; line-height: 1.6; margin: 0;">
-                      This email was sent to you because you are an employee of Your Company Pty Ltd.<br />
-                      123 Business Street, Sydney NSW 2000, Australia<br /><br />
-                      &copy; 2026 Your Company. All rights reserved.
-                    </p>
-                  </td>
-                </tr>
               </table>
             </td>
           </tr>
@@ -2101,7 +2076,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
   // ── Draft save / restore ──
   function getFormState() {
-    const fieldIds = ['editionDate','editionNumber','logoUrl','heroImageUrl',
+    const fieldIds = ['editionDate','logoUrl','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'insightEyebrow','insightHeading','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
