@@ -28,11 +28,11 @@
     }
     .topbar h1 { font-size: 16px; font-weight: 700; letter-spacing: .5px; }
     .topbar-right { display: flex; align-items: center; gap: 16px; }
-    .topbar .hint { font-size: 12px; color: #C8C8C8; }
+    .topbar .hint { font-size: 12px; color: #3F3F3F; }
 
     .btn-guidelines {
       background: none;
-      border: 1px solid #C8C8C8;
+      border: 1px solid #3F3F3F;
       border-radius: 4px;
       color: #fff;
       font-size: 12px;
@@ -57,7 +57,7 @@
     }
     .draft-banner {
       background: #1a1a1a;
-      color: #C8C8C8;
+      color: #3F3F3F;
       font-size: 12px;
       padding: 8px 32px;
       display: flex;
@@ -70,7 +70,7 @@
       background: none;
       border: 1px solid #555;
       border-radius: 4px;
-      color: #C8C8C8;
+      color: #3F3F3F;
       font-size: 11px;
       padding: 3px 10px;
       cursor: pointer;
@@ -115,7 +115,7 @@
       width: 420px;
       min-width: 360px;
       background: #fff;
-      border-right: 1px solid #C8C8C8;
+      border-right: 1px solid #3F3F3F;
       padding: 28px 24px 80px;
       overflow-y: auto;
       max-height: calc(100vh - 48px);
@@ -124,7 +124,7 @@
     .form-section {
       margin-bottom: 28px;
       padding-bottom: 24px;
-      border-bottom: 1px solid #C8C8C8;
+      border-bottom: 1px solid #3F3F3F;
     }
     .form-section:last-child { border-bottom: none; }
 
@@ -145,7 +145,7 @@
     .section-chevron {
       font-style: normal;
       font-size: 14px;
-      color: #C8C8C8;
+      color: #3F3F3F;
       transition: transform 0.2s ease;
       display: inline-block;
     }
@@ -155,7 +155,7 @@
 
     .drag-handle {
       cursor: grab;
-      color: #C8C8C8;
+      color: #3F3F3F;
       font-size: 15px;
       line-height: 1;
       user-select: none;
@@ -181,7 +181,7 @@
       padding: 9px 12px;
       font-size: 14px;
       font-family: inherit;
-      border: 1px solid #C8C8C8;
+      border: 1px solid #3F3F3F;
       border-radius: 4px;
       background: #FFFFFF;
       color: #000000;
@@ -201,7 +201,7 @@
       padding: 9px 12px;
       font-size: 14px;
       font-family: inherit;
-      border: 1px solid #C8C8C8;
+      border: 1px solid #3F3F3F;
       border-radius: 4px;
       background: #FFFFFF;
       color: #000000;
@@ -220,7 +220,7 @@
     /* ── Content blocks ── */
     .content-block {
       background: #FADADD;
-      border: 1px solid #C8C8C8;
+      border: 1px solid #3F3F3F;
       border-radius: 6px;
       padding: 16px;
       margin-bottom: 12px;
@@ -240,9 +240,9 @@
 
     .btn-remove {
       background: none;
-      border: 1px solid #C8C8C8;
+      border: 1px solid #3F3F3F;
       border-radius: 4px;
-      color: #C8C8C8;
+      color: #3F3F3F;
       font-size: 12px;
       padding: 3px 10px;
       cursor: pointer;
@@ -275,7 +275,7 @@
       bottom: calc(100% + 6px);
       left: 0; right: 0;
       background: #fff;
-      border: 1px solid #C8C8C8;
+      border: 1px solid #3F3F3F;
       border-radius: 6px;
       box-shadow: 0 4px 16px rgba(0,0,0,.12);
       z-index: 10;
@@ -299,11 +299,11 @@
     .add-menu button span {
       display: block;
       font-size: 11px;
-      color: #C8C8C8;
+      color: #3F3F3F;
       font-weight: 400;
       margin-top: 2px;
     }
-    .add-menu button + button { border-top: 1px solid #C8C8C8; }
+    .add-menu button + button { border-top: 1px solid #3F3F3F; }
 
     .block-type-label {
       font-size: 10px;
@@ -333,7 +333,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: #C8C8C8;
+      color: #3F3F3F;
       margin-bottom: 16px;
     }
 
@@ -352,7 +352,7 @@
       left: 0;
       right: 0;
       background: #fff;
-      border-top: 1px solid #C8C8C8;
+      border-top: 1px solid #3F3F3F;
       padding: 12px 32px;
       display: flex;
       justify-content: flex-end;
@@ -462,12 +462,12 @@
           <input type="text" id="editionDate" placeholder="e.g. March 2026" oninput="renderPreview()" />
         </div>
       </div>
-      <label for="logoUrl">Logo Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="logoUrl">Logo Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="logoUrl" placeholder="e.g. https://yoursite.com/logo.png"
              oninput="processImageUrl(this, 'logoUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('logoUrl'), 'logoUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="logoUrlMsg"></div>
-      <label for="heroImageUrl">Hero Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="heroImageUrl">Hero Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="heroImageUrl" value="https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png" placeholder="e.g. https://yoursite.com/hero.jpg"
              oninput="processImageUrl(this, 'heroImageUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('heroImageUrl'), 'heroImageUrlMsg', function() { renderPreview(); }); }, 0)" />
@@ -482,7 +482,7 @@
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Welcome to April's CX Gazette" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
-        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <select id="heroBylineSelect" onchange="pickHeroByline(this.value); this.value='';">
           <option value="">— Pick from team —</option>
         </select>
@@ -510,7 +510,7 @@
       <input type="text" id="triviaEyebrow" value="Trivia" oninput="renderPreview()" />
       <label for="triviaQuestion" style="margin-top:10px;">Question</label>
       <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
-      <label for="triviaEmoji" style="margin-top:10px;">Emoji <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="triviaEmoji" style="margin-top:10px;">Emoji <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <div class="emoji-suggestions">
         <button type="button" onclick="setTriviaEmoji('🤔')">🤔</button>
         <button type="button" onclick="setTriviaEmoji('💡')">💡</button>
@@ -583,7 +583,7 @@
       <label for="insightHeading" style="margin-top:10px;">Heading</label>
       <input type="text" id="insightHeading" value="A catchy heading" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
-        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <select id="insightBylineSelect" onchange="pickInsightByline(this.value); this.value='';">
           <option value="">— Pick from team —</option>
         </select>
@@ -596,7 +596,7 @@
           </div>
         </div>
       </div>
-      <label for="insightImageUrl" style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="insightImageUrl" style="margin-top:10px;">Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="insightImageUrl" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
              oninput="processImageUrl(this, 'insightImageUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('insightImageUrl'), 'insightImageUrlMsg', function() { renderPreview(); }); }, 0)" />
@@ -607,9 +607,9 @@
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus et ornare lorem imperdiet.</textarea>
-      <label for="insightLinkLabel" style="margin-top:10px;">Button Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="insightLinkLabel" style="margin-top:10px;">Button Label <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="insightLinkLabel" value="Learn more" oninput="renderPreview()" />
-      <label for="insightLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="insightLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="insightLinkUrl" placeholder="https://" oninput="renderPreview()" />
       </div>
     </div>
@@ -620,9 +620,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <div class="form-section-body">
       <div id="linksSectionThemeToggle"></div>
       <input type="hidden" id="linksSectionTheme" value="default" />
-      <label for="linksEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="linksEyebrow">Section Label <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="linksEyebrow" placeholder="e.g. The Procrastination Station" value="The Procrastination Station" oninput="renderPreview()" />
-      <label for="linksSubheading">Subheading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="linksSubheading">Subheading <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="linksSubheading" placeholder="e.g. Here's our roundup of fun internet things to keep you…busy. Dive in!" value="Here's our roundup of fun internet things to keep you…busy. Dive in!" oninput="renderPreview()" />
       <div id="linksContainer"></div>
       </div>
@@ -649,9 +649,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="triviaAnswerEyebrow" value="Trivia Answer" oninput="renderPreview()" />
       <label for="triviaAnswer" style="margin-top:10px;">Answer</label>
       <textarea id="triviaAnswer" rows="2" placeholder="e.g. 1995" oninput="renderPreview()"></textarea>
-      <label for="triviaLinkLabel" style="margin-top:10px;">Link Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="triviaLinkLabel" style="margin-top:10px;">Link Label <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="triviaLinkLabel" placeholder="e.g. Learn more" oninput="renderPreview()" />
-      <label for="triviaLinkUrl" style="margin-top:10px;">Link URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="triviaLinkUrl" style="margin-top:10px;">Link URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="triviaLinkUrl" placeholder="e.g. https://example.com/history" oninput="renderPreview()" />
       </div>
     </div>
@@ -660,7 +660,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     <div class="form-section">
       <div class="form-section-title" onclick="toggleSection(this)">Your Team This Edition <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
-      <label for="teamEyebrow">Section Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+      <label for="teamEyebrow">Section Label <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
       <input type="text" id="teamEyebrow" placeholder="e.g. Made with love by all of us" value="Made with love by all of us" oninput="renderPreview()" />
       <div id="teamContainer"></div>
       <button class="btn-add" id="addTeamBtn" onclick="addTeamMember()" style="margin-top:8px;">+ Add Team Member</button>
@@ -791,7 +791,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   function renderPqBylineFields(b) {
     return `
         <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
-          <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <select onchange="pickPqByline(${b.id}, this.value); this.value='';">
             ${bylineOptionsHTML()}
           </select>
@@ -821,7 +821,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     return `
         <div class="inline-fields" style="margin-top:4px;">
           <div class="field">
-            <label>Button Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+            <label>Button Label <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
             <input type="text" value="${escAttr(b.btnLabel)}" placeholder="e.g. Read more"
                    oninput="updateBlock(${b.id}, 'btnLabel', this.value)" />
           </div>
@@ -836,7 +836,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   function renderBylineFields(b) {
     return `
         <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
-          <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <select onchange="pickBylineForBlock(${b.id}, this.value); this.value='';">
             ${bylineOptionsHTML()}
           </select>
@@ -911,7 +911,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         ${charCounter(b.id, 'body', 1500)}
         <div class="inline-fields" style="margin-top:4px;">
           <div class="field">
-            <label>Link Text <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+            <label>Link Text <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
             <input type="text" value="${escAttr(b.linkText)}" placeholder="e.g. Read more"
                    oninput="updateBlock(${b.id}, 'linkText', this.value)" />
           </div>
@@ -950,20 +950,20 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         ${renderBylineFields(b)}`;
     } else if (b.type === 'feature') {
       return `
-        <label>Eyebrow <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>Eyebrow <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(b.eyebrow)}"
                oninput="updateBlock(${b.id}, 'eyebrow', this.value)" />
-        <label>Full-width Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>Full-width Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(b.featureImageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/banner.jpg"
                oninput="updateBlock(${b.id}, 'featureImageUrl', this.value)" />
         <label>Heading</label>
         <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. Big Announcement"
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
         ${charCounter(b.id, 'heading', 100)}
-        <label>Subheading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>Subheading <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(b.subheading)}"
                oninput="updateBlock(${b.id}, 'subheading', this.value)" />
-        <label>H2 Heading <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>H2 Heading <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(b.h2heading)}"
                oninput="updateBlock(${b.id}, 'h2heading', this.value)" />
         <label>Body</label>
@@ -1015,7 +1015,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         <textarea rows="4" placeholder="Describe the project..."
                   oninput="updateBlock(${b.id},'body',this.value)">${esc(b.body)}</textarea>
         ${charCounter(b.id,'body',1500)}
-        <label>What This Means For You <span style="font-weight:400;color:#C8C8C8;font-style:italic;">(italic in email)</span></label>
+        <label>What This Means For You <span style="font-weight:400;color:#3F3F3F;font-style:italic;">(italic in email)</span></label>
         <textarea rows="3" placeholder="Explain the impact or relevance for the reader..."
                   oninput="updateBlock(${b.id},'whatThisMeans',this.value)">${esc(b.whatThisMeans)}</textarea>
         ${charCounter(b.id,'whatThisMeans',1500)}`;
@@ -1032,7 +1032,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         ${charCounter(b.id, 'body', 1500)}
         <div class="inline-fields">
           <div class="field">
-            <label>Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+            <label>Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
             <input type="text" value="${escAttr(b.imageUrl)}" placeholder="e.g. https://yoursite.com/photo.jpg"
                    oninput="processImageUrl(this, 'imgMsg_${b.id}', function(u){ updateBlock(${b.id}, 'imageUrl', u); })"
                    onpaste="var self=this; setTimeout(function(){ processImageUrl(self, 'imgMsg_${b.id}', function(u){ updateBlock(${b.id}, 'imageUrl', u); }); }, 0)" />
@@ -1083,13 +1083,13 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         <div class="block-header">
           <span class="block-number">Link ${i + 1}</span>
         </div>
-        <label>Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(l.imageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
                oninput="updateLink(${l.id}, 'imageUrl', this.value)" />
         <label>Link URL</label>
         <input type="text" value="${escAttr(l.linkUrl)}" placeholder="e.g. https://example.com/article"
                oninput="updateLink(${l.id}, 'linkUrl', this.value)" />
-        <label>Caption <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>Caption <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(l.caption)}" placeholder="e.g. Worth a read"
                oninput="updateLink(${l.id}, 'caption', this.value)" />
       </div>
@@ -1285,7 +1285,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <label style="margin-top:10px;">Heading</label>
           <input type="text" value="${escAttr(b.heading)}" oninput="updatePqBlock(${b.id},'heading',this.value)" />
           ${renderPqBylineFields(b)}
-          <label style="margin-top:10px;">Image URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="margin-top:10px;">Image URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <input type="text" value="${escAttr(b.imageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
                  oninput="processImageUrl(this,'pqImgMsg_${b.id}',function(u){updatePqBlock(${b.id},'imageUrl',u);})"
                  onpaste="var s=this;setTimeout(function(){processImageUrl(s,'pqImgMsg_${b.id}',function(u){updatePqBlock(${b.id},'imageUrl',u);});},0)" />
@@ -1306,9 +1306,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <input type="text" value="${escAttr(b.consTitle)}" oninput="updatePqBlock(${b.id},'consTitle',this.value)" />
           ${consHTML}
           <button class="btn-add" onclick="addPqCon(${b.id})" style="margin-top:8px;">+ Add item</button>
-          <label style="margin-top:16px;">Button Label <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="margin-top:16px;">Button Label <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <input type="text" value="${escAttr(b.linkLabel)}" oninput="updatePqBlock(${b.id},'linkLabel',this.value)" />
-          <label style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="margin-top:10px;">Button URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <input type="text" value="${escAttr(b.linkUrl)}" placeholder="https://" oninput="updatePqBlock(${b.id},'linkUrl',this.value)" />`;
       } else if (b.type === 'signal') {
         fields = `
@@ -1319,7 +1319,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           ${renderPqBylineFields(b)}
           <label style="margin-top:10px;">Body</label>
           <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
-          <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <textarea rows="3" oninput="updatePqBlock(${b.id},'bottomLine',this.value)">${escAttr(b.bottomLine)}</textarea>`;
       } else if (b.type === 'grapevine') {
         const linksHTML = b.links.map((l, i) => `
@@ -1388,7 +1388,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           ${renderPqBylineFields(b)}
           <label style="margin-top:10px;">Body</label>
           <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
-          <label style="margin-top:10px;">What this means for you <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+          <label style="margin-top:10px;">What this means for you <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
           <textarea rows="3" oninput="updatePqBlock(${b.id},'whatThisMeans',this.value)">${escAttr(b.whatThisMeans)}</textarea>`;
       }
       return `
@@ -1652,7 +1652,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <span class="block-number">Member ${i + 1}</span>
           <button class="btn-remove" onclick="removeTeamMember(${m.id})">Remove</button>
         </div>
-        <label>Photo URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
+        <label>Photo URL <span style="font-weight:400;color:#3F3F3F;">(optional)</span></label>
         <input type="text" value="${escAttr(m.imageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/photo.jpg"
                oninput="updateTeamMember(${m.id}, 'imageUrl', this.value)" />
         <div class="inline-fields">
