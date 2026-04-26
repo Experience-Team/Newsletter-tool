@@ -567,6 +567,7 @@
           <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
           <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
           <button onclick="addPqBlock('signal')"><strong>🚦 The Signal</strong><span>Opinion piece with heading, byline, body and bottom line</span></button>
+          <button onclick="addPqBlock('grapevine')"><strong>🍇 The Grapevine</strong><span>Emoji bullet link list</span></button>
         </div>
         <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
       </div>
@@ -610,19 +611,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <input type="text" id="insightLinkLabel" value="Learn more" oninput="renderPreview()" />
       <label for="insightLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
       <input type="text" id="insightLinkUrl" placeholder="https://" oninput="renderPreview()" />
-      </div>
-    </div>
-
-    <!-- The Grapevine -->
-    <div class="form-section" data-section-id="grapevine" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
-      <div class="form-section-title" onclick="toggleSection(this)"><span style="display:flex;align-items:center;gap:6px;"><span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>The Grapevine</span><span class="section-chevron">▾</span></div>
-      <div class="form-section-body">
-      <div id="grapevineSectionThemeToggle"></div>
-      <input type="hidden" id="grapevineSectionTheme" value="default" />
-      <label for="grapevineEyebrow">Section Label</label>
-      <input type="text" id="grapevineEyebrow" value="🍇 The Grapevine" oninput="renderPreview()" />
-      <div id="grapevineContainer"></div>
-      <button class="btn-add" onclick="addGrapevineLink()" style="margin-top:8px;">+ Add Link</button>
       </div>
     </div>
 
@@ -1124,11 +1112,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     </div>`;
   }
 
-  function set_grapevineSectionTheme_theme(v) {
-    document.getElementById('grapevineSectionTheme').value = v;
-    document.getElementById('grapevineSectionThemeToggle').innerHTML = sectionThemeToggle('grapevineSectionTheme', v);
-    renderPreview();
-  }
   function set_linksSectionTheme_theme(v) {
     document.getElementById('linksSectionTheme').value = v;
     document.getElementById('linksSectionThemeToggle').innerHTML = sectionThemeToggle('linksSectionTheme', v);
@@ -1141,98 +1124,12 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   }
 
   function refreshSectionThemeToggles() {
-    const gv = (document.getElementById('grapevineSectionTheme') || {}).value || 'default';
     const ls = (document.getElementById('linksSectionTheme') || {}).value || 'default';
     const ta = (document.getElementById('triviaAnswerTheme') || {}).value || 'default';
-    const gvEl = document.getElementById('grapevineSectionThemeToggle');
     const lsEl = document.getElementById('linksSectionThemeToggle');
     const taEl = document.getElementById('triviaAnswerThemeToggle');
-    if (gvEl) gvEl.innerHTML = sectionThemeToggle('grapevineSectionTheme', gv);
     if (lsEl) lsEl.innerHTML = sectionThemeToggle('linksSectionTheme', ls);
     if (taEl) taEl.innerHTML = sectionThemeToggle('triviaAnswerTheme', ta);
-  }
-
-  // ── The Grapevine ──
-  let grapevineSectionLinks = [];
-  let grapevineLinkIdCounter = 0;
-
-  function addGrapevineLink() {
-    grapevineSectionLinks.push({ id: ++grapevineLinkIdCounter, emoji: '', text: '', url: '' });
-    renderGrapevineLinks();
-    renderPreview();
-  }
-
-  function removeGrapevineLink(id) {
-    grapevineSectionLinks = grapevineSectionLinks.filter(l => l.id !== id);
-    renderGrapevineLinks();
-    renderPreview();
-  }
-
-  function updateGrapevineLink(id, field, value) {
-    const l = grapevineSectionLinks.find(l => l.id === id);
-    if (l) l[field] = value;
-    renderPreview();
-  }
-
-  function renderGrapevineLinks() {
-    const container = document.getElementById('grapevineContainer');
-    if (!container) return;
-    container.innerHTML = grapevineSectionLinks.map((l, i) => `
-      <div class="content-block" style="margin-top:8px;">
-        <div class="block-header">
-          <span class="block-number">Link ${i + 1}</span>
-          <button class="btn-remove" onclick="removeGrapevineLink(${l.id})">Remove</button>
-        </div>
-        <div class="inline-fields">
-          <div class="field-narrow">
-            <label>Emoji</label>
-            <input type="text" value="${escAttr(l.emoji)}" placeholder="e.g. 💸" oninput="updateGrapevineLink(${l.id},'emoji',this.value)" />
-          </div>
-          <div class="field">
-            <label>Link Text</label>
-            <input type="text" value="${escAttr(l.text)}" placeholder="Headline or description" oninput="updateGrapevineLink(${l.id},'text',this.value)" />
-          </div>
-        </div>
-        <label style="margin-top:8px;">Link URL</label>
-        <input type="text" value="${escAttr(l.url)}" placeholder="https://" oninput="updateGrapevineLink(${l.id},'url',this.value)" />
-      </div>`).join('');
-  }
-
-  function generateGrapevineHTML() {
-    const active = grapevineSectionLinks.filter(l => l.text || l.url);
-    if (!active.length) return '';
-    const theme = val('grapevineSectionTheme') || 'default';
-    const bg   = theme === 'alt' ? '#ffffff' : '#E8383A';
-    const fg   = theme === 'alt' ? '#050505' : '#ffffff';
-    const bord = theme === 'alt' ? '#050505' : '#ffffff';
-    const eyebrow = esc(val('grapevineEyebrow') || '🍇 The Grapevine');
-    const items = active.map(l => {
-      const inner = l.url
-        ? `<a href="${esc(l.url)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${fg}; text-decoration: underline; line-height: 1.4;">${esc(l.text)}</a>`
-        : `<span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${fg}; line-height: 1.4;">${esc(l.text)}</span>`;
-      return `<tr>
-              <td style="padding: 20px 0; border-bottom: 1px solid ${theme==='alt'?'#e0e0e0':'rgba(255,255,255,0.2)'};">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                  <tr>
-                    <td valign="top" style="width:30px; padding-right:10px; font-size:20px; line-height:1.3; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; color:${fg}; white-space:nowrap;">${esc(l.emoji)}</td>
-                    <td valign="top">${inner}</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>`;
-    }).join('');
-    return `<tr>
-            <td style="background-color: ${bg}; padding: 0 40px 40px 40px;">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td style="padding-top: 50px; padding-bottom: 26px; border-bottom: 2px solid ${bord};">
-                    <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px;">${eyebrow}</span>
-                  </td>
-                </tr>
-                ${items}
-              </table>
-            </td>
-          </tr>`;
   }
 
   // ── Post-quote blocks (ROC / Generic Content) ──
@@ -1269,6 +1166,13 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         theme: 'default',
         body: 'Lorem ipsum dolor sit amet consectetur. Tortor amet pellentesque accumsan diam nam quis nec id. Arcu duis nisl cursus faucibus in elementum eu orci lacus.',
         bottomLine: 'Lorem ipsum dolor sit amet consectetur. Viverra odio turpis a pulvinar feugiat libero vitae elit eleifend.'
+      });
+    } else if (type === 'grapevine') {
+      Object.assign(b, {
+        eyebrow: '🍇 The Grapevine',
+        theme: 'default',
+        links: [],
+        linkIdCounter: 0,
       });
     } else {
       Object.assign(b, {
@@ -1325,6 +1229,26 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     if (item) { item.text = text; renderPreview(); }
   }
 
+  function addPqGrapevineLink(bid) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (!b) return;
+    b.links.push({ id: ++b.linkIdCounter, emoji: '', text: '', url: '' });
+    renderPqBlocks(); renderPreview();
+  }
+  function removePqGrapevineLink(bid, lid) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (!b) return;
+    b.links = b.links.filter(l => l.id !== lid);
+    renderPqBlocks(); renderPreview();
+  }
+  function updatePqGrapevineLink(bid, lid, field, value) {
+    const b = pqBlocks.find(b => b.id === bid);
+    if (!b) return;
+    const l = b.links.find(l => l.id === lid);
+    if (l) l[field] = value;
+    renderPreview();
+  }
+
   function togglePqMenu(event) {
     event.stopPropagation();
     document.getElementById('pqAddMenu').classList.toggle('open');
@@ -1334,7 +1258,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     const container = document.getElementById('pqBlocksContainer');
     if (!container) return;
     container.innerHTML = pqBlocks.map((b) => {
-      const typeLabel = b.type === 'roc' ? 'ROC' : b.type === 'signal' ? '🚦 The Signal' : 'Generic Content';
+      const typeLabel = b.type === 'roc' ? 'ROC' : b.type === 'signal' ? '🚦 The Signal' : b.type === 'grapevine' ? '🍇 The Grapevine' : 'Generic Content';
       let fields = '';
       if (b.type === 'roc') {
         const prosHTML = b.prosItems.map((item, i) => `
@@ -1397,6 +1321,33 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
           <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#C8C8C8;">(optional)</span></label>
           <textarea rows="3" oninput="updatePqBlock(${b.id},'bottomLine',this.value)">${escAttr(b.bottomLine)}</textarea>`;
+      } else if (b.type === 'grapevine') {
+        const linksHTML = b.links.map((l, i) => `
+          <div class="content-block" style="margin-top:8px;">
+            <div class="block-header">
+              <span class="block-number">Link ${i+1}</span>
+              <button class="btn-remove" onclick="removePqGrapevineLink(${b.id},${l.id})">Remove</button>
+            </div>
+            <div class="inline-fields">
+              <div class="field-narrow">
+                <label>Emoji</label>
+                <input type="text" value="${escAttr(l.emoji)}" placeholder="e.g. 💸" oninput="updatePqGrapevineLink(${b.id},${l.id},'emoji',this.value)" />
+              </div>
+              <div class="field">
+                <label>Link Text</label>
+                <input type="text" value="${escAttr(l.text)}" placeholder="Headline or description" oninput="updatePqGrapevineLink(${b.id},${l.id},'text',this.value)" />
+              </div>
+            </div>
+            <label style="margin-top:8px;">Link URL</label>
+            <input type="text" value="${escAttr(l.url)}" placeholder="https://" oninput="updatePqGrapevineLink(${b.id},${l.id},'url',this.value)" />
+          </div>`).join('');
+        fields = `
+          <label>Colour Theme</label>
+          <div style="display:flex;gap:6px;margin-bottom:10px;">${pqThemeBtn(b,'default','Default')}${pqThemeBtn(b,'alt','Alternate')}</div>
+          <label>Section Label</label>
+          <input type="text" value="${escAttr(b.eyebrow)}" oninput="updatePqBlock(${b.id},'eyebrow',this.value)" />
+          ${linksHTML}
+          <button class="btn-add" onclick="addPqGrapevineLink(${b.id})" style="margin-top:8px;">+ Add Link</button>`;
       } else {
         const layout = b.imageLayout || '1x';
         const imgCount = layout === '1x' ? 1 : layout === '2x' ? 2 : layout === '3x' ? 3 : 4;
@@ -1547,6 +1498,39 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                     ${bottomLineHTML}
                   </td>
                 </tr>
+              </table>
+            </td>
+          </tr>`;
+      } else if (b.type === 'grapevine') {
+        const active = (b.links || []).filter(l => l.text || l.url);
+        if (!active.length) return '';
+        const gvIsAlt = (b.theme || 'default') === 'alt';
+        const gvBg   = gvIsAlt ? '#ffffff' : '#E8383A';
+        const gvFg   = gvIsAlt ? '#050505' : '#ffffff';
+        const gvBord = gvIsAlt ? '#050505' : '#ffffff';
+        const gvEyebrow = esc(b.eyebrow || '🍇 The Grapevine');
+        const gvItems = active.map(l => {
+          const inner = l.url
+            ? `<a href="${esc(l.url)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; text-decoration: underline; line-height: 1.4;">${esc(l.text)}</a>`
+            : `<span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; line-height: 1.4;">${esc(l.text)}</span>`;
+          return `<tr>
+              <td style="padding: 20px 0; border-bottom: 1px solid ${gvIsAlt ? '#e0e0e0' : 'rgba(255,255,255,0.2)'};">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                  <td valign="top" style="width:30px; padding-right:10px; font-size:20px; line-height:1.3; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; color:${gvFg}; white-space:nowrap;">${esc(l.emoji)}</td>
+                  <td valign="top">${inner}</td>
+                </tr></table>
+              </td>
+            </tr>`;
+        }).join('');
+        return `<tr>
+            <td style="background-color: ${gvBg}; padding: 0 40px 40px 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding-top: 50px; padding-bottom: 26px; border-bottom: 2px solid ${gvBord};">
+                    <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${gvFg}; text-transform: uppercase; letter-spacing: 2px;">${gvEyebrow}</span>
+                  </td>
+                </tr>
+                ${gvItems}
               </table>
             </td>
           </tr>`;
@@ -2308,7 +2292,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               'quote':            quoteHTML,
               'optional-content': generatePqBlocksHTML(),
               'insight':          insightHTML,
-              'grapevine':        generateGrapevineHTML(),
               'procrastination':  generateLinksHTML(),
             };
             return sectionOrder.map(id => sectionParts[id] || '').join('\n          ');
@@ -2344,7 +2327,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   }
 
   // ── Section drag-to-reorder ──
-  const DEFAULT_SECTION_ORDER = ['current-projects','quote','optional-content','insight','grapevine','procrastination'];
+  const DEFAULT_SECTION_ORDER = ['current-projects','quote','optional-content','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
   let dragSrcSection = null;
 
@@ -2413,7 +2396,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'insightEyebrow','insightHeading','insightBylineName','insightBylineRole','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
-      'grapevineSectionTheme','grapevineEyebrow',
       'linksEyebrow','linksSubheading','linksSectionTheme',
       'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
       'teamEyebrow'];
@@ -2427,11 +2409,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       interestingLinks: JSON.parse(JSON.stringify(interestingLinks)),
       teamMembers: JSON.parse(JSON.stringify(teamMembers)),
       pqBlocks: JSON.parse(JSON.stringify(pqBlocks)),
-      grapevineSectionLinks: JSON.parse(JSON.stringify(grapevineSectionLinks)),
       blockIdCounter,
       teamIdCounter,
       pqBlockIdCounter,
-      grapevineLinkIdCounter,
       sectionOrder: [...sectionOrder],
     };
   }
@@ -2448,15 +2428,12 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     teamIdCounter = state.teamIdCounter || 0;
     pqBlocks = state.pqBlocks || [];
     pqBlockIdCounter = state.pqBlockIdCounter || 0;
-    grapevineSectionLinks = state.grapevineSectionLinks || [];
-    grapevineLinkIdCounter = state.grapevineLinkIdCounter || 0;
     if (state.sectionOrder && state.sectionOrder.length) {
       sectionOrder = state.sectionOrder;
       restoreSectionDOMOrder();
     }
     renderBlocks();
     renderLinks();
-    renderGrapevineLinks();
     renderTeam();
     renderPqBlocks();
     renderHeroBylineOptions();
@@ -2555,7 +2532,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   renderTeam();
   renderHeroBylineOptions();
   renderLinks();
-  renderGrapevineLinks();
 
   addPqBlock('roc');
   renderPqBlocks();
