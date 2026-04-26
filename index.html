@@ -1888,13 +1888,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
     const labelRow = teamEyebrow ? `
                 <tr>
-                  <td align="center" style="border-top: 1px solid #333333; padding: 40px 0 16px 0; text-align: center;">
+                  <td align="center" style="padding: 0 0 16px 0; text-align: center;">
                     <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: #FADADD; text-transform: uppercase; letter-spacing: 2px;">${esc(teamEyebrow)}</span>
                   </td>
-                </tr>` : `
-                <tr>
-                  <td style="border-top: 1px solid #333333; padding: 40px 0 16px 0;">&nbsp;</td>
-                </tr>`;
+                </tr>` : ``;
 
     return `
                 ${labelRow}
@@ -2308,7 +2305,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
           <!-- FOOTER -->
           <tr>
-            <td style="background-color: #000000; padding: 36px 40px;">
+            <td style="background-color: #000000; padding: 0 40px 36px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${footerContentHTML}
                 ${generateTeamHTML()}
