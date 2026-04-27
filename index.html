@@ -194,6 +194,11 @@
       background: #fff;
     }
     textarea { resize: vertical; min-height: 80px; }
+    .rich-editor-wrap { border: 1px solid #ddd; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+    .rich-toolbar { display: flex; gap: 2px; padding: 4px 6px; background: #f8f8f8; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+    .rich-toolbar button { padding: 3px 7px; border: 1px solid transparent; background: none; border-radius: 3px; cursor: pointer; font-size: 13px; line-height: 1.2; }
+    .rich-toolbar button:hover { background: #e8e8e8; border-color: #ccc; }
+    .rich-content { padding: 8px; min-height: 80px; font-family: Georgia, serif; font-size: 14px; line-height: 1.6; outline: none; white-space: pre-wrap; word-wrap: break-word; }
 
     select {
       display: block;
@@ -498,7 +503,15 @@
         </div>
       </div>
       <label for="heroBody">Body</label>
-      <textarea id="heroBody" rows="4" placeholder="Keep to around 900 characters / 130 words." oninput="renderPreview()">Set a positive tone for the Gazette. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo dapibus lectus, sed lacinia nisi pellentesque sed. Aliquam erat volutpat. In tincidunt massa id rutrum hendrerit. Phasellus semper purus id ante blandit, ut hendrerit lorem lobortis. Maecenas risus justo, blandit et metus et, aliquam porttitor augue.</textarea>
+      <div class="rich-editor-wrap">
+        <div class="rich-toolbar">
+          <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
+          <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
+          <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+        </div>
+        <div id="heroBody" class="rich-content" contenteditable="true" oninput="renderPreview()">Set a positive tone for the Gazette. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo dapibus lectus, sed lacinia nisi pellentesque sed. Aliquam erat volutpat. In tincidunt massa id rutrum hendrerit. Phasellus semper purus id ante blandit, ut hendrerit lorem lobortis. Maecenas risus justo, blandit et metus et, aliquam porttitor augue.</div>
+      </div>
       </div>
     </div>
 
@@ -602,11 +615,15 @@
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('insightImageUrl'), 'insightImageUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="insightImageUrlMsg"></div>
       <label for="insightBody" style="margin-top:10px;">Body</label>
-      <textarea id="insightBody" rows="5" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus et ornare lorem imperdiet.</textarea>
+      <div class="rich-editor-wrap">
+        <div class="rich-toolbar">
+          <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
+          <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
+          <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+        </div>
+        <div id="insightBody" class="rich-content" contenteditable="true" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br /><br />Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<br /><br />Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus et ornare lorem imperdiet.</div>
+      </div>
       <label for="insightLinkLabel" style="margin-top:10px;">Button Label <span style="font-weight:400;color:#808080;">(optional)</span></label>
       <input type="text" id="insightLinkLabel" value="Learn more" oninput="renderPreview()" />
       <label for="insightLinkUrl" style="margin-top:10px;">Button URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
@@ -635,7 +652,15 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <div class="form-section-title" onclick="toggleSection(this)">Footer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="footerMessage">Sign-off Message</label>
-      <textarea id="footerMessage" rows="3" placeholder="e.g. Thanks for reading! Reach out to the comms team if you have something to share in next month's edition." oninput="renderPreview()"></textarea>
+      <div class="rich-editor-wrap">
+        <div class="rich-toolbar">
+          <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
+          <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
+          <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+        </div>
+        <div id="footerMessage" class="rich-content" contenteditable="true" oninput="renderPreview()"></div>
+      </div>
       </div>
     </div>
 
@@ -853,6 +878,50 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         </div>`;
   }
 
+  function richEditorHTML(id, content, oninputExpr) {
+    return `<div class="rich-editor-wrap">
+      <div class="rich-toolbar">
+        <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
+        <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
+        <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
+        <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+      </div>
+      <div id="${id}" class="rich-content" contenteditable="true" oninput="${oninputExpr}">${content}</div>
+    </div>`;
+  }
+
+  function insertRichLink() {
+    const url = prompt('Enter URL:', 'https://');
+    if (url && url !== 'https://') document.execCommand('createLink', false, url);
+  }
+
+  function emailBodyHtml(raw, fg) {
+    if (!raw) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = raw;
+    function walk(node) {
+      if (node.nodeType === 3) return node.textContent.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      if (node.nodeType !== 1) return '';
+      const tag = node.tagName.toLowerCase();
+      const kids = Array.from(node.childNodes).map(walk).join('');
+      if (tag === 'br') return '<br />';
+      if (tag === 'b' || tag === 'strong') return `<strong>${kids}</strong>`;
+      if (tag === 'i' || tag === 'em') return `<em>${kids}</em>`;
+      if (tag === 'a') {
+        const href = node.getAttribute('href') || '#';
+        return `<a href="${href}" style="color:${fg};text-decoration:underline;" target="_blank">${kids}</a>`;
+      }
+      if (tag === 'ul') return `<ul style="margin:8px 0;padding-left:20px;">${kids}</ul>`;
+      if (tag === 'li') return `<li style="margin-bottom:4px;">${kids}</li>`;
+      if (tag === 'div' || tag === 'p') return kids ? kids + '<br />' : '';
+      return kids;
+    }
+    let result = Array.from(tmp.childNodes).map(walk).join('');
+    result = result.replace(/(<br\s*\/?>\s*){3,}/gi, '<br /><br />');
+    result = result.replace(/^(<br\s*\/?>)+/i, '').replace(/(<br\s*\/?>)+$/i, '');
+    return result;
+  }
+
   function charCounter(blockId, field, limit) {
     const counterId = 'cc_' + blockId + '_' + field;
     return '<div class="char-counter" id="' + counterId + '"></div>';
@@ -906,8 +975,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
         ${charCounter(b.id, 'heading', 100)}
         <label>Body</label>
-        <textarea rows="3" placeholder="Write the content for this section..."
-                  oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
+        ${richEditorHTML('blockBody_'+b.id, b.body||'', "updateBlock("+b.id+",'body',this.innerHTML)")}
         ${charCounter(b.id, 'body', 1500)}
         <div class="inline-fields" style="margin-top:4px;">
           <div class="field">
@@ -931,8 +999,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                  oninput="updateBlock(${b.id}, 'leftHeading', this.value)" />
           ${charCounter(b.id, 'leftHeading', 100)}
           <label>Body</label>
-          <textarea rows="3" placeholder="Left column content..."
-                    oninput="updateBlock(${b.id}, 'leftBody', this.value)">${esc(b.leftBody)}</textarea>
+          ${richEditorHTML('blockLeftBody_'+b.id, b.leftBody||'', "updateBlock("+b.id+",'leftBody',this.innerHTML)")}
           ${charCounter(b.id, 'leftBody', 1500)}
         </div>
         <div style="background:#FADADD;border-radius:4px;padding:12px;">
@@ -942,8 +1009,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                  oninput="updateBlock(${b.id}, 'rightHeading', this.value)" />
           ${charCounter(b.id, 'rightHeading', 100)}
           <label>Body</label>
-          <textarea rows="3" placeholder="Right column content..."
-                    oninput="updateBlock(${b.id}, 'rightBody', this.value)">${esc(b.rightBody)}</textarea>
+          ${richEditorHTML('blockRightBody_'+b.id, b.rightBody||'', "updateBlock("+b.id+",'rightBody',this.innerHTML)")}
           ${charCounter(b.id, 'rightBody', 1500)}
         </div>
         ${renderButtonFields(b)}
@@ -967,8 +1033,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         <input type="text" value="${escAttr(b.h2heading)}"
                oninput="updateBlock(${b.id}, 'h2heading', this.value)" />
         <label>Body</label>
-        <textarea rows="3" placeholder="Write the feature content..."
-                  oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
+        ${richEditorHTML('blockBody_'+b.id, b.body||'', "updateBlock("+b.id+",'body',this.innerHTML)")}
         ${charCounter(b.id, 'body', 1500)}
         ${renderButtonFields(b)}
         ${renderBylineFields(b)}`;
@@ -1012,12 +1077,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         ${charCounter(b.id,'heading',100)}
         ${renderBylineFields(b)}
         <label>Body</label>
-        <textarea rows="4" placeholder="Describe the project..."
-                  oninput="updateBlock(${b.id},'body',this.value)">${esc(b.body)}</textarea>
+        ${richEditorHTML('blockBody_'+b.id, b.body||'', "updateBlock("+b.id+",'body',this.innerHTML)")}
         ${charCounter(b.id,'body',1500)}
         <label>What This Means For You <span style="font-weight:400;color:#808080;font-style:italic;">(italic in email)</span></label>
-        <textarea rows="3" placeholder="Explain the impact or relevance for the reader..."
-                  oninput="updateBlock(${b.id},'whatThisMeans',this.value)">${esc(b.whatThisMeans)}</textarea>
+        ${richEditorHTML('blockWhatThisMeans_'+b.id, b.whatThisMeans||'', "updateBlock("+b.id+",'whatThisMeans',this.innerHTML)")}
         ${charCounter(b.id,'whatThisMeans',1500)}`;
     }
     // standard
@@ -1027,8 +1090,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                oninput="updateBlock(${b.id}, 'heading', this.value)" />
         ${charCounter(b.id, 'heading', 100)}
         <label>Body</label>
-        <textarea rows="3" placeholder="Write the content for this section..."
-                  oninput="updateBlock(${b.id}, 'body', this.value)">${esc(b.body)}</textarea>
+        ${richEditorHTML('blockBody_'+b.id, b.body||'', "updateBlock("+b.id+",'body',this.innerHTML)")}
         ${charCounter(b.id, 'body', 1500)}
         <div class="inline-fields">
           <div class="field">
@@ -1297,7 +1359,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             ${PQ_SCORE_LABELS.slice(1).map((l,i) => `<option value="${i+1}"${String(b.score)==String(i+1)?' selected':''}>${i+1} – ${l}</option>`).join('')}
           </select>
           <label style="margin-top:10px;">Body</label>
-          <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
+          ${richEditorHTML('pqBody_'+b.id, b.body||'', "updatePqBlock("+b.id+",'body',this.innerHTML)")}
           <label style="margin-top:10px;">Pros Heading</label>
           <input type="text" value="${escAttr(b.prosTitle)}" oninput="updatePqBlock(${b.id},'prosTitle',this.value)" />
           ${prosHTML}
@@ -1318,9 +1380,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. The future of CX" oninput="updatePqBlock(${b.id},'heading',this.value)" />
           ${renderPqBylineFields(b)}
           <label style="margin-top:10px;">Body</label>
-          <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
+          ${richEditorHTML('pqBody_'+b.id, b.body||'', "updatePqBlock("+b.id+",'body',this.innerHTML)")}
           <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#808080;">(optional)</span></label>
-          <textarea rows="3" oninput="updatePqBlock(${b.id},'bottomLine',this.value)">${escAttr(b.bottomLine)}</textarea>`;
+          ${richEditorHTML('pqBottomLine_'+b.id, b.bottomLine||'', "updatePqBlock("+b.id+",'bottomLine',this.innerHTML)")}` ;
       } else if (b.type === 'grapevine') {
         const linksHTML = b.links.map((l, i) => `
           <div class="content-block" style="margin-top:8px;">
@@ -1387,9 +1449,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           ${imageFields}
           ${renderPqBylineFields(b)}
           <label style="margin-top:10px;">Body</label>
-          <textarea rows="4" oninput="updatePqBlock(${b.id},'body',this.value)">${escAttr(b.body)}</textarea>
+          ${richEditorHTML('pqBody_'+b.id, b.body||'', "updatePqBlock("+b.id+",'body',this.innerHTML)")}
           <label style="margin-top:10px;">What this means for you <span style="font-weight:400;color:#808080;">(optional)</span></label>
-          <textarea rows="3" oninput="updatePqBlock(${b.id},'whatThisMeans',this.value)">${escAttr(b.whatThisMeans)}</textarea>`;
+          ${richEditorHTML('pqWhatThisMeans_'+b.id, b.whatThisMeans||'', "updatePqBlock("+b.id+",'whatThisMeans',this.innerHTML)")}` ;
       }
       return `
         <div class="content-block">
@@ -1436,7 +1498,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                         </td>
                       </tr>
                     </table>
-                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0 0 32px 0;">${nl2br(b.body)}</p>` : ''}
+                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0 0 32px 0;">${emailBodyHtml(b.body,'#050505')}</p>` : ''}
                     ${b.prosItems.length ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 24px 0;">${esc(b.prosTitle)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
                       ${b.prosItems.map((item, i) => `<tr><td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < b.prosItems.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
@@ -1477,7 +1539,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                 <tr>
                   <td>
                     <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${sigFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: ${sigFg}; line-height: 1.7; margin: 0;">${nl2br(b.bottomLine)}</p>
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: ${sigFg}; line-height: 1.7; margin: 0;">${emailBodyHtml(b.bottomLine,sigFg)}</p>
                   </td>
                 </tr>
               </table>`
@@ -1494,7 +1556,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                   <td style="padding-top: 16px;">
                     <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: ${sigFg}; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
                     ${bylineHTML}
-                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: ${sigFg}; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                    ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: ${sigFg}; line-height: 1.7; margin: 0;">${emailBodyHtml(b.body,sigFg)}</p>` : ''}
                     ${bottomLineHTML}
                   </td>
                 </tr>
@@ -1583,7 +1645,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
         }
         const genBg = (b.theme || 'default') === 'alt' ? '#f1f1f1' : '#ffffff';
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
-        const whatHTML = b.whatThisMeans ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${nl2br(b.whatThisMeans)}</p>` : '';
+        const whatHTML = b.whatThisMeans ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${emailBodyHtml(b.whatThisMeans,'#050505')}</p>` : '';
         return `<tr>
             <td style="padding: 0 40px 40px 40px; background-color: ${genBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -1596,7 +1658,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                         <td valign="top">
                           <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
                           ${bylineHTML}
-                          ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                          ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0;">${emailBodyHtml(b.body,'#050505')}</p>` : ''}
                           ${whatHTML}
                         </td>
                       </tr>
@@ -1682,7 +1744,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     return esc(s).replace(/\n/g, '<br />');
   }
 
-  function val(id) { return document.getElementById(id).value; }
+  function val(id) {
+    const el = document.getElementById(id);
+    if (!el) return '';
+    return el.tagName === 'DIV' ? el.innerHTML : el.value;
+  }
 
   // ── Image URL conversion ──
   function convertImageUrl(url) {
@@ -1974,7 +2040,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                         <td valign="top" width="100%">
                           <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
                           ${generateBylineHTML(b)}
-                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.body)}${linkHTML ? '<br />' + linkHTML : ''}</p>
+                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${emailBodyHtml(b.body,'#000000')}${linkHTML ? '<br />' + linkHTML : ''}</p>
                         </td>
                       </tr>
                     </table>
@@ -1993,11 +2059,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                       <tr>
                         <td valign="top" width="50%" style="width:50%; padding: 0 10px 0 0;">
                           <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.leftHeading)}</h2>
-                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.leftBody)}</p>
+                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${emailBodyHtml(b.leftBody,'#000000')}</p>
                         </td>
                         <td valign="top" width="50%" style="width:50%; padding: 0 0 0 10px;">
                           <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.rightHeading)}</h2>
-                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.rightBody)}</p>
+                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${emailBodyHtml(b.rightBody,'#000000')}</p>
                         </td>
                       </tr>
                     </table>
@@ -2038,7 +2104,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                           ${featureSubheadingHTML}
                           ${featureH2HTML}
                           ${generateBylineHTML(b, '#ffffff')}
-                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
+                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #ffffff; line-height: 1.7; margin: 0;">${emailBodyHtml(b.body,'#ffffff')}</p>
                           ${generateFeatureButtonHTML(b)}
                         </td>
                       </tr>
@@ -2105,7 +2171,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                   </tr>`;
         }
         const whatHTML = b.whatThisMeans ? `
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${nl2br(b.whatThisMeans)}</p>` : '';
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; font-style: italic; color: #050505; line-height: 1.7; margin: 16px 0 0 0;">${emailBodyHtml(b.whatThisMeans,'#050505')}</p>` : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2117,7 +2183,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                         <td valign="top">
                           <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #050505; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
                           ${generateBylineHTML(b, '#616161')}
-                          ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>` : ''}
+                          ${b.body ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; margin: 0;">${emailBodyHtml(b.body,'#050505')}</p>` : ''}
                           ${whatHTML}
                         </td>
                       </tr>
@@ -2142,7 +2208,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                         <td valign="top">
                           <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000000; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
                           ${generateBylineHTML(b)}${imgHTML}
-                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${nl2br(b.body)}</p>
+                          <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #000000; line-height: 1.7; margin: 0;">${emailBodyHtml(b.body,'#000000')}</p>
                           ${generateButtonHTML(b)}
                         </td>
                       </tr>
@@ -2170,7 +2236,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       footerContentHTML = `
                 <tr>
                   <td align="center" style="padding-bottom: 24px;">
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: #F4A9A3; line-height: 1.7; margin: 0;">${nl2br(footer)}</p>
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: #F4A9A3; line-height: 1.7; margin: 0;">${emailBodyHtml(footer,'#F4A9A3')}</p>
                   </td>
                 </tr>`;
     }
@@ -2230,7 +2296,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             <td style="background-color: #FADADD; padding: 40px 40px 52px 40px;">
               <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #E8383A; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
-              ${heroBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 18px; color: #991B1B; line-height: 1.7; margin: 0;">${nl2br(heroBody)}</p>` : ''}
+              ${heroBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 18px; color: #991B1B; line-height: 1.7; margin: 0;">${emailBodyHtml(heroBody,'#991B1B')}</p>` : ''}
             </td>
           </tr>` : ''}
 
@@ -2265,7 +2331,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                     ${insightHeading ? `<h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #E8383A; line-height: 1.24; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
                     ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #991B1B; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(insightBylineName)}</strong>${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
                     ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
-                    ${insightBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #991B1B; line-height: 1.7; margin: 0 0 16px 0;">${nl2br(insightBody)}</p>` : ''}
+                    ${insightBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #991B1B; line-height: 1.7; margin: 0 0 16px 0;">${emailBodyHtml(insightBody,'#991B1B')}</p>` : ''}
                     ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0"><tr><td><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(insightLinkUrl)}" style="height:44px;v-text-anchor:middle;width:160px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(insightLinkLabel)}</center></v:roundrect><![endif]--><!--[if !mso]><!--><table border="0" cellpadding="0" cellspacing="0"><tr><td align="center" style="background-color: #E8383A; border-radius: 4px;"><a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(insightLinkLabel)}</a></td></tr></table><!--<![endif]--></td></tr></table>` : ''}
                   </td>
                 </tr>
@@ -2397,7 +2463,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
       'teamEyebrow'];
     const fields = {};
-    fieldIds.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.value; });
+    fieldIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) fields[id] = el.tagName === 'DIV' ? el.innerHTML : el.value;
+    });
     return {
       version: 1,
       savedAt: new Date().toISOString(),
@@ -2416,7 +2485,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   function restoreFormState(state) {
     Object.entries(state.fields || {}).forEach(([id, value]) => {
       const el = document.getElementById(id);
-      if (el) el.value = value;
+      if (!el) return;
+      if (el.tagName === 'DIV') el.innerHTML = value;
+      else el.value = value;
     });
     blocks = state.blocks || [];
     blockIdCounter = state.blockIdCounter || 0;
