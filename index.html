@@ -459,8 +459,7 @@
   <!-- ════════════════════════════════════ -->
   <div class="form-panel">
 
-    <!-- Header -->
-    <div class="form-section">
+    <div class="form-section" data-section-id="header">
       <div class="form-section-title" onclick="toggleSection(this)">Header <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <div class="inline-fields">
@@ -482,8 +481,7 @@
       </div>
     </div>
 
-    <!-- Introduction -->
-    <div class="form-section">
+    <div class="form-section" data-section-id="introduction">
       <div class="form-section-title" onclick="toggleSection(this)">Introduction <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="heroHeadline">Headline</label>
@@ -517,8 +515,7 @@
       </div>
     </div>
 
-    <!-- Trivia Question -->
-    <div class="form-section">
+    <div class="form-section" data-section-id="trivia-question">
       <div class="form-section-title" onclick="toggleSection(this)">Trivia Question <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="triviaEyebrow">Section Label</label>
@@ -648,8 +645,7 @@
 
     </div><!-- /#reorderableSections -->
 
-    <!-- Footer -->
-    <div class="form-section">
+    <div class="form-section" data-section-id="footer">
       <div class="form-section-title" onclick="toggleSection(this)">Footer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="footerMessage">Sign-off Message</label>
@@ -665,8 +661,7 @@
       </div>
     </div>
 
-    <!-- Trivia Answer -->
-    <div class="form-section">
+    <div class="form-section" data-section-id="trivia-answer">
       <div class="form-section-title" onclick="toggleSection(this)">Trivia Answer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <div id="triviaAnswerThemeToggle"></div>
@@ -682,8 +677,7 @@
       </div>
     </div>
 
-    <!-- Team -->
-    <div class="form-section">
+    <div class="form-section" data-section-id="team">
       <div class="form-section-title" onclick="toggleSection(this)">Your Team This Edition <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="teamEyebrow">Section Label <span style="font-weight:400;color:#808080;">(optional)</span></label>
@@ -721,8 +715,36 @@
   let blocks = [];
   let blockIdCounter = 0;
 
+  const PREVIEW_MAP = {
+    'header':            'prev-header',
+    'introduction':      'prev-intro',
+    'trivia-question':   'prev-trivia-q',
+    'current-projects':  'prev-current-projects',
+    'quote':             'prev-quote',
+    'optional-content':  'prev-optional-content',
+    'insight':           'prev-insight',
+    'procrastination':   'prev-procrastination',
+    'footer':            'prev-footer',
+    'trivia-answer':     'prev-trivia-a',
+    'team':              'prev-footer',
+  };
+
+  function scrollPreviewTo(sectionId) {
+    const targetId = PREVIEW_MAP[sectionId];
+    if (!targetId) return;
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const panel = document.querySelector('.preview-panel');
+    panel.scrollTo({ top: panel.scrollTop + el.getBoundingClientRect().top - panel.getBoundingClientRect().top - 32, behavior: 'smooth' });
+  }
+
   function toggleSection(titleEl) {
-    titleEl.closest('.form-section').classList.toggle('open');
+    const section = titleEl.closest('.form-section');
+    section.classList.toggle('open');
+    if (section.classList.contains('open')) {
+      const sectionId = section.dataset.sectionId;
+      if (sectionId) scrollPreviewTo(sectionId);
+    }
   }
 
 
@@ -1489,7 +1511,8 @@
   }
 
   function generatePqBlocksHTML() {
-    return pqBlocks.map(b => {
+    return pqBlocks.map((b, i) => {
+      const anchorId = i === 0 ? ' id="prev-optional-content"' : '';
       if (b.type === 'roc') {
         if (!b.heading) return '';
         const scoreNum = parseInt(b.score || '7', 10);
@@ -1499,7 +1522,7 @@
         const rocEyebrow = rocIsAlt ? '#050505' : '#E8383A';
         const rocScoreBg = rocIsAlt ? '#050505' : '#FADADD';
         const rocScoreFg = rocIsAlt ? '#ffffff' : '#E8383A';
-        return `<tr>
+        return `<tr${anchorId}>
             <td style="background-color: ${rocBg}; padding: 40px 40px 32px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -1568,7 +1591,7 @@
                 </tr>
               </table>`
           : '';
-        return `<tr>
+        return `<tr${anchorId}>
             <td style="background-color: ${sigBg}; padding: 40px 40px 48px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -1599,7 +1622,7 @@
           const inner = l.url
             ? `<a href="${esc(l.url)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; text-decoration: underline; line-height: 1.4;">${esc(l.text)}</a>`
             : `<span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; line-height: 1.4;">${esc(l.text)}</span>`;
-          return `<tr>
+          return `<tr${anchorId}>
               <td style="padding: 20px 0; border-bottom: 1px solid ${gvIsAlt ? '#e0e0e0' : 'rgba(255,255,255,0.2)'};">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                   <td valign="top" style="width:30px; padding-right:10px; font-size:20px; line-height:1.3; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; color:${gvFg}; white-space:nowrap;">${esc(l.emoji)}</td>
@@ -1608,7 +1631,7 @@
               </td>
             </tr>`;
         }).join('');
-        return `<tr>
+        return `<tr${anchorId}>
             <td style="background-color: ${gvBg}; padding: 0 40px 40px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -1670,7 +1693,7 @@
         const genBg = (b.theme || 'default') === 'alt' ? '#f1f1f1' : '#ffffff';
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,'#050505','17px','16px 0 0 0',true) : '';
-        return `<tr>
+        return `<tr${anchorId}>
             <td style="padding: 0 40px 40px 40px; background-color: ${genBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -1935,7 +1958,7 @@
               </tr>` : '';
 
     return `
-          <tr>
+          <tr id="prev-procrastination">
             <td style="padding: 16px 50px 40px 50px; background-color: ${linksBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="500">
                 ${linksLabelRow}
@@ -2245,7 +2268,7 @@
     let contentSectionHTML = '';
     if (contentBlocksHTML) {
       contentSectionHTML = `
-          <tr>
+          <tr id="prev-current-projects">
             <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
               ${contentBlocksHTML}
             </td>
@@ -2288,7 +2311,7 @@
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px; background-color: #ffffff; border-radius: 4px; overflow: hidden;">
 
           <!-- HEADER -->
-          <tr>
+          <tr id="prev-header">
             <td style="background-color: #E8383A; padding: 0;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2304,7 +2327,7 @@
           </tr>
 
           <!-- HERO IMAGE -->
-          <tr>
+          <tr id="prev-intro">
             <td style="background-color: #FADADD; padding: 0; font-size: 0; line-height: 0;">
               <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><![endif]-->
               <a href="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" target="_blank"><img src="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" /></a>
@@ -2322,7 +2345,7 @@
           </tr>` : ''}
 
           <!-- TRIVIA QUESTION -->
-          ${triviaQuestion ? `<tr>
+          ${triviaQuestion ? `<tr id="prev-trivia-q">
             <td style="background-color: #E8383A; padding: 32px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2339,7 +2362,7 @@
 
           <!-- REORDERABLE SECTIONS -->
           ${(function() {
-            const insightHTML = (insightHeading || insightBody) ? `<tr>
+            const insightHTML = (insightHeading || insightBody) ? `<tr id="prev-insight">
             <td style="background-color: #FADADD; padding: 40px 40px 32px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2359,7 +2382,7 @@
               </table>
             </td>
           </tr>` : '';
-            const quoteHTML = quoteText ? `<tr>
+            const quoteHTML = quoteText ? `<tr id="prev-quote">
             <td style="background-color: #E8383A; padding: 48px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2382,7 +2405,7 @@
           })()}
 
           <!-- TRIVIA ANSWER -->
-          ${triviaAnswer ? `<tr>
+          ${triviaAnswer ? `<tr id="prev-trivia-a">
             <td style="background-color: ${triviaBg}; padding: 32px 50px;">
               <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
@@ -2391,7 +2414,7 @@
           </tr>` : ''}
 
           <!-- FOOTER -->
-          <tr>
+          <tr id="prev-footer">
             <td style="background-color: #000000; padding: 36px 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${footerContentHTML}
