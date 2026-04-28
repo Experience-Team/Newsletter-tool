@@ -548,13 +548,7 @@
       <div class="form-section-body">
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
-        <div class="add-menu" id="addMenu">
-          <button onclick="addBlock('image-text')"><strong>Image + Text</strong><span>Image on the left, text on the right</span></button>
-          <button onclick="addBlock('two-column')"><strong>Two Column</strong><span>Two equal columns, each with heading &amp; body</span></button>
-          <button onclick="addBlock('feature')"><strong>Feature</strong><span>Red highlight block for key announcements</span></button>
-          <button onclick="addBlock('current-project')"><strong>Current Project</strong><span>Project overview with images, body and 'what this means for you'</span></button>
-        </div>
-        <button class="btn-add" onclick="toggleAddMenu(event)">+ Add Section</button>
+        <button class="btn-add" onclick="addBlock('current-project')">+ Add Section</button>
       </div>
       </div>
     </div>
@@ -724,11 +718,6 @@
     titleEl.closest('.form-section').classList.toggle('open');
   }
 
-  function toggleAddMenu(e) {
-    e.stopPropagation();
-    document.getElementById('addMenu').classList.toggle('open');
-  }
-  document.addEventListener('click', () => document.getElementById('addMenu').classList.remove('open'));
 
   function addBlock(type) {
     type = type || 'standard';
