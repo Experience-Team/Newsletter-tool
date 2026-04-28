@@ -2388,9 +2388,9 @@
 
           <!-- TRIVIA ANSWER -->
           ${triviaAnswer ? `<tr>
-            <td style="background-color: ${triviaBg}; padding: 32px 40px;">
-              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0;">${esc(triviaAnswerEyebrow)}</p>
-              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
+            <td style="background-color: ${triviaBg}; padding: 32px 50px;">
+              <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
+              <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
             </td>
           </tr>` : ''}
