@@ -125,6 +125,7 @@
       margin-bottom: 28px;
       padding-bottom: 24px;
       border-bottom: 1px solid #C8C8C8;
+      position: relative;
     }
     .form-section:last-child { border-bottom: none; }
 
@@ -154,12 +155,14 @@
     .form-section.open .form-section-body { display: block; }
 
     .drag-handle {
+      position: absolute;
+      left: -20px;
+      top: 2px;
       cursor: grab;
       color: #808080;
       font-size: 15px;
       line-height: 1;
       user-select: none;
-      flex-shrink: 0;
       padding: 2px 4px;
     }
     .drag-handle:hover { color: #888; }
@@ -544,7 +547,8 @@
 
     <!-- Content Blocks -->
     <div class="form-section" data-section-id="current-projects" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
-      <div class="form-section-title" onclick="toggleSection(this)"><span style="display:flex;align-items:center;gap:6px;"><span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>Current projects</span><span class="section-chevron">▾</span></div>
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">Current projects <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
@@ -555,7 +559,8 @@
 
     <!-- Quote -->
     <div class="form-section" data-section-id="quote" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
-      <div class="form-section-title" onclick="toggleSection(this)"><span style="display:flex;align-items:center;gap:6px;"><span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>Quote</span><span class="section-chevron">▾</span></div>
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">Quote <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="quoteText">Quote</label>
       <textarea id="quoteText" rows="3" oninput="renderPreview()">"People ignore design that ignores people"</textarea>
@@ -566,7 +571,8 @@
 
     <!-- Optional content -->
     <div class="form-section" data-section-id="optional-content" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
-      <div class="form-section-title" onclick="toggleSection(this)"><span style="display:flex;align-items:center;gap:6px;"><span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>Optional content</span><span class="section-chevron">▾</span></div>
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">Optional content <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <div id="pqBlocksContainer"></div>
       <div class="add-section-wrap">
@@ -583,7 +589,8 @@
 
     <!-- Insight -->
     <div class="form-section" data-section-id="insight" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
-      <div class="form-section-title" onclick="toggleSection(this)"><span style="display:flex;align-items:center;gap:6px;"><span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>Insight</span><span class="section-chevron">▾</span></div>
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">Insight <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <label for="insightEyebrow">Section Label</label>
       <input type="text" id="insightEyebrow" value="Insight" oninput="renderPreview()" />
@@ -627,7 +634,8 @@
 
     <!-- Interesting Links -->
     <div class="form-section" data-section-id="procrastination" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
-      <div class="form-section-title" onclick="toggleSection(this)"><span style="display:flex;align-items:center;gap:6px;"><span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>The Procrastination Station</span><span class="section-chevron">▾</span></div>
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">The Procrastination Station <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
       <div id="linksSectionThemeToggle"></div>
       <input type="hidden" id="linksSectionTheme" value="default" />
