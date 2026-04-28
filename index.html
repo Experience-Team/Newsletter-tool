@@ -895,8 +895,10 @@
     if (url && url !== 'https://') document.execCommand('createLink', false, url);
   }
 
-  function emailBodyHtml(raw, fg) {
+  function emailBodyHtml(raw, fg, fontSize) {
     if (!raw) return '';
+    const ff = "Georgia,'Times New Roman',Times,serif";
+    const fs = fontSize || '17px';
     const tmp = document.createElement('div');
     tmp.innerHTML = raw;
     function walk(node) {
@@ -911,8 +913,8 @@
         const href = node.getAttribute('href') || '#';
         return `<a href="${href}" style="color:${fg};text-decoration:underline;" target="_blank">${kids}</a>`;
       }
-      if (tag === 'ul') return `<ul style="margin:8px 0;padding-left:20px;">${kids}</ul>`;
-      if (tag === 'li') return `<li style="margin-bottom:4px;">${kids}</li>`;
+      if (tag === 'ul') return `<ul style="margin:8px 0;padding-left:20px;font-family:${ff};font-size:${fs};color:${fg};line-height:1.7;">${kids}</ul>`;
+      if (tag === 'li') return `<li style="margin-bottom:4px;font-family:${ff};font-size:${fs};color:${fg};line-height:1.7;">${kids}</li>`;
       if (tag === 'div' || tag === 'p') return kids ? kids + '<br />' : '';
       return kids;
     }
@@ -2236,7 +2238,7 @@
       footerContentHTML = `
                 <tr>
                   <td align="center" style="padding-bottom: 24px;">
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: #F4A9A3; line-height: 1.7; margin: 0;">${emailBodyHtml(footer,'#F4A9A3')}</p>
+                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: #F4A9A3; line-height: 1.7; margin: 0;">${emailBodyHtml(footer,'#F4A9A3','16px')}</p>
                   </td>
                 </tr>`;
     }
@@ -2296,7 +2298,7 @@
             <td style="background-color: #FADADD; padding: 40px 40px 52px 40px;">
               <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #E8383A; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
-              ${heroBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 18px; color: #991B1B; line-height: 1.7; margin: 0;">${emailBodyHtml(heroBody,'#991B1B')}</p>` : ''}
+              ${heroBody ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 18px; color: #991B1B; line-height: 1.7; margin: 0;">${emailBodyHtml(heroBody,'#991B1B','18px')}</p>` : ''}
             </td>
           </tr>` : ''}
 
