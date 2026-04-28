@@ -1175,17 +1175,14 @@
     container.innerHTML = interestingLinks.map((l, i) => `
       <div class="content-block">
         <div class="block-header">
-          <span class="block-number">Link ${i + 1}</span>
+          <span class="block-number">Image ${i + 1}</span>
         </div>
-        <label>Image URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
+        <label>Image URL</label>
         <input type="text" value="${escAttr(l.imageUrl)}" placeholder="e.g. https://res.cloudinary.com/…/image.jpg"
                oninput="updateLink(${l.id}, 'imageUrl', this.value)" />
-        <label>Link URL</label>
+        <label>Link URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
         <input type="text" value="${escAttr(l.linkUrl)}" placeholder="e.g. https://example.com/article"
                oninput="updateLink(${l.id}, 'linkUrl', this.value)" />
-        <label>Caption <span style="font-weight:400;color:#808080;">(optional)</span></label>
-        <input type="text" value="${escAttr(l.caption)}" placeholder="e.g. Worth a read"
-               oninput="updateLink(${l.id}, 'caption', this.value)" />
       </div>
     `).join('');
   }
@@ -1897,62 +1894,60 @@
 
   // ── Generate Interesting Links HTML ──
   function generateLinksHTML() {
-    const active = interestingLinks.filter(l => l.imageUrl || l.linkUrl || l.caption);
-    if (!active.length) return '';
+    if (!interestingLinks.some(l => l.imageUrl || l.linkUrl)) return '';
 
     const linksTheme    = val('linksSectionTheme') || 'default';
     const linksBg       = linksTheme === 'alt' ? '#f1f1f1' : '#050505';
     const linksLabelFg  = linksTheme === 'alt' ? '#050505' : '#FADADD';
     const linksSubFg    = linksTheme === 'alt' ? '#050505' : '#FADADD';
-    const linksCaptionFg = linksTheme === 'alt' ? '#050505' : '#ffffff';
-    const linksEyebrow  = val('linksEyebrow') || '';
+    const placeholderBg = linksTheme === 'alt' ? '#cccccc' : '#333333';
+    const linksEyebrow    = val('linksEyebrow') || '';
     const linksSubheading = val('linksSubheading') || '';
-    const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="80" style="margin: 0 auto;"><tr><td width="80" height="80" align="center" valign="middle" style="width:80px; height:80px; border-radius:50%; background-color:#808080; font-size:0; line-height:0;">&nbsp;</td></tr></table>`;
 
-    const cells = interestingLinks.map(l => {
-      const hasLink = !!l.linkUrl;
-      let img;
+    const widths = [161, 162, 161];
+    const imgCells = interestingLinks.map((l, i) => {
+      const w = widths[i];
+      let imgContent;
       if (l.imageUrl) {
-        const imgTag = `<img src="${esc(l.imageUrl)}" alt="${esc(l.caption || '')}" width="80" height="80" style="display: block; width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 0; outline: none; margin: 0 auto;" />`;
-        img = hasLink ? `<a href="${esc(l.linkUrl)}" target="_blank">${imgTag}</a>` : `<a href="${esc(l.imageUrl)}" target="_blank">${imgTag}</a>`;
+        const imgTag = `<img src="${esc(l.imageUrl)}" alt="" width="${w}" height="182" style="display:block;width:${w}px;height:182px;object-fit:cover;border:0;outline:none;" />`;
+        imgContent = l.linkUrl
+          ? `<a href="${esc(l.linkUrl)}" target="_blank" style="display:block;">${imgTag}</a>`
+          : imgTag;
       } else {
-        img = placeholderCircle;
+        imgContent = `<table border="0" cellpadding="0" cellspacing="0" width="${w}"><tr><td width="${w}" height="182" style="width:${w}px;height:182px;background-color:${placeholderBg};font-size:0;line-height:0;">&nbsp;</td></tr></table>`;
       }
-      const captionHTML = l.caption
-        ? `<p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; color: ${linksCaptionFg}; margin: 10px 0 0 0; line-height: 1.4; text-align: center;">${esc(l.caption)}</p>`
-        : '';
-      return `<td valign="top" align="center" style="padding: 0 12px; width: 33.33%;">
-                ${img}
-                ${captionHTML}
-              </td>`;
-    }).join('');
+      return `<td width="${w}" valign="top" style="width:${w}px;">${imgContent}</td>`;
+    });
+
+    const spacer = `<td width="8" style="width:8px;font-size:0;line-height:0;">&nbsp;</td>`;
+    const cells = [imgCells[0], spacer, imgCells[1], spacer, imgCells[2]].join('');
 
     const linksLabelRow = linksEyebrow ? `
-                <tr>
-                  <td style="padding: 32px 0 20px 0; border-top: 2px solid ${linksLabelFg};">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${linksLabelFg}; text-transform: uppercase; letter-spacing: 2px;">${esc(linksEyebrow)}</span>
-                  </td>
-                </tr>` : `
-                <tr>
-                  <td style="padding: 16px 0 0 0; border-top: 2px solid ${linksLabelFg};">&nbsp;</td>
-                </tr>`;
+              <tr>
+                <td style="padding: 34px 0 20px 0;">
+                  <span style="font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;color:${linksLabelFg};text-transform:uppercase;letter-spacing:2px;">${esc(linksEyebrow)}</span>
+                </td>
+              </tr>` : `
+              <tr>
+                <td style="padding: 34px 0 20px 0;">&nbsp;</td>
+              </tr>`;
 
     const linksSubheadingRow = linksSubheading ? `
-                <tr>
-                  <td style="padding: 0 0 16px 0;">
-                    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px; color: ${linksSubFg}; margin: 0; line-height: 1.5;">${esc(linksSubheading)}</p>
-                  </td>
-                </tr>` : '';
+              <tr>
+                <td style="padding: 0 0 17px 0;">
+                  <p style="font-family:Georgia,'Times New Roman',Times,serif;font-size:16px;color:${linksSubFg};margin:0;line-height:1.4;">${esc(linksSubheading)}</p>
+                </td>
+              </tr>` : '';
 
     return `
           <tr>
-            <td style="padding: 0 40px 40px 40px; background-color: ${linksBg};">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <td style="padding: 16px 50px 40px 50px; background-color: ${linksBg};">
+              <table border="0" cellpadding="0" cellspacing="0" width="500">
                 ${linksLabelRow}
                 ${linksSubheadingRow}
                 <tr>
                   <td>
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <table border="0" cellpadding="0" cellspacing="0" width="500">
                       <tr>${cells}</tr>
                     </table>
                   </td>
