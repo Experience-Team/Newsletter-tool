@@ -2343,7 +2343,7 @@
           ${(val('heroHeadline') || heroBody) ? `<tr>
             <td style="background-color: #FADADD; padding: 40px 40px 52px 40px;">
               <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #E8383A; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
-              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #E8383A; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
+              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #991B1B; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,'#991B1B','18px') : ''}
             </td>
           </tr>` : ''}
