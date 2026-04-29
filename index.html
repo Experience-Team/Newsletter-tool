@@ -539,6 +539,114 @@
       </div>
     </div>
 
+    <!-- The Signal -->
+    <div class="form-section" data-section-id="signal">
+      <div class="form-section-title" onclick="toggleSection(this)">The Signal <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
+      <div id="signalThemeToggle"></div>
+      <input type="hidden" id="signalTheme" value="default" />
+      <label>Section Label</label>
+      <input type="text" id="signalEyebrow" value="🚦 The Signal" oninput="renderPreview()" />
+      <label style="margin-top:10px;">Heading</label>
+      <input type="text" id="signalHeading" oninput="renderPreview()" />
+      <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#808080;">(optional)</span></label>
+        <select id="signalBylineSelect" onchange="pickSignalByline(this.value); this.value='';">
+          <option value="">— Pick from team —</option>
+        </select>
+        <div class="inline-fields">
+          <div class="field">
+            <input type="text" id="signalBylineName" value="Abe Atiya" placeholder="Name" oninput="renderPreview()" />
+          </div>
+          <div class="field">
+            <input type="text" id="signalBylineRole" value="Experience Director" placeholder="Role (e.g. Senior Designer)" oninput="renderPreview()" />
+          </div>
+        </div>
+      </div>
+      <label style="margin-top:10px;">Image Layout <span style="font-weight:400;color:#808080;">(optional)</span></label>
+      <div style="display:flex;gap:6px;margin-bottom:10px;">
+        <button type="button" id="signalLayoutBtn_none" onclick="setSignalImageLayout('none')"  style="padding:5px 12px;border:1px solid #E8383A;background:#E8383A;color:#fff;border-radius:4px;cursor:pointer;font-size:13px;">None</button>
+        <button type="button" id="signalLayoutBtn_1x"   onclick="setSignalImageLayout('1x')"    style="padding:5px 12px;border:1px solid #ddd;background:#fff;color:#333;border-radius:4px;cursor:pointer;font-size:13px;">1×</button>
+        <button type="button" id="signalLayoutBtn_2x"   onclick="setSignalImageLayout('2x')"    style="padding:5px 12px;border:1px solid #ddd;background:#fff;color:#333;border-radius:4px;cursor:pointer;font-size:13px;">2×</button>
+        <button type="button" id="signalLayoutBtn_3x"   onclick="setSignalImageLayout('3x')"    style="padding:5px 12px;border:1px solid #ddd;background:#fff;color:#333;border-radius:4px;cursor:pointer;font-size:13px;">3×</button>
+        <button type="button" id="signalLayoutBtn_4x"   onclick="setSignalImageLayout('4x')"    style="padding:5px 12px;border:1px solid #ddd;background:#fff;color:#333;border-radius:4px;cursor:pointer;font-size:13px;">4×</button>
+      </div>
+      <input type="hidden" id="signalImageLayout" value="none" />
+      <div id="signalImgSlot1" style="display:none;">
+        <div class="inline-fields" style="margin-top:4px;">
+          <div class="field"><label>Image 1 URL</label>
+            <input type="text" id="signalImage1Url" placeholder="https://"
+                   oninput="processImageUrl(this,'signalImg1Msg',function(u){document.getElementById('signalImage1Url').value=u;renderPreview();})"
+                   onpaste="var s=this;setTimeout(function(){processImageUrl(s,'signalImg1Msg',function(u){document.getElementById('signalImage1Url').value=u;renderPreview();});},0)" />
+          </div>
+          <div class="field-narrow"><label>Alt Text</label>
+            <input type="text" id="signalImage1Alt" placeholder="Describe the image" oninput="renderPreview()" />
+          </div>
+        </div><div id="signalImg1Msg"></div>
+      </div>
+      <div id="signalImgSlot2" style="display:none;">
+        <div class="inline-fields" style="margin-top:4px;">
+          <div class="field"><label>Image 2 URL</label>
+            <input type="text" id="signalImage2Url" placeholder="https://"
+                   oninput="processImageUrl(this,'signalImg2Msg',function(u){document.getElementById('signalImage2Url').value=u;renderPreview();})"
+                   onpaste="var s=this;setTimeout(function(){processImageUrl(s,'signalImg2Msg',function(u){document.getElementById('signalImage2Url').value=u;renderPreview();});},0)" />
+          </div>
+          <div class="field-narrow"><label>Alt Text</label>
+            <input type="text" id="signalImage2Alt" placeholder="Describe the image" oninput="renderPreview()" />
+          </div>
+        </div><div id="signalImg2Msg"></div>
+      </div>
+      <div id="signalImgSlot3" style="display:none;">
+        <div class="inline-fields" style="margin-top:4px;">
+          <div class="field"><label>Image 3 URL</label>
+            <input type="text" id="signalImage3Url" placeholder="https://"
+                   oninput="processImageUrl(this,'signalImg3Msg',function(u){document.getElementById('signalImage3Url').value=u;renderPreview();})"
+                   onpaste="var s=this;setTimeout(function(){processImageUrl(s,'signalImg3Msg',function(u){document.getElementById('signalImage3Url').value=u;renderPreview();});},0)" />
+          </div>
+          <div class="field-narrow"><label>Alt Text</label>
+            <input type="text" id="signalImage3Alt" placeholder="Describe the image" oninput="renderPreview()" />
+          </div>
+        </div><div id="signalImg3Msg"></div>
+      </div>
+      <div id="signalImgSlot4" style="display:none;">
+        <div class="inline-fields" style="margin-top:4px;">
+          <div class="field"><label>Image 4 URL</label>
+            <input type="text" id="signalImage4Url" placeholder="https://"
+                   oninput="processImageUrl(this,'signalImg4Msg',function(u){document.getElementById('signalImage4Url').value=u;renderPreview();})"
+                   onpaste="var s=this;setTimeout(function(){processImageUrl(s,'signalImg4Msg',function(u){document.getElementById('signalImage4Url').value=u;renderPreview();});},0)" />
+          </div>
+          <div class="field-narrow"><label>Alt Text</label>
+            <input type="text" id="signalImage4Alt" placeholder="Describe the image" oninput="renderPreview()" />
+          </div>
+        </div><div id="signalImg4Msg"></div>
+      </div>
+      <label style="margin-top:10px;">Body</label>
+      <div class="rich-editor-wrap">
+        <div class="rich-toolbar">
+          <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
+          <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
+          <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+        </div>
+        <div id="signalBody" class="rich-content" contenteditable="true" oninput="renderPreview()"></div>
+      </div>
+      <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#808080;">(optional)</span></label>
+      <div class="rich-editor-wrap">
+        <div class="rich-toolbar">
+          <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
+          <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
+          <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+        </div>
+        <div id="signalBottomLine" class="rich-content" contenteditable="true" oninput="renderPreview()"></div>
+      </div>
+      <label style="margin-top:10px;">Button Label <span style="font-weight:400;color:#808080;">(optional)</span></label>
+      <input type="text" id="signalBtnLabel" oninput="renderPreview()" />
+      <label style="margin-top:10px;">Button URL</label>
+      <input type="text" id="signalBtnUrl" placeholder="https://" oninput="renderPreview()" />
+      </div>
+    </div>
+
     <div id="reorderableSections">
 
     <!-- Content Blocks -->
@@ -575,7 +683,6 @@
         <div class="add-menu" id="pqAddMenu">
           <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
           <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
-          <button onclick="addPqBlock('signal')"><strong>🚦 The Signal</strong><span>Opinion piece with heading, byline, body and bottom line</span></button>
           <button onclick="addPqBlock('grapevine')"><strong>🍇 The Grapevine</strong><span>Emoji bullet link list</span></button>
         </div>
         <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
@@ -713,6 +820,7 @@
     'header':            'prev-header',
     'introduction':      'prev-intro',
     'trivia-question':   'prev-trivia-q',
+    'signal':            'prev-signal',
     'current-projects':  'prev-current-projects',
     'quote':             'prev-quote',
     'optional-content':  'prev-optional-content',
@@ -811,6 +919,8 @@
     if (sel) sel.innerHTML = bylineOptionsHTML();
     const iSel = document.getElementById('insightBylineSelect');
     if (iSel) iSel.innerHTML = bylineOptionsHTML();
+    const sSel = document.getElementById('signalBylineSelect');
+    if (sSel) sSel.innerHTML = bylineOptionsHTML();
   }
 
   function pickPqByline(blockId, memberId) {
@@ -850,6 +960,40 @@
     if (!member) return;
     document.getElementById('insightBylineName').value = member.name;
     document.getElementById('insightBylineRole').value = member.title;
+    renderPreview();
+  }
+
+  function pickSignalByline(memberId) {
+    if (!memberId) return;
+    const member = teamMembers.find(m => m.id === +memberId);
+    if (!member) return;
+    document.getElementById('signalBylineName').value = member.name;
+    document.getElementById('signalBylineRole').value = member.title;
+    renderPreview();
+  }
+
+  function set_signalTheme_theme(v) {
+    document.getElementById('signalTheme').value = v;
+    document.getElementById('signalThemeToggle').innerHTML = sectionThemeToggle('signalTheme', v);
+    renderPreview();
+  }
+
+  function setSignalImageLayout(layout) {
+    document.getElementById('signalImageLayout').value = layout;
+    const counts = { none: 0, '1x': 1, '2x': 2, '3x': 3, '4x': 4 };
+    const count = counts[layout] || 0;
+    for (let n = 1; n <= 4; n++) {
+      const slot = document.getElementById('signalImgSlot' + n);
+      if (slot) slot.style.display = n <= count ? 'block' : 'none';
+    }
+    ['none','1x','2x','3x','4x'].forEach(l => {
+      const btn = document.getElementById('signalLayoutBtn_' + l);
+      if (!btn) return;
+      const active = l === layout;
+      btn.style.borderColor = active ? '#E8383A' : '#ddd';
+      btn.style.background  = active ? '#E8383A' : '#fff';
+      btn.style.color       = active ? '#fff'     : '#333';
+    });
     renderPreview();
   }
 
@@ -1228,10 +1372,16 @@
   function refreshSectionThemeToggles() {
     const ls = (document.getElementById('linksSectionTheme') || {}).value || 'default';
     const ta = (document.getElementById('triviaAnswerTheme') || {}).value || 'default';
+    const sg = (document.getElementById('signalTheme') || {}).value || 'default';
     const lsEl = document.getElementById('linksSectionThemeToggle');
     const taEl = document.getElementById('triviaAnswerThemeToggle');
+    const sgEl = document.getElementById('signalThemeToggle');
     if (lsEl) lsEl.innerHTML = sectionThemeToggle('linksSectionTheme', ls);
     if (taEl) taEl.innerHTML = sectionThemeToggle('triviaAnswerTheme', ta);
+    if (sgEl) sgEl.innerHTML = sectionThemeToggle('signalTheme', sg);
+    // Restore image layout button states
+    const imgLayout = (document.getElementById('signalImageLayout') || {}).value || 'none';
+    setSignalImageLayout(imgLayout);
   }
 
   // ── Post-quote blocks (ROC / Generic Content) ──
@@ -1261,14 +1411,6 @@
        'Lorem ipsum dolor sit amet consectetur. Sed elementum et aliquam porttitor. Urna facilisis dignissim.',
        'Lorem ipsum dolor sit amet consectetur. Ultrices sapien mauris sollicitudin nibh elementum.']
         .forEach(t => b.consItems.push({ id: ++b.consIdCounter, text: t }));
-    } else if (type === 'signal') {
-      Object.assign(b, {
-        heading: 'Catchy heading',
-        bylineName: '', bylineRole: '',
-        theme: 'default',
-        body: 'Lorem ipsum dolor sit amet consectetur. Tortor amet pellentesque accumsan diam nam quis nec id. Arcu duis nisl cursus faucibus in elementum eu orci lacus.',
-        bottomLine: 'Lorem ipsum dolor sit amet consectetur. Viverra odio turpis a pulvinar feugiat libero vitae elit eleifend.'
-      });
     } else if (type === 'grapevine') {
       Object.assign(b, {
         eyebrow: '🍇 The Grapevine',
@@ -1412,17 +1554,6 @@
           <input type="text" value="${escAttr(b.linkLabel)}" oninput="updatePqBlock(${b.id},'linkLabel',this.value)" />
           <label style="margin-top:10px;">Button URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
           <input type="text" value="${escAttr(b.linkUrl)}" placeholder="https://" oninput="updatePqBlock(${b.id},'linkUrl',this.value)" />`;
-      } else if (b.type === 'signal') {
-        fields = `
-          <label>Colour Theme</label>
-          <div style="display:flex;gap:6px;margin-bottom:10px;">${pqThemeBtn(b,'default','Default')}${pqThemeBtn(b,'alt','Alternate')}</div>
-          <label>Heading</label>
-          <input type="text" value="${escAttr(b.heading)}" placeholder="e.g. The future of CX" oninput="updatePqBlock(${b.id},'heading',this.value)" />
-          ${renderPqBylineFields(b)}
-          <label style="margin-top:10px;">Body</label>
-          ${richEditorHTML('pqBody_'+b.id, b.body||'', "updatePqBlock("+b.id+",'body',this.innerHTML)")}
-          <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#808080;">(optional)</span></label>
-          ${richEditorHTML('pqBottomLine_'+b.id, b.bottomLine||'', "updatePqBlock("+b.id+",'bottomLine',this.innerHTML)")}` ;
       } else if (b.type === 'grapevine') {
         const linksHTML = b.links.map((l, i) => `
           <div class="content-block" style="margin-top:8px;">
@@ -1561,44 +1692,6 @@
                       </tr></table>
                       <!--<![endif]-->
                     </td></tr></table>` : ''}
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>`;
-      } else if (b.type === 'signal') {
-        if (!b.heading && !b.body) return '';
-        const sigIsAlt = (b.theme || 'default') === 'alt';
-        const sigBg   = sigIsAlt ? '#ffffff' : '#E8383A';
-        const sigFg   = sigIsAlt ? '#050505' : '#ffffff';
-        const sigBord = sigIsAlt ? '#050505' : '#ffffff';
-        const bylineHTML = (b.bylineName || b.bylineRole)
-          ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: ${sigFg}; margin: 0 0 16px 0;"><span style="font-weight: bold;">${esc(b.bylineName)}</span>${b.bylineName && b.bylineRole ? ' &middot; ' : ''}<span style="font-weight: normal;">${esc(b.bylineRole)}</span></p>`
-          : '';
-        const bottomLineHTML = b.bottomLine
-          ? `<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 28px;">
-                <tr>
-                  <td>
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${sigFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
-                    ${emailBodyHtml(b.bottomLine,sigFg)}
-                  </td>
-                </tr>
-              </table>`
-          : '';
-        return `<tr${anchorId}>
-            <td style="background-color: ${sigBg}; padding: 40px 40px 48px 40px;">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBord};">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${sigFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">🚦The Signal</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 16px;">
-                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: ${sigFg}; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
-                    ${bylineHTML}
-                    ${b.body ? emailBodyHtml(b.body,sigFg) : ''}
-                    ${bottomLineHTML}
                   </td>
                 </tr>
               </table>
@@ -1905,6 +1998,112 @@
   }
 
   // ── Generate Interesting Links HTML ──
+  function generateSignalHTML() {
+    const heading    = val('signalHeading')    || '';
+    const body       = val('signalBody')       || '';
+    if (!heading && !body) return '';
+
+    const theme      = val('signalTheme')      || 'default';
+    const bg         = theme === 'alt' ? '#F1F1F1' : '#ffffff';
+    const eyebrow    = val('signalEyebrow')    || '🚦 The Signal';
+    const bylineName = val('signalBylineName') || '';
+    const bylineRole = val('signalBylineRole') || '';
+    const bottomLine = val('signalBottomLine') || '';
+    const btnLabel   = val('signalBtnLabel')   || '';
+    const btnUrl     = val('signalBtnUrl')     || '';
+    const layout     = val('signalImageLayout') || 'none';
+
+    const getImg = (n, w) => {
+      const url = val('signalImage' + n + 'Url') || '';
+      const alt = val('signalImage' + n + 'Alt') || '';
+      return url
+        ? `<a href="${esc(url)}" target="_blank"><img src="${esc(url)}" alt="${esc(alt)}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
+        : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
+    };
+    const halfW = 252;
+    let imagesHTML = '';
+    if (layout === '1x') {
+      imagesHTML = `<tr><td style="padding-bottom:16px;">${getImg(1,520)}</td></tr>`;
+    } else if (layout === '2x') {
+      imagesHTML = `<tr><td style="padding-bottom:16px;">
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(1,halfW)}</td>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(2,halfW)}</td>
+              </tr></table>
+              <!--[if mso]></td></tr></table><![endif]-->
+            </td></tr>`;
+    } else if (layout === '3x') {
+      imagesHTML = `<tr><td style="padding-bottom:16px;">${getImg(1,520)}</td></tr>
+            <tr><td style="padding-bottom:16px;">
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(2,halfW)}</td>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(3,halfW)}</td>
+              </tr></table>
+              <!--[if mso]></td></tr></table><![endif]-->
+            </td></tr>`;
+    } else if (layout === '4x') {
+      imagesHTML = `<tr><td style="padding-bottom:16px;">
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(1,halfW)}</td>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(2,halfW)}</td>
+              </tr></table>
+              <!--[if mso]></td></tr></table><![endif]-->
+            </td></tr>
+            <tr><td style="padding-bottom:16px;">
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(3,halfW)}</td>
+                <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(4,halfW)}</td>
+              </tr></table>
+              <!--[if mso]></td></tr></table><![endif]-->
+            </td></tr>`;
+    }
+
+    const bylineHTML = (bylineName || bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #050505; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(bylineName)}</strong>${bylineName && bylineRole ? ' &middot; ' : ''}<span style="font-weight:normal;">${esc(bylineRole)}</span></p>` : '';
+
+    const bottomLineHTML = bottomLine ? `
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 28px;">
+                <tr><td>
+                  <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
+                  ${emailBodyHtml(bottomLine, '#050505', '17px')}
+                </td></tr>
+              </table>` : '';
+
+    const btnHTML = (btnLabel && btnUrl) ? `
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 18px;"><tr><td align="left">
+                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(btnUrl)}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(btnLabel)}</center></v:roundrect><![endif]-->
+                <!--[if !mso]><!--><table border="0" cellpadding="0" cellspacing="0"><tr><td align="center" style="background-color:#E8383A;border-radius:4px;"><a href="${esc(btnUrl)}" target="_blank" style="display:inline-block;padding:12px 32px;font-family:'Trebuchet MS',Trebuchet,Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:4px;line-height:1;">${esc(btnLabel)}</a></td></tr></table><!--<![endif]-->
+              </td></tr></table>` : '';
+
+    return `
+          <tr id="prev-signal">
+            <td style="background-color: ${bg}; padding: 40px 50px 32px 50px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid #050505;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(eyebrow)}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 24px;">
+                    <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(heading)}</h2>
+                    ${bylineHTML}
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      ${imagesHTML}
+                    </table>
+                    ${body ? emailBodyHtml(body, '#050505', '17px') : ''}
+                    ${bottomLineHTML}
+                    ${btnHTML}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
+  }
+
   function generateLinksHTML() {
     if (!interestingLinks.some(l => l.imageUrl || l.linkUrl)) return '';
 
@@ -2349,6 +2548,9 @@
             </td>
           </tr>` : ''}
 
+          <!-- THE SIGNAL -->
+          ${generateSignalHTML()}
+
           <!-- REORDERABLE SECTIONS -->
           ${(function() {
             const insightHTML = (insightHeading || insightBody) ? `<tr id="prev-insight">
@@ -2490,6 +2692,10 @@
     const fieldIds = ['editionDate','logoUrl','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
+      'signalTheme','signalEyebrow','signalHeading','signalBylineName','signalBylineRole','signalImageLayout',
+      'signalImage1Url','signalImage1Alt','signalImage2Url','signalImage2Alt',
+      'signalImage3Url','signalImage3Alt','signalImage4Url','signalImage4Alt',
+      'signalBody','signalBottomLine','signalBtnLabel','signalBtnUrl',
       'insightEyebrow','insightHeading','insightBylineName','insightBylineRole','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
       'linksEyebrow','linksSubheading','linksSectionTheme',
       'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
