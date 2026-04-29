@@ -1921,7 +1921,7 @@
       const w = widths[i];
       let imgContent;
       if (l.imageUrl) {
-        const imgTag = `<img src="${esc(l.imageUrl)}" alt="" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;" />`;
+        const imgTag = `<img src="${esc(l.imageUrl)}" alt="" width="${w}" border="0" style="display:block;" />`;
         imgContent = l.linkUrl
           ? `<a href="${esc(l.linkUrl)}" target="_blank" style="display:block;">${imgTag}</a>`
           : imgTag;
