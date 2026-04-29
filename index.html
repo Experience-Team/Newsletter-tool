@@ -1869,10 +1869,12 @@
 
   // ── Helpers ──
   function esc(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function escAttr(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function nl2br(s) {
     return esc(s).replace(/\n/g, '<br />');
@@ -2732,7 +2734,7 @@
     if (state.interestingLinks && state.interestingLinks.length === 3) interestingLinks = state.interestingLinks;
     teamMembers = state.teamMembers || [];
     teamIdCounter = state.teamIdCounter || 0;
-    pqBlocks = state.pqBlocks || [];
+    pqBlocks = (state.pqBlocks || []).filter(b => b.type !== 'signal');
     pqBlockIdCounter = state.pqBlockIdCounter || 0;
     if (state.sectionOrder && state.sectionOrder.length) {
       sectionOrder = state.sectionOrder;
