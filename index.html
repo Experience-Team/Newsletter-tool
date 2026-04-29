@@ -648,17 +648,7 @@
     <div class="form-section" data-section-id="footer">
       <div class="form-section-title" onclick="toggleSection(this)">Footer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
-      <label for="footerMessage">Sign-off Message</label>
-      <div class="rich-editor-wrap">
-        <div class="rich-toolbar">
-          <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
-          <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
-          <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
-          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
-        </div>
-        <div id="footerMessage" class="rich-content" contenteditable="true" oninput="renderPreview()"></div>
-      </div>
-      </div>
+</div>
     </div>
 
     <div class="form-section" data-section-id="trivia-answer">
@@ -2029,7 +2019,6 @@
     const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
 
-    const footer         = val('footerMessage') || '';
     const logoUrl        = val('logoUrl') || '';
     const quoteText      = val('quoteText') || '';
     const quoteAuthor    = val('quoteAuthor') || '';
@@ -2279,16 +2268,6 @@
           </tr>`;
     }
 
-    let footerContentHTML = '';
-    if (footer) {
-      footerContentHTML = `
-          <tr>
-            <td align="center" style="background-color: #ffffff; padding: 32px 50px; text-align: center;">
-              ${emailBodyHtml(footer,'#050505','17px')}
-            </td>
-          </tr>`;}
-
-
     return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
@@ -2416,9 +2395,6 @@
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
             </td>
           </tr>` : ''}
-
-          <!-- SIGN-OFF -->
-          ${footerContentHTML}
 
           <!-- FOOTER -->
           <tr id="prev-footer">
