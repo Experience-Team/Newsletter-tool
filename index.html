@@ -1679,18 +1679,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
                       ${b.consItems.map((item, i) => `<tr><td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 17px; color: #050505; line-height: 1.7; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid #d9d9d9;' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
                     </table>` : ''}
-                    ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0"><tr><td>
-                      <!--[if mso]>
-                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(b.linkUrl)}" style="height:44px;v-text-anchor:middle;width:160px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A">
-                        <w:anchorlock/><center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(b.linkLabel)}</center>
-                      </v:roundrect><![endif]-->
-                      <!--[if !mso]><!-->
-                      <table border="0" cellpadding="0" cellspacing="0"><tr>
-                        <td align="center" style="background-color: #E8383A; border-radius: 4px;">
-                          <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.linkLabel)}</a>
-                        </td>
-                      </tr></table>
-                      <!--<![endif]-->
+                    ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td>
+                      <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; background-color: #E8383A; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.linkLabel)}</a>
                     </td></tr></table>` : ''}
                   </td>
                 </tr>
@@ -1949,24 +1939,10 @@
   function generateButtonHTML(b) {
     if (!b.btnLabel || !b.btnUrl) return '';
     return `
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 18px;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;">
                       <tr>
-                        <td align="left">
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(b.btnUrl)}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A">
-                            <w:anchorlock/>
-                            <center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(b.btnLabel)}</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <table border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td align="center" style="background-color: #E8383A; border-radius: 4px;">
-                                <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.btnLabel)}</a>
-                              </td>
-                            </tr>
-                          </table>
-                          <!--<![endif]-->
+                        <td>
+                          <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; background-color: #E8383A; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.btnLabel)}</a>
                         </td>
                       </tr>
                     </table>`;
@@ -1976,24 +1952,10 @@
   function generateFeatureButtonHTML(b) {
     if (!b.btnLabel || !b.btnUrl) return '';
     return `
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 18px;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;">
                       <tr>
-                        <td align="left">
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(b.btnUrl)}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#ffffff" fillcolor="#C42F31">
-                            <w:anchorlock/>
-                            <center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(b.btnLabel)}</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <table border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td align="center" style="background-color: #C42F31; border: 2px solid #ffffff; border-radius: 4px;">
-                                <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 11px 30px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.btnLabel)}</a>
-                              </td>
-                            </tr>
-                          </table>
-                          <!--<![endif]-->
+                        <td>
+                          <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 11px 30px; background-color: #C42F31; border: 2px solid #ffffff; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(b.btnLabel)}</a>
                         </td>
                       </tr>
                     </table>`;
@@ -2075,9 +2037,8 @@
               </table>` : '';
 
     const btnHTML = (btnLabel && btnUrl) ? `
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 18px;"><tr><td align="left">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(btnUrl)}" style="height:44px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(btnLabel)}</center></v:roundrect><![endif]-->
-                <!--[if !mso]><!--><table border="0" cellpadding="0" cellspacing="0"><tr><td align="center" style="background-color:#E8383A;border-radius:4px;"><a href="${esc(btnUrl)}" target="_blank" style="display:inline-block;padding:12px 32px;font-family:'Trebuchet MS',Trebuchet,Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:4px;line-height:1;">${esc(btnLabel)}</a></td></tr></table><!--<![endif]-->
+              <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td>
+                <a href="${esc(btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; background-color: #E8383A; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(btnLabel)}</a>
               </td></tr></table>` : '';
 
     return `
@@ -2569,7 +2530,9 @@
                     ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #991B1B; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(insightBylineName)}</strong>${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
                     ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
                     ${insightBody ? emailBodyHtml(insightBody,'#991B1B','17px') : ''}
-                    ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0"><tr><td><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${esc(insightLinkUrl)}" style="height:44px;v-text-anchor:middle;width:160px;" arcsize="10%" strokecolor="#E8383A" fillcolor="#E8383A"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;">${esc(insightLinkLabel)}</center></v:roundrect><![endif]--><!--[if !mso]><!--><table border="0" cellpadding="0" cellspacing="0"><tr><td align="center" style="background-color: #E8383A; border-radius: 4px;"><a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(insightLinkLabel)}</a></td></tr></table><!--<![endif]--></td></tr></table>` : ''}
+                    ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td>
+                      <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; background-color: #E8383A; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(insightLinkLabel)}</a>
+                    </td></tr></table>` : ''}
                   </td>
                 </tr>
               </table>
