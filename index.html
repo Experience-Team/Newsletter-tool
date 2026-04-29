@@ -702,6 +702,10 @@
 <!-- Bottom bar -->
 <div class="bottom-bar">
   <span class="copy-feedback" id="copyFeedback">File downloaded!</span>
+  <button class="btn-copy" onclick="viewHTML()">
+    View HTML
+    <span class="btn-tooltip">Open the email in a new tab to preview it in isolation, without the editor UI.</span>
+  </button>
   <button class="btn-copy" onclick="exportHTML()">
     Export HTML
     <span class="btn-tooltip">Save a copy of this newsletter as an HTML file &mdash; useful for keeping a record of each edition or sharing with someone who needs the source file.</span>
@@ -2602,6 +2606,12 @@
   function renderPreview() {
     document.getElementById('previewFrame').innerHTML = generateEmailHTML();
     saveToLocalStorage();
+  }
+
+  // ── View HTML ──
+  function viewHTML() {
+    const blob = new Blob([generateEmailHTML()], { type: 'text/html' });
+    window.open(URL.createObjectURL(blob), '_blank');
   }
 
   // ── Export HTML ──
