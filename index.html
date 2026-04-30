@@ -1073,7 +1073,7 @@
       if (tag === 'i' || tag === 'em') return `<em>${kids}</em>`;
       if (tag === 'a') {
         const href = node.getAttribute('href') || '#';
-        return `<a href="${href}" style="color:${fg};text-decoration:underline;" target="_blank">${kids}</a>`;
+        return `<a href="${href}" style="color:#991B1B;font-weight:bold;text-decoration:underline;" target="_blank">${kids}</a>`;
       }
       return kids;
     }
