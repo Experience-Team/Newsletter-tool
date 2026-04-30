@@ -1646,7 +1646,7 @@
         const rocBg      = rocIsAlt ? '#f1f1f1' : '#ffffff';
         const rocEyebrow = rocIsAlt ? '#050505' : '#E8383A';
         const rocScoreBg = rocIsAlt ? '#050505' : '#FADADD';
-        const rocScoreFg = rocIsAlt ? '#ffffff' : '#E8383A';
+        const rocScoreFg = rocIsAlt ? '#ffffff' : '#050505';
         return `<tr${anchorId}>
             <td style="background-color: ${rocBg}; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2200,7 +2200,7 @@
     const triviaLinkUrl  = val('triviaLinkUrl') || '';
     const triviaTheme    = val('triviaAnswerTheme') || 'default';
     const triviaBg       = triviaTheme === 'alt' ? '#050505' : '#FADADD';
-    const triviaFg       = triviaTheme === 'alt' ? '#ffffff' : '#991B1B';
+    const triviaFg       = triviaTheme === 'alt' ? '#ffffff' : '#050505';
 
     const editionStr = edDate ? esc(edDate) : '';
 
@@ -2489,9 +2489,9 @@
           <!-- INTRO -->
           ${(val('heroHeadline') || heroBody) ? `<tr>
             <td style="background-color: #FADADD; padding: 40px 32px 52px 32px;">
-              <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #E8383A; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
-              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #991B1B; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
-              ${heroBody ? emailBodyHtml(heroBody,'#991B1B','18px') : ''}
+              <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #050505; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
+              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #050505; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
+              ${heroBody ? emailBodyHtml(heroBody,'#050505','18px') : ''}
             </td>
           </tr>` : ''}
 
@@ -2526,17 +2526,17 @@
             <td style="background-color: #FADADD; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
-                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #E8383A; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(insightEyebrow)}</p>
+                  <td style="padding-bottom: 26px; border-bottom: 2px solid #050505;">
+                    <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #050505; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(insightEyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding-top: 16px;">
-                    ${insightHeading ? `<h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #E8383A; line-height: 1.24; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
-                    ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #991B1B; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(insightBylineName)}</strong>${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
+                    ${insightHeading ? `<h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
+                    ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #050505; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(insightBylineName)}</strong>${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
                     ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
-                    ${insightBody ? emailBodyHtml(insightBody,'#991B1B','17px') : ''}
-                    ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#E8383A" style="background-color: #E8383A; border-radius: 4px;">
+                    ${insightBody ? emailBodyHtml(insightBody,'#050505','17px') : ''}
+                    ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#050505" style="background-color: #050505; border-radius: 4px;">
                       <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(insightLinkLabel)}</a>
                     </td></tr></table>` : ''}
                   </td>
