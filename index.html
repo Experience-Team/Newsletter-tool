@@ -1660,7 +1660,7 @@
                     <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
                     ${(b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(b.bylineName)}</strong>${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
                     ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
-                    <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; width: 536px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a>
+                    <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a>
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
                       <tr>
@@ -1724,7 +1724,7 @@
         const layout = b.imageLayout || '1x';
         const halfW = 260;
         const img = (n, w) => b['image'+n+'Url']
-          ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
+          ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
           : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
         let imagesHTML = '';
         if (layout === '1x') {
@@ -1980,7 +1980,7 @@
       const url = val('signalImage' + n + 'Url') || '';
       const alt = val('signalImage' + n + 'Alt') || '';
       return url
-        ? `<a href="${esc(url)}" target="_blank"><img src="${esc(url)}" alt="${esc(alt)}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
+        ? `<a href="${esc(url)}" target="_blank"><img src="${esc(url)}" alt="${esc(alt)}" width="${w}" style="display:block;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
         : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
     };
     const halfW = 260;
@@ -2318,7 +2318,7 @@
         const layout = b.imageLayout || '1x';
         const halfW = 260;
         const img = (n, w) => b['image'+n+'Url']
-          ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
+          ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
           : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
         let imagesHTML = '';
         if (layout === '1x') {
@@ -2395,7 +2395,7 @@
         if (!b.heading && !b.body && !b.imageUrl) return;
         const imgHTML = b.imageUrl ? `
                           <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
-                          <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="536" style="display: block; max-width: 100%; width: 536px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px; margin: 0 0 16px 0;" /></a>
+                          <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px; margin: 0 0 16px 0;" /></a>
                           <!--[if mso]></td></tr></table><![endif]-->` : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2457,9 +2457,9 @@
 
   <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff;">
     <tr>
-      <td align="center" bgcolor="#ffffff" style="background-color: #ffffff; padding: 40px 32px 32px 40px; border-bottom: 1px solid #C8C8C8;">
+      <td align="center" bgcolor="#ffffff" style="background-color: #ffffff; padding: 0;">
 
-        <table align="center" border="0" cellpadding="0" cellspacing="0" class="email-container" width="600" style="max-width: 600px; background-color: #ffffff; border-radius: 4px; overflow: hidden;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" class="email-container" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 4px; overflow: hidden;">
 
           <!-- HEADER -->
           <tr id="prev-header">
@@ -2534,7 +2534,7 @@
                   <td style="padding-top: 16px;">
                     ${insightHeading ? `<h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #E8383A; line-height: 1.24; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
                     ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #991B1B; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(insightBylineName)}</strong>${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
-                    ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; width: 536px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
+                    ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
                     ${insightBody ? emailBodyHtml(insightBody,'#991B1B','17px') : ''}
                     ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#E8383A" style="background-color: #E8383A; border-radius: 4px;">
                       <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(insightLinkLabel)}</a>
