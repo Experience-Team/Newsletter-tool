@@ -1659,8 +1659,8 @@
                   <td style="padding-top: 16px;">
                     <h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #050505; line-height: 1.24; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
                     ${(b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(b.bylineName)}</strong>${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
-                    ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]-->
-                    <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a>
+                    ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
+                    <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; width: 536px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a>
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
                       <tr>
@@ -1722,16 +1722,16 @@
       } else {
         if (!b.heading && !b.body && !b.image1Url) return '';
         const layout = b.imageLayout || '1x';
-        const halfW = 252;
+        const halfW = 260;
         const img = (n, w) => b['image'+n+'Url']
           ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
           : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
         let imagesHTML = '';
         if (layout === '1x') {
-          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>`;
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}</td></tr>`;
         } else if (layout === '2x') {
           imagesHTML = `<tr><td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
@@ -1739,9 +1739,9 @@
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td></tr>`;
         } else if (layout === '3x') {
-          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}</td></tr>
                   <tr><td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(2,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(3,halfW)}</td>
@@ -1750,7 +1750,7 @@
                     </td></tr>`;
         } else {
           imagesHTML = `<tr><td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
@@ -1758,7 +1758,7 @@
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td></tr>
                   <tr><td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(3,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(4,halfW)}</td>
@@ -1983,13 +1983,13 @@
         ? `<a href="${esc(url)}" target="_blank"><img src="${esc(url)}" alt="${esc(alt)}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
         : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
     };
-    const halfW = 252;
+    const halfW = 260;
     let imagesHTML = '';
     if (layout === '1x') {
-      imagesHTML = `<tr><td style="padding-bottom:16px;">${getImg(1,520)}</td></tr>`;
+      imagesHTML = `<tr><td style="padding-bottom:16px;">${getImg(1,536)}</td></tr>`;
     } else if (layout === '2x') {
       imagesHTML = `<tr><td style="padding-bottom:16px;">
-              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
               <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(1,halfW)}</td>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(2,halfW)}</td>
@@ -1997,9 +1997,9 @@
               <!--[if mso]></td></tr></table><![endif]-->
             </td></tr>`;
     } else if (layout === '3x') {
-      imagesHTML = `<tr><td style="padding-bottom:16px;">${getImg(1,520)}</td></tr>
+      imagesHTML = `<tr><td style="padding-bottom:16px;">${getImg(1,536)}</td></tr>
             <tr><td style="padding-bottom:16px;">
-              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
               <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(2,halfW)}</td>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(3,halfW)}</td>
@@ -2008,7 +2008,7 @@
             </td></tr>`;
     } else if (layout === '4x') {
       imagesHTML = `<tr><td style="padding-bottom:16px;">
-              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
               <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(1,halfW)}</td>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(2,halfW)}</td>
@@ -2016,7 +2016,7 @@
               <!--[if mso]></td></tr></table><![endif]-->
             </td></tr>
             <tr><td style="padding-bottom:16px;">
-              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
               <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${getImg(3,halfW)}</td>
                 <td valign="top" width="${halfW}" style="width:${halfW}px;">${getImg(4,halfW)}</td>
@@ -2316,17 +2316,17 @@
       } else if (b.type === 'current-project') {
         if (!b.heading && !b.body && !b.image1Url) return;
         const layout = b.imageLayout || '1x';
-        const halfW = 252;
+        const halfW = 260;
         const img = (n, w) => b['image'+n+'Url']
           ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;width:${w}px;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
           : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
         let imagesHTML = '';
         if (layout === '1x') {
-          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>`;
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}</td></tr>`;
         } else if (layout === '2x') {
           imagesHTML = `<tr>
                     <td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
@@ -2335,10 +2335,10 @@
                     </td>
                   </tr>`;
         } else if (layout === '3x') {
-          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,520)}</td></tr>
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}</td></tr>
                   <tr>
                     <td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(2,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(3,halfW)}</td>
@@ -2350,7 +2350,7 @@
           // 4x: two rows of two
           imagesHTML = `<tr>
                     <td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
@@ -2360,7 +2360,7 @@
                   </tr>
                   <tr>
                     <td style="padding-bottom:16px;">
-                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td width="252" style="padding-right:16px;"><![endif]-->
+                      <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(3,halfW)}</td>
                         <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(4,halfW)}</td>
@@ -2394,8 +2394,8 @@
         // standard
         if (!b.heading && !b.body && !b.imageUrl) return;
         const imgHTML = b.imageUrl ? `
-                          <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]-->
-                          <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px; margin: 0 0 16px 0;" /></a>
+                          <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
+                          <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="536" style="display: block; max-width: 100%; width: 536px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px; margin: 0 0 16px 0;" /></a>
                           <!--[if mso]></td></tr></table><![endif]-->` : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2534,7 +2534,7 @@
                   <td style="padding-top: 16px;">
                     ${insightHeading ? `<h2 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #E8383A; line-height: 1.24; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
                     ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #991B1B; margin: 0 0 16px 0; line-height: 1.5;"><strong>${esc(insightBylineName)}</strong>${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
-                    ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="520"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="520" style="display: block; max-width: 100%; width: 520px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
+                    ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; width: 536px; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
                     ${insightBody ? emailBodyHtml(insightBody,'#991B1B','17px') : ''}
                     ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td>
                       <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; background-color: #E8383A; color: #ffffff; font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 4px; line-height: 1;">${esc(insightLinkLabel)}</a>
