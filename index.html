@@ -1648,7 +1648,7 @@
         const rocScoreBg = rocIsAlt ? '#050505' : '#FADADD';
         const rocScoreFg = rocIsAlt ? '#ffffff' : '#E8383A';
         return `<tr${anchorId}>
-            <td style="background-color: ${rocBg}; padding: 40px 40px 32px 40px;">
+            <td style="background-color: ${rocBg}; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${rocEyebrow};">
@@ -1709,7 +1709,7 @@
             </tr>`;
         }).join('');
         return `<tr${anchorId}>
-            <td style="background-color: ${gvBg}; padding: 0 40px 40px 40px;">
+            <td style="background-color: ${gvBg}; padding: 0 32px 40px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-top: 50px; padding-bottom: 26px; border-bottom: 2px solid ${gvBord};">
@@ -1771,7 +1771,7 @@
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; color: #616161; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,'#050505','17px','16px 0 0 0',true) : '';
         return `<tr${anchorId}>
-            <td style="padding: 0 40px 40px 40px; background-color: ${genBg};">
+            <td style="padding: 0 32px 40px 32px; background-color: ${genBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: 40px 0 0 0;">
@@ -2043,7 +2043,7 @@
 
     return `
           <tr id="prev-signal">
-            <td style="background-color: ${bg}; padding: 40px 50px 32px 50px; border-bottom: 1px solid #C8C8C8;">
+            <td style="background-color: ${bg}; padding: 40px 32px 32px 32px; border-bottom: 1px solid #C8C8C8;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid #050505;">
@@ -2115,13 +2115,13 @@
 
     return `
           <tr id="prev-procrastination">
-            <td style="padding: 0 50px 40px 50px; background-color: ${linksBg};">
-              <table border="0" cellpadding="0" cellspacing="0" width="500">
+            <td style="padding: 0 32px 40px 32px; background-color: ${linksBg};">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${linksLabelRow}
                 ${linksSubheadingRow}
                 <tr>
                   <td>
-                    <table border="0" cellpadding="0" cellspacing="0" width="500">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>${cells}</tr>
                     </table>
                   </td>
@@ -2424,7 +2424,7 @@
     if (contentBlocksHTML) {
       contentSectionHTML = `
           <tr id="prev-current-projects">
-            <td style="padding: 0 40px 0 40px; background-color: #ffffff;">
+            <td style="padding: 0 32px 0 32px; background-color: #ffffff;">
               ${contentBlocksHTML}
             </td>
           </tr>`;
@@ -2467,10 +2467,10 @@
             <td style="background-color: #E8383A; padding: 0;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td align="left" valign="middle" style="padding: 28px 40px;">
+                  <td align="left" valign="middle" style="padding: 28px 32px;">
                     ${logoUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]--><img src="${esc(logoUrl)}" alt="${esc(title)}" width="120" style="display: block; max-width: 120px; width: 120px; height: auto; border: 0; outline: none; text-decoration: none;" />${'<!--[if mso]></td></tr></table><![endif]-->'}` : `<img src="https://res.cloudinary.com/dxejokjeh/image/upload/v1776818603/Ogilvy-One-logo_nbbtw6.png" alt="Ogilvy One" width="120" style="display: block; max-width: 120px; width: 120px; height: auto; border: 0; outline: none; text-decoration: none;" />`}
                   </td>
-                  <td align="right" valign="middle" style="padding: 28px 40px;">
+                  <td align="right" valign="middle" style="padding: 28px 32px;">
                     <span style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: normal; color: #ffffff; white-space: nowrap;">${editionStr}</span>
                   </td>
                 </tr>
@@ -2489,7 +2489,7 @@
 
           <!-- INTRO -->
           ${(val('heroHeadline') || heroBody) ? `<tr>
-            <td style="background-color: #FADADD; padding: 40px 40px 52px 40px;">
+            <td style="background-color: #FADADD; padding: 40px 32px 52px 32px;">
               <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #E8383A; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #991B1B; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,'#991B1B','18px') : ''}
@@ -2498,7 +2498,7 @@
 
           <!-- TRIVIA QUESTION -->
           ${triviaQuestion ? `<tr id="prev-trivia-q">
-            <td style="background-color: #050505; padding: 32px 50px;">
+            <td style="background-color: #050505; padding: 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td valign="middle" style="white-space: nowrap; padding-right: 32px; width: 1%;">
@@ -2524,7 +2524,7 @@
           <!-- REORDERABLE SECTIONS -->
           ${(function() {
             const insightHTML = (insightHeading || insightBody) ? `<tr id="prev-insight">
-            <td style="background-color: #FADADD; padding: 40px 40px 32px 40px;">
+            <td style="background-color: #FADADD; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid #E8383A;">
@@ -2546,7 +2546,7 @@
             </td>
           </tr>` : '';
             const quoteHTML = quoteText ? `<tr id="prev-quote">
-            <td style="background-color: #E8383A; padding: 48px 40px;">
+            <td style="background-color: #E8383A; padding: 48px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td align="center" style="text-align: center;">
@@ -2569,7 +2569,7 @@
 
           <!-- TRIVIA ANSWER -->
           ${triviaAnswer ? `<tr id="prev-trivia-a">
-            <td style="background-color: ${triviaBg}; padding: 32px 50px;">
+            <td style="background-color: ${triviaBg}; padding: 32px;">
               <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
@@ -2578,7 +2578,7 @@
 
           <!-- FOOTER -->
           <tr id="prev-footer">
-            <td style="background-color: #000000; padding: 36px 40px;">
+            <td style="background-color: #000000; padding: 36px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${generateTeamHTML()}
               </table>
