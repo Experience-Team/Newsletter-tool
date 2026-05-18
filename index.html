@@ -277,41 +277,6 @@
     .btn-add:hover { background: #FADADD; }
 
     .add-section-wrap { position: relative; }
-    .add-menu {
-      display: none;
-      position: absolute;
-      bottom: calc(100% + 6px);
-      left: 0; right: 0;
-      background: #fff;
-      border: 1px solid #C8C8C8;
-      border-radius: 6px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.12);
-      z-index: 10;
-      overflow: hidden;
-    }
-    .add-menu.open { display: block; }
-    .add-menu button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 11px 16px;
-      font-size: 13px;
-      font-family: inherit;
-      color: #000000;
-      cursor: pointer;
-      transition: background .1s;
-    }
-    .add-menu button:hover { background: #FADADD; }
-    .add-menu button span {
-      display: block;
-      font-size: 11px;
-      color: #808080;
-      font-weight: 400;
-      margin-top: 2px;
-    }
-    .add-menu button + button { border-top: 1px solid #C8C8C8; }
 
     .block-type-label {
       font-size: 10px;
@@ -673,19 +638,38 @@
       </div>
     </div>
 
-    <!-- Optional content -->
-    <div class="form-section" data-section-id="optional-content" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
+    <!-- ROC -->
+    <div class="form-section" data-section-id="roc" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">Optional content <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)">ROC <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
-      <div id="pqBlocksContainer"></div>
+      <div id="rocBlocksContainer"></div>
       <div class="add-section-wrap">
-        <div class="add-menu" id="pqAddMenu">
-          <button onclick="addPqBlock('roc')"><strong>ROC</strong><span>Score banner, pros/cons lists and optional CTA</span></button>
-          <button onclick="addPqBlock('generic')"><strong>Generic Content</strong><span>Project overview with images, body and 'what this means for you'</span></button>
-          <button onclick="addPqBlock('grapevine')"><strong>🍇 The Grapevine</strong><span>Emoji bullet link list</span></button>
-        </div>
-        <button class="btn-add" onclick="togglePqMenu(event)">+ Add Section</button>
+        <button class="btn-add" onclick="addPqBlock('roc')">+ Add Section</button>
+      </div>
+      </div>
+    </div>
+
+    <!-- The Grapevine -->
+    <div class="form-section" data-section-id="grapevine" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">The Grapevine <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
+      <div id="grapevineBlocksContainer"></div>
+      <div class="add-section-wrap">
+        <button class="btn-add" onclick="addPqBlock('grapevine')">+ Add Section</button>
+      </div>
+      </div>
+    </div>
+
+    <!-- Generic Content -->
+    <div class="form-section" data-section-id="generic" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
+      <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
+      <div class="form-section-title" onclick="toggleSection(this)">Generic Content <span class="section-chevron">▾</span></div>
+      <div class="form-section-body">
+      <div id="genericBlocksContainer"></div>
+      <div class="add-section-wrap">
+        <button class="btn-add" onclick="addPqBlock('generic')">+ Add Section</button>
       </div>
       </div>
     </div>
@@ -823,7 +807,9 @@
     'signal':            'prev-signal',
     'current-projects':  'prev-current-projects',
     'quote':             'prev-quote',
-    'optional-content':  'prev-optional-content',
+    'roc':               'prev-roc',
+    'grapevine':         'prev-grapevine',
+    'generic':           'prev-generic',
     'insight':           'prev-insight',
     'procrastination':   'prev-procrastination',
     'footer':            'prev-footer',
@@ -1430,7 +1416,6 @@
       });
     }
     pqBlocks.push(b);
-    document.getElementById('pqAddMenu').classList.remove('open');
     renderPqBlocks();
     renderPreview();
   }
@@ -1493,15 +1478,10 @@
     renderPreview();
   }
 
-  function togglePqMenu(event) {
-    event.stopPropagation();
-    document.getElementById('pqAddMenu').classList.toggle('open');
-  }
-
-  function renderPqBlocks() {
-    const container = document.getElementById('pqBlocksContainer');
+  function renderPqBlocksInto(containerId, type) {
+    const container = document.getElementById(containerId);
     if (!container) return;
-    container.innerHTML = pqBlocks.map((b) => {
+    container.innerHTML = pqBlocks.filter(b => b.type === type).map((b) => {
       const typeLabel = b.type === 'roc' ? 'ROC' : b.type === 'signal' ? '🚦 The Signal' : b.type === 'grapevine' ? '🍇 The Grapevine' : 'Generic Content';
       let fields = '';
       if (b.type === 'roc') {
@@ -1635,9 +1615,18 @@
     }).join('');
   }
 
-  function generatePqBlocksHTML() {
-    return pqBlocks.map((b, i) => {
-      const anchorId = i === 0 ? ' id="prev-optional-content"' : '';
+  function renderPqBlocks() {
+    renderPqBlocksInto('rocBlocksContainer', 'roc');
+    renderPqBlocksInto('grapevineBlocksContainer', 'grapevine');
+    renderPqBlocksInto('genericBlocksContainer', 'generic');
+  }
+
+  const PQ_ANCHOR_ID = { roc: 'prev-roc', grapevine: 'prev-grapevine', generic: 'prev-generic' };
+
+  function generatePqBlocksHTML(type) {
+    const filtered = pqBlocks.filter(b => b.type === type);
+    return filtered.map((b, i) => {
+      const anchorId = i === 0 ? ` id="${PQ_ANCHOR_ID[type]}"` : '';
       if (b.type === 'roc') {
         if (!b.heading) return '';
         const scoreNum = parseInt(b.score || '7', 10);
@@ -2559,7 +2548,9 @@
             const sectionParts = {
               'current-projects': contentSectionHTML,
               'quote':            quoteHTML,
-              'optional-content': generatePqBlocksHTML(),
+              'roc':              generatePqBlocksHTML('roc'),
+              'grapevine':        generatePqBlocksHTML('grapevine'),
+              'generic':          generatePqBlocksHTML('generic'),
               'insight':          insightHTML,
               'procrastination':  generateLinksHTML(),
             };
@@ -2595,7 +2586,7 @@
   }
 
   // ── Section drag-to-reorder ──
-  const DEFAULT_SECTION_ORDER = ['current-projects','quote','optional-content','insight','procrastination'];
+  const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
   let dragSrcSection = null;
 
@@ -2706,7 +2697,9 @@
     pqBlocks = (state.pqBlocks || []).filter(b => b.type !== 'signal');
     pqBlockIdCounter = state.pqBlockIdCounter || 0;
     if (state.sectionOrder && state.sectionOrder.length) {
-      sectionOrder = state.sectionOrder;
+      sectionOrder = state.sectionOrder.flatMap(id =>
+        id === 'optional-content' ? ['roc','grapevine','generic'] : [id]
+      );
       restoreSectionDOMOrder();
     }
     renderBlocks();
