@@ -311,10 +311,10 @@
     }
 
     .preview-frame {
+      min-width: 640px;
       background: #ffffff;
       border-radius: 8px;
       padding: 20px 0;
-      display: inline-block;
     }
 
     /* ── Bottom bar ── */
@@ -775,9 +775,7 @@
   <!-- ════════════════════════════════════ -->
   <div class="preview-panel">
     <div class="preview-label">Live Preview</div>
-    <div class="preview-frame">
-      <iframe id="previewFrame" width="600" frameborder="0" scrolling="no" title="Email preview" style="display:block;width:600px;min-width:600px;border:none;"></iframe>
-    </div>
+    <div class="preview-frame" id="previewFrame"></div>
   </div>
 
 </div>
@@ -2141,11 +2139,12 @@
 
     const teamEyebrow = val('teamEyebrow') || '';
 
+    const placeholderCircle = `<table border="0" cellpadding="0" cellspacing="0" width="48" style="margin: 0 auto;"><tr><td width="48" height="48" align="center" valign="middle" style="width:48px; height:48px; border-radius:50%; background-color:#333333; font-size:0; line-height:0;"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" style="width:48px;height:48px;v-text-anchor:middle;" arcsize="50%" fillcolor="#333333" stroke="f"><![endif]-->&nbsp;<!--[if mso]></v:roundrect><![endif]--></td></tr></table>`;
+
     function memberCell(m) {
-      const sz = 64;
       const img = m.imageUrl
-        ? `<table border="0" cellpadding="0" cellspacing="0" width="${sz}" align="center" style="margin:0 auto;"><tr><td width="${sz}" height="${sz}" align="center" style="width:${sz}px;height:${sz}px;overflow:hidden;border-radius:50%;font-size:0;line-height:0;"><a href="${esc(m.imageUrl)}" target="_blank"><img src="${esc(m.imageUrl)}" alt="${esc(m.name || '')}" width="${sz}" height="${sz}" style="display:block;width:${sz}px;height:${sz}px;max-width:${sz}px;max-height:${sz}px;border-radius:50%;object-fit:cover;border:0;outline:none;" /></a></td></tr></table>`
-        : `<table border="0" cellpadding="0" cellspacing="0" width="${sz}" style="margin:0 auto;"><tr><td width="${sz}" height="${sz}" align="center" valign="middle" style="width:${sz}px;height:${sz}px;border-radius:50%;overflow:hidden;background-color:#333333;font-size:0;line-height:0;"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" style="width:${sz}px;height:${sz}px;v-text-anchor:middle;" arcsize="50%" fillcolor="#333333" stroke="f"><![endif]-->&nbsp;<!--[if mso]></v:roundrect><![endif]--></td></tr></table>`;
+        ? `<a href="${esc(m.imageUrl)}" target="_blank"><img src="${esc(m.imageUrl)}" alt="${esc(m.name || '')}" width="48" height="48" style="display: block; width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 0; outline: none; margin: 0 auto;" /></a>`
+        : placeholderCircle;
       const firstName = esc(m.name.split(' ')[0] || m.name);
       return `<td valign="top" align="center" style="padding: 0 10px; text-align: center;">
                 ${img}
@@ -2493,13 +2492,9 @@
           <!-- HERO IMAGE -->
           <tr id="prev-intro">
             <td style="background-color: #FADADD; padding: 0; font-size: 0; line-height: 0;">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td style="padding: 0; font-size: 0; line-height: 0;">
-                    <a href="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" target="_blank" style="display: block; font-size: 0; line-height: 0;"><img src="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" alt="" width="600" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none;" /></a>
-                  </td>
-                </tr>
-              </table>
+              <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><![endif]-->
+              <a href="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" target="_blank"><img src="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxejokjeh/image/upload/v1775803064/Exploration_through_innovation_and_adventure_rm1asn.png'}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" /></a>
+              <!--[if mso]></td></tr></table><![endif]-->
             </td>
           </tr>
 
@@ -2786,21 +2781,7 @@
 
   // ── Render preview ──
   function renderPreview() {
-    const frame = document.getElementById('previewFrame');
-    const html = generateEmailHTML();
-    frame.srcdoc = html;
-    frame.onload = function() {
-      function sync() {
-        try {
-          const doc = frame.contentDocument;
-          const h = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
-          if (h > 0) frame.style.height = h + 'px';
-        } catch(e) {}
-      }
-      sync();
-      // Re-sync after images finish loading so their height is included
-      setTimeout(sync, 400);
-    };
+    document.getElementById('previewFrame').innerHTML = generateEmailHTML();
     saveToLocalStorage();
   }
 
