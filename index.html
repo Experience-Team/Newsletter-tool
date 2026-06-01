@@ -312,9 +312,11 @@
 
     .preview-frame {
       min-width: 640px;
-      background: #ffffff;
+      width: 640px;
+      border: none;
       border-radius: 8px;
-      padding: 20px 0;
+      background: #ffffff;
+      display: block;
     }
 
     /* ── Bottom bar ── */
@@ -775,7 +777,7 @@
   <!-- ════════════════════════════════════ -->
   <div class="preview-panel">
     <div class="preview-label">Live Preview</div>
-    <div class="preview-frame" id="previewFrame"></div>
+    <iframe class="preview-frame" id="previewFrame" frameborder="0" scrolling="no" title="Email preview"></iframe>
   </div>
 
 </div>
@@ -2784,7 +2786,14 @@
 
   // ── Render preview ──
   function renderPreview() {
-    document.getElementById('previewFrame').innerHTML = generateEmailHTML();
+    const frame = document.getElementById('previewFrame');
+    const html = generateEmailHTML();
+    frame.srcdoc = html;
+    frame.onload = function() {
+      try {
+        frame.style.height = frame.contentDocument.documentElement.scrollHeight + 'px';
+      } catch(e) {}
+    };
     saveToLocalStorage();
   }
 
