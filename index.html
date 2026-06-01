@@ -848,7 +848,7 @@
     } else if (type === 'feature') {
       Object.assign(base, { eyebrow: '', featureImageUrl: '', heading: '', subheading: '', h2heading: '', body: '', btnLabel: '', btnUrl: '' });
     } else if (type === 'current-project') {
-      Object.assign(base, { eyebrow: 'Current Project', heading: '', imageLayout: '1x', image1Url: '', image1Alt: '', image2Url: '', image2Alt: '', image3Url: '', image3Alt: '', image4Url: '', image4Alt: '', body: '', whatThisMeans: '' });
+      Object.assign(base, { eyebrow: 'Current Project', heading: '', imageLayout: '1x', image1Url: '', image1Alt: '', image1Caption: '', image1CaptionUrl: '', image2Url: '', image2Alt: '', image2Caption: '', image2CaptionUrl: '', image3Url: '', image3Alt: '', image3Caption: '', image3CaptionUrl: '', image4Url: '', image4Alt: '', image4Caption: '', image4CaptionUrl: '', body: '', whatThisMeans: '', btnLabel: '', btnUrl: '' });
     }
     blocks.push(base);
     renderBlocks();
@@ -1230,7 +1230,19 @@
                    oninput="updateBlock(${b.id},'image${n}Alt',this.value)" />
           </div>
         </div>
-        <div id="imgMsg_${b.id}_${n}"></div>`;
+        <div id="imgMsg_${b.id}_${n}"></div>
+        <div class="inline-fields" style="margin-top:4px;">
+          <div class="field">
+            <label>Image ${n} Caption <span style="font-weight:400;color:#808080;">(optional)</span></label>
+            <input type="text" value="${escAttr(b['image'+n+'Caption']||'')}" placeholder="Caption text"
+                   oninput="updateBlock(${b.id},'image${n}Caption',this.value)" />
+          </div>
+          <div class="field">
+            <label>Caption URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
+            <input type="text" value="${escAttr(b['image'+n+'CaptionUrl']||'')}" placeholder="https://…"
+                   oninput="updateBlock(${b.id},'image${n}CaptionUrl',this.value)" />
+          </div>
+        </div>`;
       let imageFields = imgField(1);
       if (imgCount >= 2) imageFields += imgField(2);
       if (imgCount >= 3) imageFields += imgField(3);
@@ -1254,7 +1266,8 @@
         ${charCounter(b.id,'body',1500)}
         <label>What This Means For You <span style="font-weight:400;color:#808080;font-style:italic;">(italic in email)</span></label>
         ${richEditorHTML('blockWhatThisMeans_'+b.id, b.whatThisMeans||'', "updateBlock("+b.id+",'whatThisMeans',this.innerHTML)")}
-        ${charCounter(b.id,'whatThisMeans',1500)}`;
+        ${charCounter(b.id,'whatThisMeans',1500)}
+        ${renderButtonFields(b)}`;
     }
     // standard
     return `
@@ -2309,28 +2322,37 @@
         const img = (n, w) => b['image'+n+'Url']
           ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
           : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
+        const caption = (n) => {
+          const text = b['image'+n+'Caption'];
+          const url  = b['image'+n+'CaptionUrl'];
+          if (!text) return '';
+          const inner = url
+            ? `<a href="${esc(url)}" target="_blank" style="color:#616161;text-decoration:underline;">${esc(text)}</a>`
+            : esc(text);
+          return `<p style="font-family:'Trebuchet MS',Trebuchet,Arial,Helvetica,sans-serif;font-size:12px;color:#616161;margin:6px 0 0 0;line-height:1.4;">${inner}</p>`;
+        };
         let imagesHTML = '';
         if (layout === '1x') {
-          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}</td></tr>`;
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}${caption(1)}</td></tr>`;
         } else if (layout === '2x') {
           imagesHTML = `<tr>
                     <td style="padding-bottom:16px;">
                       <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}${caption(1)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}${caption(2)}</td>
                       </tr></table>
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td>
                   </tr>`;
         } else if (layout === '3x') {
-          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}</td></tr>
+          imagesHTML = `<tr><td style="padding-bottom:16px;">${img(1,536)}${caption(1)}</td></tr>
                   <tr>
                     <td style="padding-bottom:16px;">
                       <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(2,halfW)}</td>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(3,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(2,halfW)}${caption(2)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(3,halfW)}${caption(3)}</td>
                       </tr></table>
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td>
@@ -2341,8 +2363,8 @@
                     <td style="padding-bottom:16px;">
                       <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}</td>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(1,halfW)}${caption(1)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(2,halfW)}${caption(2)}</td>
                       </tr></table>
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td>
@@ -2351,8 +2373,8 @@
                     <td style="padding-bottom:16px;">
                       <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td width="260" style="padding-right:16px;"><![endif]-->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(3,halfW)}</td>
-                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(4,halfW)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;padding-right:16px;">${img(3,halfW)}${caption(3)}</td>
+                        <td valign="top" width="${halfW}" style="width:${halfW}px;">${img(4,halfW)}${caption(4)}</td>
                       </tr></table>
                       <!--[if mso]></td></tr></table><![endif]-->
                     </td>
@@ -2372,6 +2394,7 @@
                         <td valign="top">
                           ${b.body ? emailBodyHtml(b.body,'#050505') : ''}
                           ${whatHTML}
+                          ${generateButtonHTML(b)}
                         </td>
                       </tr>
                     </table>
