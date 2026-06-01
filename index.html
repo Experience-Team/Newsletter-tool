@@ -311,12 +311,10 @@
     }
 
     .preview-frame {
-      width: 600px;
-      min-width: 600px;
-      border: none;
-      border-radius: 8px;
       background: #ffffff;
-      display: block;
+      border-radius: 8px;
+      padding: 20px 0;
+      display: inline-block;
     }
 
     /* ── Bottom bar ── */
@@ -777,7 +775,9 @@
   <!-- ════════════════════════════════════ -->
   <div class="preview-panel">
     <div class="preview-label">Live Preview</div>
-    <iframe class="preview-frame" id="previewFrame" width="600" frameborder="0" scrolling="no" title="Email preview"></iframe>
+    <div class="preview-frame">
+      <iframe id="previewFrame" width="600" frameborder="0" scrolling="no" title="Email preview" style="display:block;width:600px;min-width:600px;border:none;"></iframe>
+    </div>
   </div>
 
 </div>
@@ -2790,9 +2790,16 @@
     const html = generateEmailHTML();
     frame.srcdoc = html;
     frame.onload = function() {
-      try {
-        frame.style.height = frame.contentDocument.documentElement.scrollHeight + 'px';
-      } catch(e) {}
+      function sync() {
+        try {
+          const doc = frame.contentDocument;
+          const h = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
+          if (h > 0) frame.style.height = h + 'px';
+        } catch(e) {}
+      }
+      sync();
+      // Re-sync after images finish loading so their height is included
+      setTimeout(sync, 400);
     };
     saveToLocalStorage();
   }
