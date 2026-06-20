@@ -2157,7 +2157,14 @@
               </td>`;
     }
 
-    const cells = active.map(memberCell).join('');
+    const chunkSize = 3;
+    const rows = [];
+    for (let i = 0; i < active.length; i += chunkSize) {
+      rows.push(active.slice(i, i + chunkSize));
+    }
+    const gridRows = rows.map((row, ri) =>
+      `<tr${ri > 0 ? '' : ''}>${row.map(memberCell).join('')}</tr>${ri < rows.length - 1 ? '<tr><td colspan="3" height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}`
+    ).join('');
 
     const labelRow = teamEyebrow ? `
                 <tr>
@@ -2171,7 +2178,7 @@
                 <tr>
                   <td align="center" style="padding: 0 0 8px 0;">
                     <table border="0" cellpadding="0" cellspacing="0">
-                      <tr>${cells}</tr>
+                      ${gridRows}
                     </table>
                   </td>
                 </tr>`;
