@@ -2157,13 +2157,13 @@
               </td>`;
     }
 
-    const chunkSize = 3;
+    const chunkSize = 5;
     const rows = [];
     for (let i = 0; i < active.length; i += chunkSize) {
       rows.push(active.slice(i, i + chunkSize));
     }
     const gridRows = rows.map((row, ri) =>
-      `<tr${ri > 0 ? '' : ''}>${row.map(memberCell).join('')}</tr>${ri < rows.length - 1 ? '<tr><td colspan="3" height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}`
+      `<tr>${row.map(memberCell).join('')}</tr>${ri < rows.length - 1 ? '<tr><td colspan="5" height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}`
     ).join('');
 
     const labelRow = teamEyebrow ? `
