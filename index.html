@@ -153,6 +153,11 @@
     .form-section.open .section-chevron { transform: rotate(180deg); }
     .form-section-body { display: none; }
     .form-section.open .form-section-body { display: block; }
+    .form-section.section-disabled .form-section-body { display: none !important; }
+    .form-section.section-disabled .form-section-title { color: #aaa; }
+    .form-section.section-disabled .section-chevron { visibility: hidden; }
+    .section-enable-label { font-size: 10px; font-weight: 400; text-transform: none; letter-spacing: 0; color: #808080; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .section-enable-label input[type="checkbox"] { cursor: pointer; margin: 0; }
 
     .drag-handle {
       position: absolute;
@@ -641,7 +646,7 @@
     <!-- ROC -->
     <div class="form-section" data-section-id="roc" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">ROC <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>ROC <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="rocEnableToggle" onchange="setSectionEnabled('roc',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <div id="rocBlocksContainer"></div>
       <div class="add-section-wrap">
@@ -677,12 +682,12 @@
     <!-- Insight -->
     <div class="form-section" data-section-id="insight" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">Insight <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>Insight <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="insightEnableToggle" onchange="setSectionEnabled('insight',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <label for="insightEyebrow">Section Label</label>
       <input type="text" id="insightEyebrow" value="Insight" oninput="renderPreview()" />
       <label for="insightHeading" style="margin-top:10px;">Heading</label>
-      <input type="text" id="insightHeading" value="A catchy heading" oninput="renderPreview()" />
+      <input type="text" id="insightHeading" value="" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
         <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#808080;">(optional)</span></label>
         <select id="insightBylineSelect" onchange="pickInsightByline(this.value); this.value='';">
@@ -2534,7 +2539,7 @@
 
           <!-- REORDERABLE SECTIONS -->
           ${(function() {
-            const insightHTML = (insightHeading || insightBody) ? `<tr id="prev-insight">
+            const insightHTML = sectionEnabled.insight && (insightHeading || insightBody) ? `<tr id="prev-insight">
             <td style="background-color: #FADADD; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2571,7 +2576,7 @@
             const sectionParts = {
               'current-projects': contentSectionHTML,
               'quote':            quoteHTML,
-              'roc':              generatePqBlocksHTML('roc'),
+              'roc':              sectionEnabled.roc ? generatePqBlocksHTML('roc') : '',
               'grapevine':        generatePqBlocksHTML('grapevine'),
               'generic':          generatePqBlocksHTML('generic'),
               'insight':          insightHTML,
@@ -2611,7 +2616,24 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
+  let sectionEnabled = { roc: false, insight: false };
   let dragSrcSection = null;
+
+  function setSectionEnabled(id, enabled) {
+    sectionEnabled[id] = enabled;
+    const el = document.querySelector('.form-section[data-section-id="' + id + '"]');
+    if (el) el.classList.toggle('section-disabled', !enabled);
+    renderPreview();
+  }
+
+  function applySectionEnabled() {
+    Object.entries(sectionEnabled).forEach(function([id, enabled]) {
+      const el = document.querySelector('.form-section[data-section-id="' + id + '"]');
+      const cb = document.getElementById(id + 'EnableToggle');
+      if (el) el.classList.toggle('section-disabled', !enabled);
+      if (cb) cb.checked = enabled;
+    });
+  }
 
   function onSectionDragStart(e, el) {
     dragSrcSection = el;
@@ -2702,6 +2724,7 @@
       teamIdCounter,
       pqBlockIdCounter,
       sectionOrder: [...sectionOrder],
+      sectionEnabled: {...sectionEnabled},
     };
   }
 
@@ -2725,6 +2748,8 @@
       );
       restoreSectionDOMOrder();
     }
+    if (state.sectionEnabled) sectionEnabled = Object.assign({roc: false, insight: false}, state.sectionEnabled);
+    applySectionEnabled();
     renderBlocks();
     renderLinks();
     renderTeam();
@@ -2839,6 +2864,7 @@
   document.getElementById('heroHeadline').value = "Welcome to [Month's] CX Gazette";
 
   addBlock('current-project');
+  applySectionEnabled();
   renderPreview();
 
   loadFromLocalStorage();
