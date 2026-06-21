@@ -518,7 +518,7 @@
       <label>Section Label</label>
       <input type="text" id="signalEyebrow" value="🚦 The Signal" oninput="renderPreview()" />
       <label style="margin-top:10px;">Heading</label>
-      <input type="text" id="signalHeading" oninput="renderPreview()" />
+      <input type="text" id="signalHeading" value="The trend worth watching this month" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
         <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;">By-line <span style="font-weight:400;color:#808080;">(optional)</span></label>
         <select id="signalBylineSelect" onchange="pickSignalByline(this.value); this.value='';">
@@ -598,7 +598,7 @@
           <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
           <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
         </div>
-        <div id="signalBody" class="rich-content" contenteditable="true" oninput="renderPreview()"></div>
+        <div id="signalBody" class="rich-content" contenteditable="true" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
       </div>
       <label style="margin-top:10px;">The Bottom Line <span style="font-weight:400;color:#808080;">(optional)</span></label>
       <div class="rich-editor-wrap">
@@ -608,7 +608,7 @@
           <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
           <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
         </div>
-        <div id="signalBottomLine" class="rich-content" contenteditable="true" oninput="renderPreview()"></div>
+        <div id="signalBottomLine" class="rich-content" contenteditable="true" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</div>
       </div>
       <label style="margin-top:10px;">Button Label <span style="font-weight:400;color:#808080;">(optional)</span></label>
       <input type="text" id="signalBtnLabel" oninput="renderPreview()" />
