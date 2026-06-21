@@ -156,6 +156,7 @@
     .form-section.section-disabled .form-section-body { display: none !important; }
     .form-section.section-disabled .form-section-title { color: #aaa; }
     .form-section.section-disabled .section-chevron { visibility: hidden; }
+    .form-section.section-dependent { opacity: 0.35; pointer-events: none; }
     .section-enable-label { font-size: 10px; font-weight: 400; text-transform: none; letter-spacing: 0; color: #808080; cursor: pointer; display: flex; align-items: center; gap: 4px; }
     .section-enable-label input[type="checkbox"] { cursor: pointer; margin: 0; }
 
@@ -2592,7 +2593,7 @@
           })()}
 
           <!-- TRIVIA ANSWER -->
-          ${triviaAnswer ? `<tr id="prev-trivia-a">
+          ${sectionEnabled['trivia-question'] && triviaAnswer ? `<tr id="prev-trivia-a">
             <td style="background-color: ${triviaBg}; padding: 32px;">
               <p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
@@ -2629,7 +2630,13 @@
     sectionEnabled[id] = enabled;
     const el = document.querySelector('.form-section[data-section-id="' + id + '"]');
     if (el) el.classList.toggle('section-disabled', !enabled);
+    if (id === 'trivia-question') applyTriviaAnswerDependency();
     renderPreview();
+  }
+
+  function applyTriviaAnswerDependency() {
+    const taEl = document.querySelector('.form-section[data-section-id="trivia-answer"]');
+    if (taEl) taEl.classList.toggle('section-dependent', !sectionEnabled['trivia-question']);
   }
 
   function applySectionEnabled() {
@@ -2639,6 +2646,7 @@
       if (el) el.classList.toggle('section-disabled', !enabled);
       if (cb) cb.checked = enabled;
     });
+    applyTriviaAnswerDependency();
   }
 
   function onSectionDragStart(e, el) {
