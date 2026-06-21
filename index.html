@@ -452,7 +452,7 @@
     </div>
 
     <div class="form-section" data-section-id="introduction">
-      <div class="form-section-title" onclick="toggleSection(this)">Introduction <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>Introduction <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="introductionEnableToggle" onchange="setSectionEnabled('introduction',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Welcome to April's CX Gazette" oninput="renderPreview()" />
@@ -634,7 +634,7 @@
     <!-- Quote -->
     <div class="form-section" data-section-id="quote" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">Quote <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>Quote <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="quoteEnableToggle" onchange="setSectionEnabled('quote',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <label for="quoteText">Quote</label>
       <textarea id="quoteText" rows="3" oninput="renderPreview()">"People ignore design that ignores people"</textarea>
@@ -2511,7 +2511,7 @@
           </tr>
 
           <!-- INTRO -->
-          ${(val('heroHeadline') || heroBody) ? `<tr>
+          ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
             <td style="background-color: #FADADD; padding: 40px 32px 52px 32px;">
               <h1 style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 34px; font-weight: bold; color: #050505; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Trebuchet MS', Trebuchet, Arial, Helvetica, sans-serif; font-size: 14px; color: #050505; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
@@ -2568,7 +2568,7 @@
               </table>
             </td>
           </tr>` : '';
-            const quoteHTML = quoteText ? `<tr id="prev-quote">
+            const quoteHTML = sectionEnabled.quote && quoteText ? `<tr id="prev-quote">
             <td style="background-color: #E8383A; padding: 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2623,7 +2623,7 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
-  let sectionEnabled = { roc: false, insight: false };
+  let sectionEnabled = { introduction: false, quote: false, roc: false, insight: false };
   let dragSrcSection = null;
 
   function setSectionEnabled(id, enabled) {
@@ -2755,7 +2755,7 @@
       );
       restoreSectionDOMOrder();
     }
-    if (state.sectionEnabled) sectionEnabled = Object.assign({roc: false, insight: false}, state.sectionEnabled);
+    if (state.sectionEnabled) sectionEnabled = Object.assign({introduction: false, quote: false, roc: false, insight: false}, state.sectionEnabled);
     applySectionEnabled();
     renderBlocks();
     renderLinks();
