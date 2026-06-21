@@ -486,12 +486,12 @@
     </div>
 
     <div class="form-section" data-section-id="trivia-question">
-      <div class="form-section-title" onclick="toggleSection(this)">Trivia Question <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>Trivia Question <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="trivia-questionEnableToggle" onchange="setSectionEnabled('trivia-question',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <label for="triviaEyebrow">Section Label</label>
       <input type="text" id="triviaEyebrow" value="Trivia" oninput="renderPreview()" />
       <label for="triviaQuestion" style="margin-top:10px;">Question</label>
-      <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()"></textarea>
+      <textarea id="triviaQuestion" rows="2" placeholder="e.g. What year was our company founded?" oninput="renderPreview()">What percentage of customers say the experience a company provides is as important as its products?</textarea>
       <label for="triviaEmoji" style="margin-top:10px;">Emoji <span style="font-weight:400;color:#808080;">(optional)</span></label>
       <div class="emoji-suggestions">
         <button type="button" onclick="setTriviaEmoji('🤔')">🤔</button>
@@ -741,12 +741,6 @@
 
     </div><!-- /#reorderableSections -->
 
-    <div class="form-section" data-section-id="footer">
-      <div class="form-section-title" onclick="toggleSection(this)">Footer <span class="section-chevron">▾</span></div>
-      <div class="form-section-body">
-</div>
-    </div>
-
     <div class="form-section" data-section-id="trivia-answer">
       <div class="form-section-title" onclick="toggleSection(this)">Trivia Answer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
@@ -817,7 +811,6 @@
     'generic':           'prev-generic',
     'insight':           'prev-insight',
     'procrastination':   'prev-procrastination',
-    'footer':            'prev-footer',
     'trivia-answer':     'prev-trivia-a',
     'team':              'prev-footer',
   };
@@ -2520,7 +2513,7 @@
           </tr>` : ''}
 
           <!-- TRIVIA QUESTION -->
-          ${triviaQuestion ? `<tr id="prev-trivia-q">
+          ${sectionEnabled['trivia-question'] && triviaQuestion ? `<tr id="prev-trivia-q">
             <td style="background-color: #050505; padding: 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -2623,7 +2616,7 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
-  let sectionEnabled = { introduction: false, quote: false, roc: false, insight: false };
+  let sectionEnabled = { 'trivia-question': false, introduction: false, quote: false, roc: false, insight: false };
   let dragSrcSection = null;
 
   function setSectionEnabled(id, enabled) {
@@ -2712,7 +2705,7 @@
       'signalBody','signalBottomLine','signalBtnLabel','signalBtnUrl',
       'insightEyebrow','insightHeading','insightBylineName','insightBylineRole','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
       'linksEyebrow','linksSubheading','linksSectionTheme',
-      'footerMessage','triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
+      'triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
       'teamEyebrow'];
     const fields = {};
     fieldIds.forEach(id => {
@@ -2755,7 +2748,7 @@
       );
       restoreSectionDOMOrder();
     }
-    if (state.sectionEnabled) sectionEnabled = Object.assign({introduction: false, quote: false, roc: false, insight: false}, state.sectionEnabled);
+    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, quote: false, roc: false, insight: false}, state.sectionEnabled);
     applySectionEnabled();
     renderBlocks();
     renderLinks();
