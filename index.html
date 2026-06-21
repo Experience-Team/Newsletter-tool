@@ -511,7 +511,7 @@
 
     <!-- The Signal -->
     <div class="form-section" data-section-id="signal">
-      <div class="form-section-title" onclick="toggleSection(this)">The Signal <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>The Signal <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="signalEnableToggle" onchange="setSectionEnabled('signal',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <div id="signalThemeToggle"></div>
       <input type="hidden" id="signalTheme" value="default" />
@@ -1964,7 +1964,7 @@
   function generateSignalHTML() {
     const heading    = val('signalHeading')    || '';
     const body       = val('signalBody')       || '';
-    if (!heading && !body) return '';
+    if (!sectionEnabled.signal || (!heading && !body)) return '';
 
     const theme      = val('signalTheme')      || 'default';
     const bg         = theme === 'alt' ? '#F1F1F1' : '#ffffff';
@@ -2616,7 +2616,7 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
-  let sectionEnabled = { 'trivia-question': false, introduction: false, quote: false, roc: false, insight: false };
+  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, quote: false, roc: false, insight: false };
   let dragSrcSection = null;
 
   function setSectionEnabled(id, enabled) {
@@ -2748,7 +2748,7 @@
       );
       restoreSectionDOMOrder();
     }
-    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, quote: false, roc: false, insight: false}, state.sectionEnabled);
+    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, quote: false, roc: false, insight: false}, state.sectionEnabled);
     applySectionEnabled();
     renderBlocks();
     renderLinks();
