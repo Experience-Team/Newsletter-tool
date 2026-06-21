@@ -622,7 +622,7 @@
     <!-- Content Blocks -->
     <div class="form-section" data-section-id="current-projects" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">Current projects <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>Current projects <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="current-projectsEnableToggle" onchange="setSectionEnabled('current-projects',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
@@ -2437,7 +2437,7 @@
 
     // Wrap content blocks
     let contentSectionHTML = '';
-    if (contentBlocksHTML) {
+    if (sectionEnabled['current-projects'] && contentBlocksHTML) {
       contentSectionHTML = `
           <tr id="prev-current-projects">
             <td style="padding: 0 32px 0 32px; background-color: #ffffff;">
@@ -2616,7 +2616,7 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
-  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, quote: false, roc: false, insight: false };
+  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, insight: false };
   let dragSrcSection = null;
 
   function setSectionEnabled(id, enabled) {
@@ -2748,7 +2748,7 @@
       );
       restoreSectionDOMOrder();
     }
-    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, quote: false, roc: false, insight: false}, state.sectionEnabled);
+    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, insight: false}, state.sectionEnabled);
     applySectionEnabled();
     renderBlocks();
     renderLinks();
