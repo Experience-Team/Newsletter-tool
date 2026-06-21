@@ -444,7 +444,7 @@
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('logoUrl'), 'logoUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="logoUrlMsg"></div>
       <label for="heroImageUrl">Hero Image URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
-      <input type="text" id="heroImageUrl" value="https://res.cloudinary.com/dxfep8qat/image/upload/v1781918890/image_placeholder_uquahd.jpg" placeholder="e.g. https://yoursite.com/hero.jpg"
+      <input type="text" id="heroImageUrl" value="https://res.cloudinary.com/dxfep8qat/image/upload/v1782034638/image_placeholder_fhlws0.jpg" placeholder="e.g. https://yoursite.com/hero.jpg"
              oninput="processImageUrl(this, 'heroImageUrlMsg', function() { renderPreview(); })"
              onpaste="setTimeout(function(){ processImageUrl(document.getElementById('heroImageUrl'), 'heroImageUrlMsg', function() { renderPreview(); }); }, 0)" />
       <div id="heroImageUrlMsg"></div>
@@ -658,7 +658,7 @@
     <!-- The Grapevine -->
     <div class="form-section" data-section-id="grapevine" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">The Grapevine <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>The Grapevine <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="grapevineEnableToggle" onchange="setSectionEnabled('grapevine',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <div id="grapevineBlocksContainer"></div>
       <div class="add-section-wrap">
@@ -670,7 +670,7 @@
     <!-- Generic Content -->
     <div class="form-section" data-section-id="generic" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">Generic Content <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>Generic Content <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="genericEnableToggle" onchange="setSectionEnabled('generic',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <div id="genericBlocksContainer"></div>
       <div class="add-section-wrap">
@@ -1412,18 +1412,23 @@
       Object.assign(b, {
         eyebrow: '🍇 The Grapevine',
         theme: 'default',
-        links: [],
-        linkIdCounter: 0,
+        links: [
+          { id: 1, emoji: '🔗', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', url: '' },
+          { id: 2, emoji: '💡', text: 'Sed do eiusmod tempor incididunt ut labore et dolore magna', url: '' },
+          { id: 3, emoji: '🔥', text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco', url: '' },
+        ],
+        linkIdCounter: 3,
       });
     } else {
       Object.assign(b, {
-        eyebrow: 'Generic Content', heading: '',
+        eyebrow: 'Generic Content', heading: 'A catchy heading',
         bylineName: '', bylineRole: '',
         theme: 'default',
         imageLayout: '1x',
         image1Url: '', image1Alt: '', image2Url: '', image2Alt: '',
         image3Url: '', image3Alt: '', image4Url: '', image4Alt: '',
-        body: '', whatThisMeans: ''
+        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        whatThisMeans: ''
       });
     }
     pqBlocks.push(b);
@@ -2498,7 +2503,7 @@
           <tr id="prev-intro">
             <td style="background-color: #FADADD; padding: 0; font-size: 0; line-height: 0;">
               <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><![endif]-->
-              <a href="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxfep8qat/image/upload/v1781918890/image_placeholder_uquahd.jpg'}" target="_blank"><img src="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxfep8qat/image/upload/v1781918890/image_placeholder_uquahd.jpg'}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" /></a>
+              <a href="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxfep8qat/image/upload/v1782034638/image_placeholder_fhlws0.jpg'}" target="_blank"><img src="${esc(heroImageUrl) || 'https://res.cloudinary.com/dxfep8qat/image/upload/v1782034638/image_placeholder_fhlws0.jpg'}" alt="" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0; outline: none; text-decoration: none;" /></a>
               <!--[if mso]></td></tr></table><![endif]-->
             </td>
           </tr>
@@ -2577,8 +2582,8 @@
               'current-projects': contentSectionHTML,
               'quote':            quoteHTML,
               'roc':              sectionEnabled.roc ? generatePqBlocksHTML('roc') : '',
-              'grapevine':        generatePqBlocksHTML('grapevine'),
-              'generic':          generatePqBlocksHTML('generic'),
+              'grapevine':        sectionEnabled.grapevine ? generatePqBlocksHTML('grapevine') : '',
+              'generic':          sectionEnabled.generic ? generatePqBlocksHTML('generic') : '',
               'insight':          insightHTML,
               'procrastination':  generateLinksHTML(),
             };
@@ -2616,7 +2621,7 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
-  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, insight: false };
+  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, grapevine: false, generic: false, insight: false };
   let dragSrcSection = null;
 
   function setSectionEnabled(id, enabled) {
@@ -2748,7 +2753,7 @@
       );
       restoreSectionDOMOrder();
     }
-    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, insight: false}, state.sectionEnabled);
+    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, grapevine: false, generic: false, insight: false}, state.sectionEnabled);
     applySectionEnabled();
     renderBlocks();
     renderLinks();
@@ -2860,6 +2865,8 @@
   renderLinks();
 
   addPqBlock('roc');
+  addPqBlock('grapevine');
+  addPqBlock('generic');
   renderPqBlocks();
   refreshSectionThemeToggles();
 
