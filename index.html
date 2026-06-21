@@ -727,7 +727,7 @@
     <!-- Interesting Links -->
     <div class="form-section" data-section-id="procrastination" ondragstart="onSectionDragStart(event,this)" ondragover="onSectionDragOver(event,this)" ondragleave="onSectionDragLeave(event,this)" ondrop="onSectionDrop(event,this)" ondragend="onSectionDragEnd(event,this)">
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
-      <div class="form-section-title" onclick="toggleSection(this)">The Procrastination Station <span class="section-chevron">▾</span></div>
+      <div class="form-section-title" onclick="toggleSection(this)"><span>The Procrastination Station <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="procrastinationEnableToggle" onchange="setSectionEnabled('procrastination',this.checked)"> Include</label></div>
       <div class="form-section-body">
       <div id="linksSectionThemeToggle"></div>
       <input type="hidden" id="linksSectionTheme" value="default" />
@@ -1310,10 +1310,11 @@
   }
 
   // ── Interesting Links ──
+  const PROC_PLACEHOLDER_IMG = 'https://res.cloudinary.com/dxfep8qat/image/upload/v1782035152/Square_placeholder_ohurwm.png';
   let interestingLinks = [
-    { id: 1, imageUrl: '', linkUrl: '', caption: '' },
-    { id: 2, imageUrl: '', linkUrl: '', caption: '' },
-    { id: 3, imageUrl: '', linkUrl: '', caption: '' }
+    { id: 1, imageUrl: PROC_PLACEHOLDER_IMG, linkUrl: '', caption: '' },
+    { id: 2, imageUrl: PROC_PLACEHOLDER_IMG, linkUrl: '', caption: '' },
+    { id: 3, imageUrl: PROC_PLACEHOLDER_IMG, linkUrl: '', caption: '' }
   ];
 
   function updateLink(id, field, value) {
@@ -2072,7 +2073,7 @@
   }
 
   function generateLinksHTML() {
-    if (!interestingLinks.some(l => l.imageUrl || l.linkUrl)) return '';
+    if (!sectionEnabled.procrastination || !interestingLinks.some(l => l.imageUrl || l.linkUrl)) return '';
 
     const linksTheme    = val('linksSectionTheme') || 'default';
     const linksBg       = linksTheme === 'alt' ? '#f1f1f1' : '#050505';
@@ -2621,7 +2622,7 @@
   // ── Section drag-to-reorder ──
   const DEFAULT_SECTION_ORDER = ['current-projects','quote','roc','grapevine','generic','insight','procrastination'];
   let sectionOrder = [...DEFAULT_SECTION_ORDER];
-  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, grapevine: false, generic: false, insight: false };
+  let sectionEnabled = { 'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, grapevine: false, generic: false, insight: false, procrastination: false };
   let dragSrcSection = null;
 
   function setSectionEnabled(id, enabled) {
@@ -2753,7 +2754,7 @@
       );
       restoreSectionDOMOrder();
     }
-    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, grapevine: false, generic: false, insight: false}, state.sectionEnabled);
+    if (state.sectionEnabled) sectionEnabled = Object.assign({'trivia-question': false, introduction: false, signal: false, 'current-projects': false, quote: false, roc: false, grapevine: false, generic: false, insight: false, procrastination: false}, state.sectionEnabled);
     applySectionEnabled();
     renderBlocks();
     renderLinks();
