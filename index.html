@@ -1764,7 +1764,7 @@
                 <tr>
                   <td style="padding-top: 16px;">
                     <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${rocFg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
-                    ${(b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
+                    ${(b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${rocFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
                     ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
                     <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a>
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
@@ -1876,7 +1876,7 @@
         const genBg = _genT==='dark' ? '#000050' : _genT==='cream' ? '#FAFAF0' : '#FFFFFF';
         const genFg = _genT==='dark' ? '#FAFAF0' : '#000050';
         const genEyebrowBorder = _genT==='dark' ? '#FAFAF0' : _genT==='cream' ? '#000050' : '#FF7800';
-        const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
+        const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${genFg}; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,genFg,'16px','16px 0 0 0',true) : '';
         return `<tr${anchorId}>
             <td style="padding: 0 32px 40px 32px; background-color: ${genBg};">
@@ -2137,7 +2137,7 @@
             </td></tr>`;
     }
 
-    const bylineHTML = (bylineName || bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${fg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(bylineName)}${bylineName && bylineRole ? ' &middot; ' : ''}${esc(bylineRole)}</p>` : '';
+    const bylineHTML = (bylineName || bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${fg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(bylineName)}${bylineName && bylineRole ? ' &middot; ' : ''}${esc(bylineRole)}</p>` : '';
 
     const bottomLineEl = document.getElementById('signalBottomLine');
     const bottomLineHasContent = bottomLineEl && bottomLineEl.textContent.trim().length > 0;
@@ -2156,7 +2156,7 @@
 
     return `
           <tr id="prev-signal">
-            <td style="background-color: ${bg}; padding: 40px 32px 32px 32px;">
+            <td style="background-color: ${bg}; padding: 64px 32px 64px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBorder};">
@@ -2656,9 +2656,9 @@
 
           <!-- INTRO -->
           ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
-            <td style="background-color: ${introBg}; padding: 40px 32px 52px 32px;">
+            <td style="background-color: ${introBg}; padding: 64px 32px 64px 32px;">
               <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
-              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
+              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,introFg,'16px') : ''}
             </td>
           </tr>` : ''}
@@ -2701,7 +2701,7 @@
                 <tr>
                   <td style="padding-top: 16px;">
                     ${insightHeading ? `<h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${insightFg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
-                    ${(insightBylineName || insightBylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${insightFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(insightBylineName)}${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
+                    ${(insightBylineName || insightBylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${insightFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(insightBylineName)}${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
                     ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
                     ${insightBody ? emailBodyHtml(insightBody,insightFg,'16px') : ''}
                     ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="${insightBtnBg}" style="background-color: ${insightBtnBg}; border-radius: 4px;">
