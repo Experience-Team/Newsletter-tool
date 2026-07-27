@@ -1402,7 +1402,7 @@
     intro:          [{val:'cream',label:'Cream'},{val:'dark',label:'Dark'}],
     signal:         [{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'dark',label:'Dark'}],
     triviaQuestion: [{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'orange',label:'Orange'}],
-    quote:          [{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'orange',label:'Orange'}],
+    quote:          [{val:'dark',label:'Dark'},{val:'cream',label:'Cream'},{val:'orange',label:'Orange'}],
     insight:        [{val:'cream',label:'Cream'},{val:'light',label:'Light'},{val:'dark',label:'Dark'}],
     triviaAnswer:   [{val:'orange',label:'Orange'},{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'}],
     links:          [{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'dark',label:'Dark'},{val:'orange',label:'Orange'}],
@@ -2156,7 +2156,7 @@
 
     return `
           <tr id="prev-signal">
-            <td style="background-color: ${bg}; padding: 40px 32px 32px 32px; border-bottom: 1px solid #E0E0E0;">
+            <td style="background-color: ${bg}; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBorder};">
@@ -2326,7 +2326,7 @@
     const quoteAuthor    = val('quoteAuthor') || '';
     // Quote theme
     const quoteTheme   = val('quoteTheme') || 'dark';
-    const quoteBg      = quoteTheme==='light' ? '#FFFFFF' : quoteTheme==='cream' ? '#FAFAF0' : quoteTheme==='orange' ? '#D94E0E' : '#000050';
+    const quoteBg      = quoteTheme==='cream' ? '#FAFAF0' : quoteTheme==='orange' ? '#D94E0E' : '#000050';
     const quoteFg      = (quoteTheme==='dark' || quoteTheme==='orange') ? '#ffffff' : '#000050';
 
     const insightEyebrow    = val('insightEyebrow') || 'Insight';
