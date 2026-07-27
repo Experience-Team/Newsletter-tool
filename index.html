@@ -2270,9 +2270,11 @@
     for (let i = 0; i < active.length; i += chunkSize) {
       rows.push(active.slice(i, i + chunkSize));
     }
-    const gridRows = rows.map((row, ri) =>
-      `<tr>${row.map(memberCell).join('')}</tr>${ri < rows.length - 1 ? '<tr><td colspan="5" height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}`
-    ).join('');
+    const gridRows = rows.map((row, ri) => {
+      const rowTable = `<table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;"><tr>${row.map(memberCell).join('')}</tr></table>`;
+      const spacer = ri < rows.length - 1 ? `<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr></table>` : '';
+      return rowTable + spacer;
+    }).join('');
 
     const labelRow = teamEyebrow ? `
                 <tr>
@@ -2285,9 +2287,7 @@
                 ${labelRow}
                 <tr>
                   <td align="center" style="padding: 0 0 8px 0;">
-                    <table border="0" cellpadding="0" cellspacing="0">
-                      ${gridRows}
-                    </table>
+                    ${gridRows}
                   </td>
                 </tr>`;
   }
@@ -2738,7 +2738,7 @@
 
           <!-- TRIVIA ANSWER -->
           ${sectionEnabled['trivia-question'] && triviaAnswer ? `<tr id="prev-trivia-a">
-            <td style="background-color: ${triviaBg}; padding: 32px;">
+            <td style="background-color: ${triviaBg}; padding: 64px 32px;">
               <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
