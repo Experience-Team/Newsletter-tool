@@ -1768,13 +1768,7 @@
                     ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
                     <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 24px 0;" /></a>
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
-                      <tr>
-                        <td align="center" style="background-color:${rocScoreBg}; padding: 24px; text-align: center; border-top: 1px solid ${rocScoreBorder}; border-bottom: 1px solid ${rocScoreBorder};">
-                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: ${rocScoreFg}; margin: 0; line-height: 1.2;">${b.productName ? `${esc(b.productName)} = ` : ''}${scoreNum} – ${esc(scoreLabel)}</p>
-                        </td>
-                      </tr>
-                    </table>
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: ${rocFg}; margin: 0 0 16px 0; line-height: 1.2; text-align: left;">${b.productName ? `${esc(b.productName)} = ` : ''}${scoreNum} – ${esc(scoreLabel)}</p>
                     ${b.body ? emailBodyHtml(b.body,rocFg,'16px') : ''}
                     ${b.prosItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 24px 0 24px 0;">${esc(b.prosTitle)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
