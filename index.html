@@ -1762,13 +1762,13 @@
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding-top: 16px;">
-                    <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${rocFg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(b.heading)}</h2>
-                    ${(b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${rocFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
+                  <td style="padding-top: 48px;">
+                    <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${rocFg}; line-height: 1.2; margin: 0 0 24px 0;">${esc(b.heading)}</h2>
+                    ${(b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${rocFg}; margin: 0 0 24px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
                     ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
-                    <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a>
+                    <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 24px 0;" /></a>
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
                       <tr>
                         <td align="center" style="background-color:${rocScoreBg}; padding: 24px; text-align: center; border-top: 1px solid ${rocScoreBorder}; border-bottom: 1px solid ${rocScoreBorder};">
                           <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: ${rocScoreFg}; margin: 0; line-height: 1.2;">${b.productName ? `${esc(b.productName)} = ` : ''}${scoreNum} – ${esc(scoreLabel)}</p>
@@ -1776,13 +1776,13 @@
                       </tr>
                     </table>
                     ${b.body ? emailBodyHtml(b.body,rocFg,'16px') : ''}
-                    ${b.prosItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 16px 0 16px 0;">${esc(b.prosTitle)}</p>
+                    ${b.prosItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 24px 0 24px 0;">${esc(b.prosTitle)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
-                      ${b.prosItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.prosItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
+                      ${b.prosItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.prosItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '24px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
                     </table>` : ''}
-                    ${b.consItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 0 0 16px 0;">${esc(b.consTitle)}</p>
+                    ${b.consItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 0 0 24px 0;">${esc(b.consTitle)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
-                      ${b.consItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
+                      ${b.consItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '24px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
                     </table>` : ''}
                     ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
                       <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.linkLabel)}</a>
@@ -1879,11 +1879,11 @@
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${genFg}; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,genFg,'16px','16px 0 0 0',true) : '';
         return `<tr${anchorId}>
-            <td style="padding: 0 32px 40px 32px; background-color: ${genBg};">
+            <td style="padding: 0 32px 64px 32px; background-color: ${genBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding: 40px 0 0 0;">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid ${genEyebrowBorder};">${esc(b.eyebrow)}</p>
+                  <td style="padding: 64px 0 0 0;">
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0; padding-bottom: 8px; border-bottom: 2px solid ${genEyebrowBorder};">${esc(b.eyebrow)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       ${imagesHTML}
                       <tr>
@@ -2212,12 +2212,12 @@
 
     const linksLabelRow = linksEyebrow ? `
               <tr>
-                <td style="padding: 34px 0 20px 0;">
+                <td style="padding: 64px 0 20px 0;">
                   <span style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:${linksLabelFg};text-transform:uppercase;letter-spacing:2px;">${esc(linksEyebrow)}</span>
                 </td>
               </tr>` : `
               <tr>
-                <td style="padding: 34px 0 20px 0;">&nbsp;</td>
+                <td style="padding: 64px 0 20px 0;">&nbsp;</td>
               </tr>`;
 
     const linksSubheadingRow = linksSubheading ? `
@@ -2229,7 +2229,7 @@
 
     return `
           <tr id="prev-procrastination">
-            <td style="padding: 0 32px 40px 32px; background-color: ${linksBg};">
+            <td style="padding: 0 32px 64px 32px; background-color: ${linksBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${linksLabelRow}
                 ${linksSubheadingRow}
@@ -2691,7 +2691,7 @@
           <!-- REORDERABLE SECTIONS -->
           ${(function() {
             const insightHTML = sectionEnabled.insight && (insightHeading || insightBody) ? `<tr id="prev-insight">
-            <td style="background-color: ${insightBg}; padding: 40px 32px 32px 32px;">
+            <td style="background-color: ${insightBg}; padding: 64px 32px 64px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${insightFg};">
