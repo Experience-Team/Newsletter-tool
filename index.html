@@ -1035,6 +1035,38 @@
     if (url && url !== 'https://') document.execCommand('createLink', false, url);
   }
 
+  function sanitizeRichHtml(raw) {
+    if (!raw) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = raw;
+    function cleanNode(node) {
+      if (node.nodeType === 3) {
+        return node.textContent.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+      if (node.nodeType !== 1) return '';
+      const tag = node.tagName.toLowerCase();
+      if (/^(script|style|noscript|iframe|svg|head|meta|link|object|embed|form|input|button|select|textarea|img|video|audio)$/.test(tag)) return '';
+      const inner = Array.from(node.childNodes).map(cleanNode).join('');
+      if (tag === 'br') return '<br>';
+      if (tag === 'b' || tag === 'strong') return inner ? `<strong>${inner}</strong>` : '';
+      if (tag === 'i' || tag === 'em') return inner ? `<em>${inner}</em>` : '';
+      if (tag === 'ul') return inner ? `<ul>${inner}</ul>` : '';
+      if (tag === 'ol') return inner ? `<ol>${inner}</ol>` : '';
+      if (tag === 'li') return `<li>${inner}</li>`;
+      if (tag === 'a') {
+        const href = (node.getAttribute('href') || '').replace(/"/g, '&quot;');
+        const target = (node.getAttribute('target') || '_blank').replace(/"/g, '&quot;');
+        if (!href || /^javascript:/i.test(href)) return inner;
+        return `<a href="${href}" target="${target}">${inner}</a>`;
+      }
+      if (/^(p|div|h[1-6]|blockquote|pre|article|section|header|footer|nav|aside|main)$/.test(tag)) {
+        return inner ? `<div>${inner}</div>` : '';
+      }
+      return inner;
+    }
+    return Array.from(tmp.childNodes).map(cleanNode).join('');
+  }
+
   function emailBodyHtml(raw, fg, fontSize, margin, italic) {
     if (!raw) return '';
     const ff = "Georgia,'Times New Roman',Times,serif";
@@ -2726,7 +2758,7 @@
     const fields = {};
     fieldIds.forEach(id => {
       const el = document.getElementById(id);
-      if (el) fields[id] = el.tagName === 'DIV' ? el.innerHTML : el.value;
+      if (el) fields[id] = el.tagName === 'DIV' ? sanitizeRichHtml(el.innerHTML) : el.value;
     });
     return {
       version: 1,
@@ -2748,7 +2780,7 @@
     Object.entries(state.fields || {}).forEach(([id, value]) => {
       const el = document.getElementById(id);
       if (!el) return;
-      if (el.tagName === 'DIV') el.innerHTML = value;
+      if (el.tagName === 'DIV') el.innerHTML = sanitizeRichHtml(value);
       else el.value = value;
     });
     blocks = state.blocks || [];
@@ -2885,6 +2917,15 @@
 
   addBlock('current-project');
   applySectionEnabled();
+
+  document.addEventListener('paste', function(e) {
+    if (!e.target.isContentEditable) return;
+    const html = e.clipboardData && e.clipboardData.getData('text/html');
+    if (!html) return;
+    e.preventDefault();
+    document.execCommand('insertHTML', false, sanitizeRichHtml(html));
+  }, true);
+
   renderPreview();
 
   loadFromLocalStorage();
