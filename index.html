@@ -1402,7 +1402,7 @@
     intro:          [{val:'cream',label:'Cream'},{val:'dark',label:'Dark'}],
     signal:         [{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'dark',label:'Dark'}],
     triviaQuestion: [{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'orange',label:'Orange'}],
-    quote:          [{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'orange',label:'Orange'}],
+    quote:          [{val:'dark',label:'Dark'},{val:'cream',label:'Cream'},{val:'orange',label:'Orange'}],
     insight:        [{val:'cream',label:'Cream'},{val:'light',label:'Light'},{val:'dark',label:'Dark'}],
     triviaAnswer:   [{val:'orange',label:'Orange'},{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'}],
     links:          [{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'dark',label:'Dark'},{val:'orange',label:'Orange'}],
@@ -1749,7 +1749,7 @@
         const _rocT = ((b.theme||'light')==='default'?'light':(b.theme||'light')==='alt'?'cream':b.theme||'light');
         const rocBg      = _rocT==='dark' ? '#000050' : _rocT==='cream' ? '#FAFAF0' : '#FFFFFF';
         const rocFg      = _rocT==='dark' ? '#FAFAF0' : '#000050';
-        const rocEyebrow = _rocT==='dark' ? '#FAFAF0' : _rocT==='cream' ? '#000050' : '#D94E0E';
+        const rocEyebrow = _rocT==='dark' ? '#FAFAF0' : _rocT==='cream' ? '#000050' : '#FF7800';
         const rocScoreBorder = _rocT==='dark' ? '#FAFAF0' : '#000050';
         const rocScoreBg = _rocT==='cream' ? '#000050' : 'transparent';
         const rocScoreFg = _rocT==='cream' ? '#ffffff' : rocFg;
@@ -1784,7 +1784,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
                       ${b.consItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '16px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
                     </table>` : ''}
-                    ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#D94E0E" style="background-color: #D94E0E; border-radius: 4px;">
+                    ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
                       <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.linkLabel)}</a>
                     </td></tr></table>` : ''}
                   </td>
@@ -1875,7 +1875,7 @@
         const _genT = ((b.theme||'light')==='default'?'light':(b.theme||'light')==='alt'?'cream':b.theme||'light');
         const genBg = _genT==='dark' ? '#000050' : _genT==='cream' ? '#FAFAF0' : '#FFFFFF';
         const genFg = _genT==='dark' ? '#FAFAF0' : '#000050';
-        const genEyebrowBorder = _genT==='dark' ? '#FAFAF0' : _genT==='cream' ? '#000050' : '#D94E0E';
+        const genEyebrowBorder = _genT==='dark' ? '#FAFAF0' : _genT==='cream' ? '#000050' : '#FF7800';
         const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,genFg,'16px','16px 0 0 0',true) : '';
         return `<tr${anchorId}>
@@ -2049,7 +2049,7 @@
     return `
                     <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;">
                       <tr>
-                        <td align="center" bgcolor="#D94E0E" style="background-color: #D94E0E; border-radius: 4px;">
+                        <td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
                           <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.btnLabel)}</a>
                         </td>
                       </tr>
@@ -2062,7 +2062,7 @@
     return `
                     <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;">
                       <tr>
-                        <td align="center" bgcolor="#D94E0E" style="background-color: #D94E0E; border-radius: 4px;">
+                        <td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
                           <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.btnLabel)}</a>
                         </td>
                       </tr>
@@ -2150,13 +2150,13 @@
               </table>` : '';
 
     const btnHTML = (btnLabel && btnUrl) ? `
-              <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#D94E0E" style="background-color: #D94E0E; border-radius: 4px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
                 <a href="${esc(btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(btnLabel)}</a>
               </td></tr></table>` : '';
 
     return `
           <tr id="prev-signal">
-            <td style="background-color: ${bg}; padding: 40px 32px 32px 32px; border-bottom: 1px solid #E0E0E0;">
+            <td style="background-color: ${bg}; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBorder};">
@@ -2185,7 +2185,7 @@
 
     const linksTheme    = val('linksSectionTheme') || 'light';
     const _lt = linksTheme === 'default' ? 'light' : linksTheme === 'alt' ? 'dark' : linksTheme;
-    const linksBg       = _lt==='dark' ? '#000050' : _lt==='cream' ? '#FAFAF0' : _lt==='orange' ? '#D94E0E' : '#FFFFFF';
+    const linksBg       = _lt==='dark' ? '#000050' : _lt==='cream' ? '#FAFAF0' : _lt==='orange' ? '#FF7800' : '#FFFFFF';
     const linksLabelFg  = (_lt==='dark' || _lt==='orange') ? '#FAFAF0' : '#000050';
     const linksSubFg    = linksLabelFg;
     const placeholderBg = _lt==='dark' ? '#1a1a5c' : _lt==='orange' ? '#b03000' : '#D9D9D9';
@@ -2318,7 +2318,7 @@
 
     // Trivia question theme
     const tqTheme    = val('triviaQuestionTheme') || 'dark';
-    const tqBg       = tqTheme==='light' ? '#FFFFFF' : tqTheme==='cream' ? '#FAFAF0' : tqTheme==='orange' ? '#D94E0E' : '#000050';
+    const tqBg       = tqTheme==='light' ? '#FFFFFF' : tqTheme==='cream' ? '#FAFAF0' : tqTheme==='orange' ? '#FF7800' : '#000050';
     const tqFg       = (tqTheme==='dark' || tqTheme==='orange') ? '#ffffff' : '#000050';
     const tqHint     = (tqTheme==='dark') ? '#A0A0B0' : tqTheme==='orange' ? 'rgba(255,255,255,0.65)' : '#888888';
 
@@ -2326,7 +2326,7 @@
     const quoteAuthor    = val('quoteAuthor') || '';
     // Quote theme
     const quoteTheme   = val('quoteTheme') || 'dark';
-    const quoteBg      = quoteTheme==='light' ? '#FFFFFF' : quoteTheme==='cream' ? '#FAFAF0' : quoteTheme==='orange' ? '#D94E0E' : '#000050';
+    const quoteBg      = quoteTheme==='cream' ? '#FAFAF0' : quoteTheme==='orange' ? '#FF7800' : '#000050';
     const quoteFg      = (quoteTheme==='dark' || quoteTheme==='orange') ? '#ffffff' : '#000050';
 
     const insightEyebrow    = val('insightEyebrow') || 'Insight';
@@ -2341,7 +2341,7 @@
     const insightTheme  = val('insightTheme') || 'cream';
     const insightBg     = insightTheme==='dark' ? '#000050' : insightTheme==='light' ? '#FFFFFF' : '#FAFAF0';
     const insightFg     = insightTheme==='dark' ? '#FAFAF0' : '#000050';
-    const insightBtnBg  = insightTheme==='cream' ? '#000050' : '#D94E0E';
+    const insightBtnBg  = insightTheme==='cream' ? '#000050' : '#FF7800';
 
     const triviaEmoji    = val('triviaEmoji') || '';
     const triviaEyebrow  = val('triviaEyebrow') || 'Trivia';
@@ -2382,7 +2382,7 @@
       if (b.type === 'image-text') {
         if (!b.heading && !b.body && !b.imageUrl) return;
         const linkHTML = (b.linkText && b.linkUrl)
-          ? `<a href="${esc(b.linkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #D94E0E; text-decoration: underline; line-height: 1.4;">${esc(b.linkText)}</a>`
+          ? `<a href="${esc(b.linkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #FF7800; text-decoration: underline; line-height: 1.4;">${esc(b.linkText)}</a>`
           : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2541,7 +2541,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 30px 0; padding-bottom: 8px; border-bottom: 2px solid #D94E0E;">${esc(b.eyebrow || 'Current Project')}</p>
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 30px 0; padding-bottom: 8px; border-bottom: 2px solid #FF7800;">${esc(b.eyebrow || 'Current Project')}</p>
                     <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000050; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
                     ${generateBylineHTML(b, '#000050')}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
