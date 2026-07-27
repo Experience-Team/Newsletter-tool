@@ -970,7 +970,7 @@
     renderPreview();
   }
 
-  function set_signalTheme_theme(v) {
+  function set_signal_theme(v) {
     document.getElementById('signalTheme').value = v;
     document.getElementById('signalThemeToggle').innerHTML = sectionThemeToggle('signal', v, THEME_OPTS.signal);
     renderPreview();
@@ -1417,43 +1417,43 @@
     return `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">${btns}</div>`;
   }
 
-  function set_linksSectionTheme_theme(v) {
+  function set_links_theme(v) {
     document.getElementById('linksSectionTheme').value = v;
     document.getElementById('linksSectionThemeToggle').innerHTML = sectionThemeToggle('links', v, THEME_OPTS.links);
     renderPreview();
   }
-  function set_triviaAnswerTheme_theme(v) {
+  function set_triviaAnswer_theme(v) {
     document.getElementById('triviaAnswerTheme').value = v;
     document.getElementById('triviaAnswerThemeToggle').innerHTML = sectionThemeToggle('triviaAnswer', v, THEME_OPTS.triviaAnswer);
     renderPreview();
   }
-  function set_introTheme_theme(v) {
+  function set_intro_theme(v) {
     document.getElementById('introTheme').value = v;
     document.getElementById('introThemeToggle').innerHTML = sectionThemeToggle('intro', v, THEME_OPTS.intro);
     renderPreview();
   }
-  function set_triviaQuestionTheme_theme(v) {
+  function set_triviaQuestion_theme(v) {
     document.getElementById('triviaQuestionTheme').value = v;
     document.getElementById('triviaQuestionThemeToggle').innerHTML = sectionThemeToggle('triviaQuestion', v, THEME_OPTS.triviaQuestion);
     renderPreview();
   }
-  function set_quoteTheme_theme(v) {
+  function set_quote_theme(v) {
     document.getElementById('quoteTheme').value = v;
     document.getElementById('quoteThemeToggle').innerHTML = sectionThemeToggle('quote', v, THEME_OPTS.quote);
     renderPreview();
   }
-  function set_insightTheme_theme(v) {
+  function set_insight_theme(v) {
     document.getElementById('insightTheme').value = v;
     document.getElementById('insightThemeToggle').innerHTML = sectionThemeToggle('insight', v, THEME_OPTS.insight);
     renderPreview();
   }
-  function set_teamTheme_theme(v) {
+  function set_team_theme(v) {
     document.getElementById('teamTheme').value = v;
     document.getElementById('teamThemeToggle').innerHTML = sectionThemeToggle('team', v, THEME_OPTS.team);
     renderPreview();
   }
 
-  function setHeaderStyle(v) {
+  function set_header_theme(v) {
     document.getElementById('headerStyle').value = v;
     document.getElementById('headerStyleToggle').innerHTML = sectionThemeToggle('header', v, THEME_OPTS.header);
     renderPreview();
@@ -1474,7 +1474,7 @@
     });
     const hs = (document.getElementById('headerStyle') || {}).value || 'dark';
     const hsEl = document.getElementById('headerStyleToggle');
-    if (hsEl) setHeaderStyle(hs);
+    if (hsEl) set_header_theme(hs);
     // Restore image layout button states
     const imgLayout = (document.getElementById('signalImageLayout') || {}).value || 'none';
     setSignalImageLayout(imgLayout);
