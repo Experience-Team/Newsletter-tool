@@ -1049,10 +1049,60 @@
   }
 
   function insertBulletList(btn) {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+
     const wrap = btn.closest('.rich-editor-wrap');
     const editor = wrap && wrap.querySelector('[contenteditable]');
-    if (editor) editor.focus();
-    document.execCommand('insertUnorderedList');
+    if (!editor || !editor.contains(sel.getRangeAt(0).commonAncestorContainer)) return;
+
+    const range = sel.getRangeAt(0);
+
+    // Check if cursor is inside a UL within this editor
+    let inUl = null;
+    let cur = range.commonAncestorContainer;
+    if (cur.nodeType === 3) cur = cur.parentNode;
+    while (cur && cur !== editor) {
+      if (cur.tagName === 'UL') { inUl = cur; break; }
+      cur = cur.parentNode;
+    }
+
+    if (inUl) {
+      // Toggle OFF: replace UL with its LIs as divs
+      const frag = document.createDocumentFragment();
+      Array.from(inUl.childNodes).forEach(child => {
+        if (child.nodeType === 1 && child.tagName === 'LI') {
+          const div = document.createElement('div');
+          while (child.firstChild) div.appendChild(child.firstChild);
+          frag.appendChild(div);
+        }
+      });
+      inUl.parentNode.replaceChild(frag, inUl);
+    } else {
+      // Toggle ON: find the direct-child-of-editor block and wrap it in a UL/LI
+      let block = range.commonAncestorContainer;
+      if (block.nodeType === 3) block = block.parentNode;
+      while (block && block.parentNode !== editor) block = block.parentNode;
+
+      const li = document.createElement('li');
+      const ul = document.createElement('ul');
+      ul.appendChild(li);
+
+      if (block && block !== editor) {
+        while (block.firstChild) li.appendChild(block.firstChild);
+        editor.replaceChild(ul, block);
+      } else {
+        range.deleteContents();
+        range.insertNode(ul);
+      }
+
+      const r2 = document.createRange();
+      r2.selectNodeContents(li);
+      r2.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(r2);
+    }
+
     renderPreview();
   }
 
@@ -3058,6 +3108,54 @@
     e.preventDefault();
     document.execCommand('insertHTML', false, sanitizeRichHtml(html));
   }, true);
+
+  // Handle Enter key inside list items in rich editors
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter' || e.shiftKey || e.ctrlKey || e.metaKey) return;
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    let liNode = null, richEl = null;
+    let node = sel.getRangeAt(0).commonAncestorContainer;
+    if (node.nodeType === 3) node = node.parentNode;
+    let cur = node;
+    while (cur) {
+      if (cur.classList && cur.classList.contains('rich-content')) { richEl = cur; break; }
+      if (cur.tagName === 'LI' && !liNode) liNode = cur;
+      cur = cur.parentNode;
+    }
+    if (!liNode || !richEl) return;
+    e.preventDefault();
+    const range = sel.getRangeAt(0);
+    const ul = liNode.parentNode;
+    if (!liNode.textContent.trim()) {
+      // Empty LI → exit list, insert a new div after the UL
+      const div = document.createElement('div');
+      div.innerHTML = '<br>';
+      ul.parentNode.insertBefore(div, ul.nextSibling);
+      liNode.remove();
+      if (!ul.children.length) ul.remove();
+      const r2 = document.createRange();
+      r2.setStart(div, 0);
+      r2.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(r2);
+      richEl.focus();
+    } else {
+      // Split: create new LI after current, move everything after cursor into it
+      const newLi = document.createElement('li');
+      const afterRange = document.createRange();
+      afterRange.setStart(range.endContainer, range.endOffset);
+      afterRange.setEnd(liNode, liNode.childNodes.length);
+      newLi.appendChild(afterRange.extractContents());
+      liNode.parentNode.insertBefore(newLi, liNode.nextSibling);
+      const r2 = document.createRange();
+      r2.setStart(newLi, 0);
+      r2.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(r2);
+    }
+    renderPreview();
+  });
 
   renderPreview();
 
