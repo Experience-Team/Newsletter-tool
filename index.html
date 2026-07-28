@@ -439,11 +439,6 @@
           <input type="text" id="editionDate" placeholder="e.g. March 2026" oninput="renderPreview()" />
         </div>
       </div>
-      <label for="logoUrl">Logo Image URL <span style="font-weight:400;color:#808080;">(optional)</span></label>
-      <input type="text" id="logoUrl" placeholder="e.g. https://yoursite.com/logo.png"
-             oninput="processImageUrl(this, 'logoUrlMsg', function() { renderPreview(); })"
-             onpaste="setTimeout(function(){ processImageUrl(document.getElementById('logoUrl'), 'logoUrlMsg', function() { renderPreview(); }); }, 0)" />
-      <div id="logoUrlMsg"></div>
       <label>Header Style</label>
       <div id="headerStyleToggle"></div>
       <input type="hidden" id="headerStyle" value="dark" />
@@ -753,6 +748,8 @@
 
     </div><!-- /#reorderableSections -->
 
+    <div style="height:1px;background:#D9D9D9;margin:0 16px;"></div>
+
     <div class="form-section" data-section-id="trivia-answer">
       <div class="form-section-title" onclick="toggleSection(this)">Trivia Answer <span class="section-chevron">▾</span></div>
       <div class="form-section-body">
@@ -840,6 +837,12 @@
 
   function toggleSection(titleEl) {
     const section = titleEl.closest('.form-section');
+    const isOpening = !section.classList.contains('open');
+    if (isOpening) {
+      document.querySelectorAll('.form-section.open').forEach(s => {
+        if (s !== section) s.classList.remove('open');
+      });
+    }
     section.classList.toggle('open');
     if (section.classList.contains('open')) {
       const sectionId = section.dataset.sectionId;
@@ -2385,7 +2388,7 @@
     const heroBylineRole  = val('heroBylineRole') || '';
     const heroBody       = val('heroBody') || '';
 
-    const logoUrl        = val('logoUrl') || '';
+    const logoUrl        = '';
     const headerStyle    = val('headerStyle') || 'dark';
     const headerBg       = headerStyle === 'cream' || headerStyle === 'light' ? (headerStyle === 'light' ? '#FFFFFF' : '#FAFAF0') : '#000050';
     const headerFg       = headerStyle === 'dark' ? '#ffffff' : '#000050';
@@ -2448,8 +2451,8 @@
     function generateBylineHTML(b, textColor) {
       const c = textColor || '#000050';
       if (!b.bylineName && !b.bylineRole) return '';
-      const nameHTML = b.bylineName ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; font-weight:bold; color:${c};">${esc(b.bylineName)}</span>` : '';
-      const roleHTML = b.bylineRole ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; font-weight:bold; color:${c};">${esc(b.bylineRole)}</span>` : '';
+      const nameHTML = b.bylineName ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineName)}</span>` : '';
+      const roleHTML = b.bylineRole ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineRole)}</span>` : '';
       const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; color:' + c + ';"> &middot; </span>' : '';
       return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:12px;"><tr><td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
     }
@@ -2797,7 +2800,7 @@
             </td>
           </tr>` : '';
             const quoteHTML = sectionEnabled.quote && quoteText ? `<tr id="prev-quote">
-            <td style="background-color: ${quoteBg}; padding: 32px;">
+            <td style="background-color: ${quoteBg}; padding: 64px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td align="center" style="text-align: center;">
@@ -2938,7 +2941,7 @@
 
   // ── Draft save / restore ──
   function getFormState() {
-    const fieldIds = ['editionDate','logoUrl','heroImageUrl',
+    const fieldIds = ['editionDate','heroImageUrl',
       'heroHeadline','heroBylineName','heroBylineRole','heroBody',
       'triviaEyebrow','triviaQuestion','triviaEmoji','quoteText','quoteAuthor',
       'signalTheme','signalEyebrow','signalHeading','signalBylineName','signalBylineRole','signalImageLayout',
