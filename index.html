@@ -484,7 +484,7 @@
           <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
           <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
           <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
-          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();" onclick="insertBulletList(this)">&#8226; List</button>
         </div>
         <div id="heroBody" class="rich-content" contenteditable="true" oninput="renderPreview()">Set a positive tone for the Gazette. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo dapibus lectus, sed lacinia nisi pellentesque sed. Aliquam erat volutpat. In tincidunt massa id rutrum hendrerit. Phasellus semper purus id ante blandit, ut hendrerit lorem lobortis. Maecenas risus justo, blandit et metus et, aliquam porttitor augue.</div>
       </div>
@@ -604,7 +604,7 @@
           <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
           <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
           <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
-          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();" onclick="insertBulletList(this)">&#8226; List</button>
         </div>
         <div id="signalBody" class="rich-content" contenteditable="true" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
       </div>
@@ -614,7 +614,7 @@
           <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
           <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
           <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
-          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();" onclick="insertBulletList(this)">&#8226; List</button>
         </div>
         <div id="signalBottomLine" class="rich-content" contenteditable="true" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</div>
       </div>
@@ -725,7 +725,7 @@
           <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
           <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
           <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
-          <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+          <button type="button" title="Bullet list" onmousedown="event.preventDefault();" onclick="insertBulletList(this)">&#8226; List</button>
         </div>
         <div id="insightBody" class="rich-content" contenteditable="true" oninput="renderPreview()">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br /><br />Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<br /><br />Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus et ornare lorem imperdiet.</div>
       </div>
@@ -1037,7 +1037,7 @@
         <button type="button" title="Bold" onmousedown="event.preventDefault();document.execCommand('bold')"><b>B</b></button>
         <button type="button" title="Italic" onmousedown="event.preventDefault();document.execCommand('italic')"><i>I</i></button>
         <button type="button" title="Link" onmousedown="event.preventDefault();insertRichLink()">&#128279;</button>
-        <button type="button" title="Bullet list" onmousedown="event.preventDefault();document.execCommand('insertUnorderedList')">&#8226; List</button>
+        <button type="button" title="Bullet list" onmousedown="event.preventDefault();" onclick="insertBulletList(this)">&#8226; List</button>
       </div>
       <div id="${id}" class="rich-content" contenteditable="true" oninput="${oninputExpr}">${content}</div>
     </div>`;
@@ -1046,6 +1046,14 @@
   function insertRichLink() {
     const url = prompt('Enter URL:', 'https://');
     if (url && url !== 'https://') document.execCommand('createLink', false, url);
+  }
+
+  function insertBulletList(btn) {
+    const wrap = btn.closest('.rich-editor-wrap');
+    const editor = wrap && wrap.querySelector('[contenteditable]');
+    if (editor) editor.focus();
+    document.execCommand('insertUnorderedList');
+    renderPreview();
   }
 
   function sanitizeRichHtml(raw) {
@@ -1128,9 +1136,28 @@
         parts.push(`<ul style="${ulStyle}">${lis}</ul>`);
       } else if (tag === 'div' || tag === 'p') {
         flushBuf();
-        const content = Array.from(node.childNodes).map(walkInline).join('')
-          .replace(/^(<br\s*\/?>)+/i,'').replace(/(<br\s*\/?>\s*)+$/i,'');
-        if (content.replace(/<[^>]+>/g,'').trim()) parts.push(`<p style="${pStyle}">${content}</p>`);
+        // Chrome often wraps an inserted <ul> inside a <div> — handle that
+        const hasNestedUl = Array.from(node.childNodes).some(n => n.nodeType === 1 && n.tagName.toLowerCase() === 'ul');
+        if (hasNestedUl) {
+          for (const child of Array.from(node.childNodes)) {
+            const ct = child.nodeType === 1 ? child.tagName.toLowerCase() : null;
+            if (ct === 'ul') {
+              const lis = Array.from(child.childNodes)
+                .filter(n => n.nodeType === 1 && n.tagName.toLowerCase() === 'li')
+                .map(li => `<li style="${liStyle}">${Array.from(li.childNodes).map(walkInline).join('')}</li>`)
+                .join('');
+              if (lis) parts.push(`<ul style="${ulStyle}">${lis}</ul>`);
+            } else {
+              const inline = walkInline(child);
+              if (inline.replace(/<[^>]+>/g,'').trim()) buf.push(inline);
+            }
+          }
+          flushBuf();
+        } else {
+          const content = Array.from(node.childNodes).map(walkInline).join('')
+            .replace(/^(<br\s*\/?>)+/i,'').replace(/(<br\s*\/?>\s*)+$/i,'');
+          if (content.replace(/<[^>]+>/g,'').trim()) parts.push(`<p style="${pStyle}">${content}</p>`);
+        }
       } else {
         buf.push(walkInline(node));
       }
