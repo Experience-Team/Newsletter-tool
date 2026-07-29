@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Newsletter Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: #F5F5F5;
       color: #000000;
       line-height: 1.5;
@@ -207,7 +210,7 @@
     .rich-toolbar { display: flex; gap: 2px; padding: 4px 6px; background: #f8f8f8; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
     .rich-toolbar button { padding: 3px 7px; border: 1px solid transparent; background: none; border-radius: 3px; cursor: pointer; font-size: 13px; line-height: 1.2; }
     .rich-toolbar button:hover { background: #e8e8e8; border-color: #ccc; }
-    .rich-content { padding: 8px; min-height: 80px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; outline: none; white-space: pre-wrap; word-wrap: break-word; background: #ffffff; }
+    .rich-content { padding: 8px; min-height: 80px; font-family: 'Inter', Arial, sans-serif; font-size: 14px; line-height: 1.6; outline: none; white-space: pre-wrap; word-wrap: break-word; background: #ffffff; }
 
     select {
       display: block;
@@ -1143,7 +1146,7 @@
 
   function emailBodyHtml(raw, fg, fontSize, margin, italic) {
     if (!raw) return '';
-    const ff = "Arial,Helvetica,sans-serif";
+    const ff = "'Inter',Arial,Helvetica,sans-serif";
     const fs = fontSize || '16px';
     const m  = margin  || '0';
     const fi = italic  ? 'font-style:italic;' : '';
@@ -1838,28 +1841,28 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${rocEyebrow};">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${rocEyebrow}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(b.eyebrow)}</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${rocEyebrow}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(b.eyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding-top: 48px;">
-                    <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${rocFg}; line-height: 1.2; margin: 0 0 24px 0;">${esc(b.heading)}</h2>
-                    ${(b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${rocFg}; margin: 0 0 24px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
+                    <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 200; color: ${rocFg}; line-height: 1.2; margin: 0 0 24px 0;">${esc(b.heading)}</h2>
+                    ${(b.bylineName || b.bylineRole) ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${rocFg}; margin: 0 0 24px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
                     ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
                     <a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 24px 0;" /></a>
                     <!--[if mso]></td></tr></table><![endif]-->` : ''}
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: ${rocFg}; margin: 0 0 16px 0; line-height: 1.2; text-align: left;">${b.productName ? `${esc(b.productName)} = ` : ''}${scoreNum} – ${esc(scoreLabel)}</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 200; color: ${rocFg}; margin: 0 0 16px 0; line-height: 1.2; text-align: left;">${b.productName ? `${esc(b.productName)} = ` : ''}${scoreNum} – ${esc(scoreLabel)}</p>
                     ${b.body ? emailBodyHtml(b.body,rocFg,'16px') : ''}
-                    ${b.prosItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 24px 0 24px 0;">${esc(b.prosTitle)}</p>
+                    ${b.prosItems.length ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 200; color: ${rocFg}; line-height: 1.4; margin: 24px 0 24px 0;">${esc(b.prosTitle)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
-                      ${b.prosItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.prosItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '24px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
+                      ${b.prosItems.map((item, i) => `<tr><td style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.prosItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '24px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
                     </table>` : ''}
-                    ${b.consItems.length ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${rocFg}; line-height: 1.4; margin: 0 0 24px 0;">${esc(b.consTitle)}</p>
+                    ${b.consItems.length ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 200; color: ${rocFg}; line-height: 1.4; margin: 0 0 24px 0;">${esc(b.consTitle)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 32px;">
-                      ${b.consItems.map((item, i) => `<tr><td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '24px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
+                      ${b.consItems.map((item, i) => `<tr><td style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: ${rocFg}; line-height: 1.4; padding-bottom: 12px; ${i < b.consItems.length - 1 ? 'border-bottom: 1px solid rgba(128,128,128,0.3);' : ''} padding-top: ${i > 0 ? '24px' : '0'};">${esc(item.text)}</td></tr>`).join('')}
                     </table>` : ''}
                     ${b.linkLabel && b.linkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
-                      <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.linkLabel)}</a>
+                      <a href="${esc(b.linkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.linkLabel)}</a>
                     </td></tr></table>` : ''}
                   </td>
                 </tr>
@@ -1876,12 +1879,12 @@
         const gvEyebrow = esc(b.eyebrow || '🍇 The Grapevine');
         const gvItems = active.map(l => {
           const inner = l.url
-            ? `<a href="${esc(l.url)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; text-decoration: underline; line-height: 1.4;">${esc(l.text)}</a>`
-            : `<span style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; line-height: 1.4;">${esc(l.text)}</span>`;
+            ? `<a href="${esc(l.url)}" target="_blank" style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; text-decoration: underline; line-height: 1.4;">${esc(l.text)}</a>`
+            : `<span style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 18px; color: ${gvFg}; line-height: 1.4;">${esc(l.text)}</span>`;
           return `<tr${anchorId}>
               <td style="padding: 20px 0; border-bottom: 1px solid ${gvBord};">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-                  <td valign="top" style="width:30px; padding-right:10px; font-size:20px; line-height:1.3; font-family: Arial, Helvetica, sans-serif; color:${gvFg}; white-space:nowrap;">${esc(l.emoji)}</td>
+                  <td valign="top" style="width:30px; padding-right:10px; font-size:20px; line-height:1.3; font-family: 'Inter', Arial, Helvetica, sans-serif; color:${gvFg}; white-space:nowrap;">${esc(l.emoji)}</td>
                   <td valign="top">${inner}</td>
                 </tr></table>
               </td>
@@ -1892,7 +1895,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-top: 50px; padding-bottom: 26px;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${gvFg}; text-transform: uppercase; letter-spacing: 2px;">${gvEyebrow}</span>
+                    <span style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${gvFg}; text-transform: uppercase; letter-spacing: 2px;">${gvEyebrow}</span>
                   </td>
                 </tr>
                 ${gvItems}
@@ -1950,19 +1953,19 @@
         const genBg = _genT==='dark' ? '#000050' : _genT==='cream' ? '#FAFAF0' : '#FFFFFF';
         const genFg = _genT==='dark' ? '#FAFAF0' : '#000050';
         const genEyebrowBorder = _genT==='dark' ? '#FAFAF0' : _genT==='cream' ? '#000050' : '#FF7800';
-        const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${genFg}; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
+        const bylineHTML = (b.bylineName || b.bylineRole) ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${genFg}; margin: 0 0 12px 0;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : '';
         const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,genFg,'16px','16px 0 0 0',true) : '';
         return `<tr${anchorId}>
             <td style="padding: 0 32px 64px 32px; background-color: ${genBg};">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: 64px 0 0 0;">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0; padding-bottom: 8px; border-bottom: 2px solid ${genEyebrowBorder};">${esc(b.eyebrow)}</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0; padding-bottom: 8px; border-bottom: 2px solid ${genEyebrowBorder};">${esc(b.eyebrow)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       ${imagesHTML}
                       <tr>
                         <td valign="top">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: ${genFg}; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
+                          <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: ${genFg}; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
                           ${bylineHTML}
                           ${b.body ? emailBodyHtml(b.body,genFg) : ''}
                           ${whatHTML}
@@ -2124,7 +2127,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;">
                       <tr>
                         <td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
-                          <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.btnLabel)}</a>
+                          <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.btnLabel)}</a>
                         </td>
                       </tr>
                     </table>`;
@@ -2137,7 +2140,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;">
                       <tr>
                         <td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
-                          <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.btnLabel)}</a>
+                          <a href="${esc(b.btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(b.btnLabel)}</a>
                         </td>
                       </tr>
                     </table>`;
@@ -2211,21 +2214,21 @@
             </td></tr>`;
     }
 
-    const bylineHTML = (bylineName || bylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${fg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(bylineName)}${bylineName && bylineRole ? ' &middot; ' : ''}${esc(bylineRole)}</p>` : '';
+    const bylineHTML = (bylineName || bylineRole) ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${fg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(bylineName)}${bylineName && bylineRole ? ' &middot; ' : ''}${esc(bylineRole)}</p>` : '';
 
     const bottomLineEl = document.getElementById('signalBottomLine');
     const bottomLineHasContent = bottomLineEl && bottomLineEl.textContent.trim().length > 0;
     const bottomLineHTML = (bottomLineHasContent && bottomLine) ? `
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 28px;">
                 <tr><td>
-                  <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
+                  <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
                   ${emailBodyHtml(bottomLine, fg, '16px')}
                 </td></tr>
               </table>` : '';
 
     const btnHTML = (btnLabel && btnUrl) ? `
               <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
-                <a href="${esc(btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(btnLabel)}</a>
+                <a href="${esc(btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(btnLabel)}</a>
               </td></tr></table>` : '';
 
     return `
@@ -2234,12 +2237,12 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBorder};">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(eyebrow)}</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(eyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding-top: 24px;">
-                    <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${fg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(heading)}</h2>
+                    <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 200; color: ${fg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(heading)}</h2>
                     ${bylineHTML}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       ${imagesHTML}
@@ -2287,7 +2290,7 @@
     const linksLabelRow = linksEyebrow ? `
               <tr>
                 <td style="padding: 64px 0 20px 0;">
-                  <span style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:${linksLabelFg};text-transform:uppercase;letter-spacing:2px;">${esc(linksEyebrow)}</span>
+                  <span style="font-family:'Inter',Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:${linksLabelFg};text-transform:uppercase;letter-spacing:2px;">${esc(linksEyebrow)}</span>
                 </td>
               </tr>` : `
               <tr>
@@ -2297,7 +2300,7 @@
     const linksSubheadingRow = linksSubheading ? `
               <tr>
                 <td style="padding: 0 0 17px 0;">
-                  <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;color:${linksSubFg};margin:0;line-height:1.4;">${esc(linksSubheading)}</p>
+                  <p style="font-family:'Inter',Arial,Helvetica,sans-serif;font-size:16px;color:${linksSubFg};margin:0;line-height:1.4;">${esc(linksSubheading)}</p>
                 </td>
               </tr>` : '';
 
@@ -2347,7 +2350,7 @@
       const firstName = esc((m.name || '').split(' ')[0] || m.name);
       return `<td valign="top" align="center" style="padding: 0 10px; text-align: center;">
                 <div align="center" style="width:48px;margin:0 auto;">${img}</div>
-                <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: ${nameFg}; margin: 6px 0 0 0; line-height: 1.3; text-align: center; white-space: nowrap;">${firstName}</p>
+                <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; color: ${nameFg}; margin: 6px 0 0 0; line-height: 1.3; text-align: center; white-space: nowrap;">${firstName}</p>
               </td>`;
     }
 
@@ -2365,7 +2368,7 @@
     const labelRow = teamEyebrow ? `
                 <tr>
                   <td align="center" style="padding: 0 0 16px 0; text-align: center;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${nameFg}; text-transform: uppercase; letter-spacing: 2px;">${esc(teamEyebrow)}</span>
+                    <span style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${nameFg}; text-transform: uppercase; letter-spacing: 2px;">${esc(teamEyebrow)}</span>
                   </td>
                 </tr>` : ``;
 
@@ -2451,9 +2454,9 @@
     function generateBylineHTML(b, textColor) {
       const c = textColor || '#000050';
       if (!b.bylineName && !b.bylineRole) return '';
-      const nameHTML = b.bylineName ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineName)}</span>` : '';
-      const roleHTML = b.bylineRole ? `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineRole)}</span>` : '';
-      const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; color:' + c + ';"> &middot; </span>' : '';
+      const nameHTML = b.bylineName ? `<span style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineName)}</span>` : '';
+      const roleHTML = b.bylineRole ? `<span style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineRole)}</span>` : '';
+      const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:14px; color:' + c + ';"> &middot; </span>' : '';
       return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:12px;"><tr><td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
     }
 
@@ -2468,7 +2471,7 @@
       if (b.type === 'image-text') {
         if (!b.heading && !b.body && !b.imageUrl) return;
         const linkHTML = (b.linkText && b.linkUrl)
-          ? `<a href="${esc(b.linkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #FF7800; text-decoration: underline; line-height: 1.4;">${esc(b.linkText)}</a>`
+          ? `<a href="${esc(b.linkUrl)}" target="_blank" style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: #FF7800; text-decoration: underline; line-height: 1.4;">${esc(b.linkText)}</a>`
           : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2481,9 +2484,9 @@
                           ${b.imageUrl ? `<a href="${esc(b.imageUrl)}" target="_blank"><img src="${esc(b.imageUrl)}" alt="${esc(b.imageAlt || '')}" width="200" style="display: block; width: 200px; height: auto; border: 0; outline: none; text-decoration: none; border-radius: 4px;" /></a>` : ''}
                         </td>
                         <td valign="top" width="100%">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
+                          <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
                           ${generateBylineHTML(b)}
-                          ${emailBodyHtml(b.body,'#000050')}${linkHTML ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #000050; line-height: 1.4; margin: 0;">${linkHTML}</p>` : ''}
+                          ${emailBodyHtml(b.body,'#000050')}${linkHTML ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: #000050; line-height: 1.4; margin: 0;">${linkHTML}</p>` : ''}
                         </td>
                       </tr>
                     </table>
@@ -2501,11 +2504,11 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>
                         <td valign="top" width="50%" style="width:50%; padding: 0 10px 0 0;">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.leftHeading)}</h2>
+                          <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.leftHeading)}</h2>
                           ${emailBodyHtml(b.leftBody,'#000050')}
                         </td>
                         <td valign="top" width="50%" style="width:50%; padding: 0 0 0 10px;">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.rightHeading)}</h2>
+                          <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.rightHeading)}</h2>
                           ${emailBodyHtml(b.rightBody,'#000050')}
                         </td>
                       </tr>
@@ -2519,7 +2522,7 @@
       } else if (b.type === 'feature') {
         if (!b.heading && !b.body) return;
         const featureEyebrowHTML = b.eyebrow ? `
-                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.eyebrow)}</p>` : '';
+                          <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.eyebrow)}</p>` : '';
         const featureImageHTML = b.featureImageUrl ? `
                     <tr>
                       <td style="padding: 0; font-size: 0; line-height: 0;">
@@ -2527,9 +2530,9 @@
                       </td>
                     </tr>` : '';
         const featureSubheadingHTML = b.subheading ? `
-                          <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #ffffff; line-height: 1.4; margin: 0 0 12px 0; opacity: 0.85;">${esc(b.subheading)}</p>` : '';
+                          <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: #ffffff; line-height: 1.4; margin: 0 0 12px 0; opacity: 0.85;">${esc(b.subheading)}</p>` : '';
         const featureH2HTML = b.h2heading ? `
-                          <h3 style="font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.h2heading)}</h3>` : '';
+                          <h3 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 200; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.h2heading)}</h3>` : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 -40px; width: calc(100% + 80px);">
                 <!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="600"><![endif]-->
@@ -2543,7 +2546,7 @@
                       </tr>` : ''}${featureImageHTML}
                       <tr>
                         <td style="padding: ${b.eyebrow && !b.featureImageUrl ? '12px' : '24px'} 28px 32px 28px;">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.heading)}</h2>
+                          <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #ffffff; line-height: 1.3; margin: 0 0 12px 0;">${esc(b.heading)}</h2>
                           ${featureSubheadingHTML}
                           ${featureH2HTML}
                           ${generateBylineHTML(b, '#ffffff')}
@@ -2571,7 +2574,7 @@
           const inner = url
             ? `<a href="${esc(url)}" target="_blank" style="color:#000050;text-decoration:underline;">${esc(text)}</a>`
             : esc(text);
-          return `<p style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#000050;margin:6px 0 0 0;line-height:1.4;">${inner}</p>`;
+          return `<p style="font-family:'Inter',Arial,Helvetica,sans-serif;font-size:12px;color:#000050;margin:6px 0 0 0;line-height:1.4;">${inner}</p>`;
         };
         let imagesHTML = '';
         if (layout === '1x') {
@@ -2627,8 +2630,8 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 30px 0; padding-bottom: 8px; border-bottom: 2px solid #FF7800;">${esc(b.eyebrow || 'Current Project')}</p>
-                    <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000050; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 30px 0; padding-bottom: 8px; border-bottom: 2px solid #FF7800;">${esc(b.eyebrow || 'Current Project')}</p>
+                    <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
                     ${generateBylineHTML(b, '#000050')}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                   ${imagesHTML}
@@ -2658,7 +2661,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>
                         <td valign="top">
-                          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; font-weight: bold; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
+                          <h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
                           ${generateBylineHTML(b)}${imgHTML}
                           ${emailBodyHtml(b.body,'#000050')}
                           ${generateButtonHTML(b)}
@@ -2702,6 +2705,7 @@
   </noscript>
   <![endif]-->
   <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
     :root { color-scheme: light; }
     td { word-break: break-word; overflow-wrap: break-word; }
     @media only screen and (max-width: 620px) {
@@ -2714,7 +2718,7 @@
     }
   </style>
 </head>
-<body bgcolor="#ffffff" style="margin: 0; padding: 0; background-color: #ffffff; font-family: Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color-scheme: light;">
+<body bgcolor="#ffffff" style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'Inter', Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color-scheme: light;">
 
   <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff;">
     <tr>
@@ -2731,7 +2735,7 @@
                     <!--[if mso]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]--><img src="${esc(logoSrc)}" alt="WPP Enterprise Solutions" width="198" style="display: block; max-width: 198px; width: 198px; height: auto; border: 0; outline: none; text-decoration: none;" /><!--[if mso]></td></tr></table><![endif]-->
                   </td>
                   <td align="right" valign="middle" style="padding: 28px 32px;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${headerFg}; white-space: nowrap;">${editionStr}</span>
+                    <span style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${headerFg}; white-space: nowrap;">${editionStr}</span>
                   </td>
                 </tr>
               </table>
@@ -2750,8 +2754,8 @@
           <!-- INTRO -->
           ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
             <td style="background-color: ${introBg}; padding: 64px 32px 64px 32px;">
-              <h1 style="font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
-              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
+              <h1 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 200; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
+              ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,introFg,'16px') : ''}
             </td>
           </tr>` : ''}
@@ -2765,13 +2769,13 @@
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         ${triviaEmoji ? `<td valign="middle" style="padding-right: 8px;"><p style="font-size: 24px; line-height: 1; margin: 0;">${esc(triviaEmoji)}</p></td>` : ''}
-                        <td valign="middle"><p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${tqFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(triviaEyebrow)}</p></td>
+                        <td valign="middle"><p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${tqFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(triviaEyebrow)}</p></td>
                       </tr>
                     </table>
                   </td>
                   <td valign="middle">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${tqFg}; line-height: 1.3; margin: 0 0 8px 0;">${esc(triviaQuestion)}</p>
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-style: italic; color: ${tqHint}; margin: 0;">Scroll to the bottom to find out the answer.</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: ${tqFg}; line-height: 1.3; margin: 0 0 8px 0;">${esc(triviaQuestion)}</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-style: italic; color: ${tqHint}; margin: 0;">Scroll to the bottom to find out the answer.</p>
                   </td>
                 </tr>
               </table>
@@ -2788,17 +2792,17 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding-bottom: 26px; border-bottom: 2px solid ${insightFg};">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${insightFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(insightEyebrow)}</p>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${insightFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(insightEyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding-top: 16px;">
-                    ${insightHeading ? `<h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 400; color: ${insightFg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
-                    ${(insightBylineName || insightBylineRole) ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${insightFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(insightBylineName)}${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
+                    ${insightHeading ? `<h2 style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 200; color: ${insightFg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
+                    ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${insightFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(insightBylineName)}${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
                     ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
                     ${insightBody ? emailBodyHtml(insightBody,insightFg,'16px') : ''}
                     ${insightLinkLabel && insightLinkUrl ? `<table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="${insightBtnBg}" style="background-color: ${insightBtnBg}; border-radius: 4px;">
-                      <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(insightLinkLabel)}</a>
+                      <a href="${esc(insightLinkUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(insightLinkLabel)}</a>
                     </td></tr></table>` : ''}
                   </td>
                 </tr>
@@ -2810,8 +2814,8 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td align="center" style="text-align: center;">
-                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; font-style: italic; color: ${quoteFg}; line-height: 1.2; margin: 0 0 18px 0; text-align: center;">${esc(quoteText)}</p>
-                    <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;"><tr><td style="padding-right: 8px;"><span style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${quoteFg};">💬</span></td>${quoteAuthor ? `<td><span style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${quoteFg};">${esc(quoteAuthor)}</span></td>` : ''}</tr></table>
+                    <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 200; font-style: italic; color: ${quoteFg}; line-height: 1.2; margin: 0 0 18px 0; text-align: center;">${esc(quoteText)}</p>
+                    <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;"><tr><td style="padding-right: 8px;"><span style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${quoteFg};">💬</span></td>${quoteAuthor ? `<td><span style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: ${quoteFg};">${esc(quoteAuthor)}</span></td>` : ''}</tr></table>
                   </td>
                 </tr>
               </table>
@@ -2832,9 +2836,9 @@
           <!-- TRIVIA ANSWER -->
           ${sectionEnabled['trivia-question'] && triviaAnswer ? `<tr id="prev-trivia-a">
             <td style="background-color: ${triviaBg}; padding: 64px 32px;">
-              <p style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
-              <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
-              ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
+              <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
+              <p style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
+              ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'Inter', Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
             </td>
           </tr>` : ''}
 
