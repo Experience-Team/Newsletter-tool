@@ -2831,16 +2831,16 @@
           <!-- INTRO -->
           ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
             ${introHalftone ? `
-            <!--[if gte mso 9]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
-            <td style="background-color: ${introBg}; background-image: url('${halftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 64px 32px 64px 32px;">
+            <td background="${halftoneUrl}" bgcolor="${introBg}" style="background-color: ${introBg}; background-image: url('${halftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 64px 32px 64px 32px;">
+              <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
             ` : `
             <td style="background-color: ${introBg}; padding: 64px 32px 64px 32px;">
             `}
               <h1 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 200; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,introFg,'16px') : ''}
+              ${introHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect><![endif]-->` : ''}
             </td>
-            ${introHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect></td></tr></table><![endif]-->` : ''}
           </tr>` : ''}
 
           <!-- TRIVIA QUESTION -->
@@ -2928,16 +2928,16 @@
           <!-- FOOTER -->
           <tr id="prev-footer">
             ${teamHalftone ? `
-            <!--[if gte mso 9]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${teamHalftoneUrl}" color="${teamBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
-            <td style="background-color: ${teamBg}; background-image: url('${teamHalftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 36px 32px;">
+            <td background="${teamHalftoneUrl}" bgcolor="${teamBg}" style="background-color: ${teamBg}; background-image: url('${teamHalftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 36px 32px;">
+              <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${teamHalftoneUrl}" color="${teamBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
             ` : `
             <td style="background-color: ${teamBg}; padding: 36px 32px;">
             `}
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${generateTeamHTML(teamFg)}
               </table>
+              ${teamHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect><![endif]-->` : ''}
             </td>
-            ${teamHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect></td></tr></table><![endif]-->` : ''}
           </tr>
 
         </table>
