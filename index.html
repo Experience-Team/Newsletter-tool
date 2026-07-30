@@ -2871,7 +2871,7 @@
             <td background="${halftoneUrl}" bgcolor="${introBg}" style="background-color: ${introBg}; background-image: url('${halftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; color: ${introFg}; -webkit-text-fill-color: ${introFg}; padding: 64px 32px 64px 32px;">
               <!--[if gte mso 9]><v:rect fill="true" stroke="false" style="mso-width-percent:1000;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox style="mso-fit-shape-to-text:true;" inset="0,0,0,0"><![endif]-->
             ` : `
-            <td ${tdBg(introBg, introFg, 'padding: 64px 32px 64px 32px;')}
+            <td ${tdBg(introBg, introFg, 'padding: 64px 32px 64px 32px;')}>
             `}
               <h1 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 200; color: ${introFg}; -webkit-text-fill-color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; -webkit-text-fill-color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
@@ -2968,7 +2968,7 @@
             <td background="${teamHalftoneUrl}" bgcolor="${teamBg}" style="background-color: ${teamBg}; background-image: url('${teamHalftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; color: ${teamFg}; -webkit-text-fill-color: ${teamFg}; padding: 36px 32px;">
               <!--[if gte mso 9]><v:rect fill="true" stroke="false" style="mso-width-percent:1000;"><v:fill type="frame" src="${teamHalftoneUrl}" color="${teamBg}" /><v:textbox style="mso-fit-shape-to-text:true;" inset="0,0,0,0"><![endif]-->
             ` : `
-            <td ${tdBg(teamBg, teamFg, 'padding: 36px 32px;')}
+            <td ${tdBg(teamBg, teamFg, 'padding: 36px 32px;')}>
             `}
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${generateTeamHTML(teamFg)}
