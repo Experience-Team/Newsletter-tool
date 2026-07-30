@@ -2766,7 +2766,7 @@
     }
 
     return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" style="color-scheme: light;">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -2786,8 +2786,14 @@
   <style type="text/css">
     @font-face { font-family: 'WPP-Light'; src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376010/WPP-Light_pyvnt4.woff2') format('woff2'); font-weight: normal; font-style: normal; }
     @font-face { font-family: 'WPP-Regular'; src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376009/WPP-Regular_tesmqt.woff2') format('woff2'); font-weight: normal; font-style: normal; }
-    :root { color-scheme: light; }
+    :root { color-scheme: light; -webkit-color-scheme: light; }
     td { word-break: break-word; overflow-wrap: break-word; }
+    @media (prefers-color-scheme: dark) {
+      :root, body, table, td, div, p, h1, h2, h3, h4, span, a, img {
+        color-scheme: light !important;
+        -webkit-color-scheme: light !important;
+      }
+    }
     @media only screen and (max-width: 620px) {
       .email-container {
         width: 100% !important;
@@ -2795,7 +2801,7 @@
     }
   </style>
 </head>
-<body bgcolor="#ffffff" style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color-scheme: light; forced-color-adjust: none; -webkit-forced-color-adjust: none;">
+<body bgcolor="#ffffff" style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color-scheme: light; -webkit-color-scheme: light; forced-color-adjust: none; -webkit-forced-color-adjust: none;">
 
   <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff;">
     <tr>
