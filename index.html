@@ -2766,7 +2766,7 @@
     }
 
     return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" style="color-scheme: light;">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en" style="color-scheme: light;">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -2778,6 +2778,7 @@
   <noscript>
     <xml>
       <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
         <o:PixelsPerInch>96</o:PixelsPerInch>
       </o:OfficeDocumentSettings>
     </xml>
@@ -2838,7 +2839,7 @@
           ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
             ${introHalftone ? `
             <td background="${halftoneUrl}" bgcolor="${introBg}" style="background-color: ${introBg}; background-image: url('${halftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 64px 32px 64px 32px;">
-              <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
+              <!--[if gte mso 9]><v:rect fill="true" stroke="false" style="mso-width-percent:1000;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox style="mso-fit-shape-to-text:true;" inset="0,0,0,0"><![endif]-->
             ` : `
             <td style="background-color: ${introBg}; padding: 64px 32px 64px 32px;">
             `}
@@ -2935,7 +2936,7 @@
           <tr id="prev-footer">
             ${teamHalftone ? `
             <td background="${teamHalftoneUrl}" bgcolor="${teamBg}" style="background-color: ${teamBg}; background-image: url('${teamHalftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 36px 32px;">
-              <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${teamHalftoneUrl}" color="${teamBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
+              <!--[if gte mso 9]><v:rect fill="true" stroke="false" style="mso-width-percent:1000;"><v:fill type="frame" src="${teamHalftoneUrl}" color="${teamBg}" /><v:textbox style="mso-fit-shape-to-text:true;" inset="0,0,0,0"><![endif]-->
             ` : `
             <td style="background-color: ${teamBg}; padding: 36px 32px;">
             `}
