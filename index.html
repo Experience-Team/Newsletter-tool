@@ -2500,7 +2500,7 @@
       if (!b.bylineName && !b.bylineRole) return '';
       const nameHTML = b.bylineName ? `<span style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineName)}</span>` : '';
       const roleHTML = b.bylineRole ? `<span style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:14px; font-weight:400; color:${c};">${esc(b.bylineRole)}</span>` : '';
-      const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:14px; color:' + c + ';"> &middot; </span>' : '';
+      const separator = (b.bylineName && b.bylineRole) ? '<span style="font-family:Inter,Arial,Helvetica,sans-serif; font-size:14px; color:' + c + ';"> &middot; </span>' : '';
       return `<table border="0" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:12px;"><tr><td valign="middle">${nameHTML}${separator}${roleHTML}</td></tr></table>`;
     }
 
