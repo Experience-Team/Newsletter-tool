@@ -875,6 +875,11 @@
     Export HTML
     <span class="btn-tooltip">Save a copy of this newsletter as an HTML file &mdash; useful for keeping a record of each edition or sharing with someone who needs the source file.</span>
   </button>
+  <button class="btn-copy" onclick="sendTest(this)">
+    Send test
+    <span class="btn-tooltip">Send the current newsletter to the configured test email address via Resend.</span>
+  </button>
+  <span class="copy-feedback" id="sendFeedback"></span>
 </div>
 
 <script>
@@ -3236,6 +3241,35 @@
     const fb = document.getElementById('copyFeedback');
     fb.classList.add('show');
     setTimeout(() => fb.classList.remove('show'), 2000);
+  }
+
+  // ── Send test ──
+  async function sendTest(btn) {
+    const html = generateEmailHTML();
+    const fb = document.getElementById('sendFeedback');
+    btn.disabled = true;
+    fb.textContent = 'Sending…';
+    fb.classList.add('show');
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        fb.textContent = 'Sent!';
+      } else {
+        fb.textContent = 'Error — check console';
+        console.error('Send test error:', data.error);
+      }
+    } catch (err) {
+      fb.textContent = 'Error — check console';
+      console.error('Send test error:', err);
+    } finally {
+      btn.disabled = false;
+      setTimeout(() => { fb.textContent = ''; fb.classList.remove('show'); }, 3000);
+    }
   }
 
   // ── Init ──
