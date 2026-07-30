@@ -671,6 +671,11 @@
       <input type="text" id="signalBtnLabel" oninput="renderPreview()" />
       <label style="margin-top:10px;">Button URL</label>
       <input type="text" id="signalBtnUrl" placeholder="https://" oninput="renderPreview()" />
+      <label style="margin-top:8px;">Display as</label>
+      <select id="signalBtnStyle" onchange="renderPreview()" style="margin-top:2px;">
+        <option value="button">Button</option>
+        <option value="link">Text link</option>
+      </select>
       </div>
     </div>
 
@@ -2281,10 +2286,13 @@
                 </td></tr>
               </table>` : '';
 
-    const btnHTML = (btnLabel && btnUrl) ? `
+    const btnStyle = val('signalBtnStyle') || 'button';
+    const btnHTML = (btnLabel && btnUrl) ? (btnStyle === 'link'
+      ? `<p style="margin-top: 18px; margin-bottom: 0;"><a href="${esc(btnUrl)}" target="_blank" style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #FF7800; text-decoration: underline; line-height: 1.4;">${esc(btnLabel)}</a></p>`
+      : `
               <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 18px;"><tr><td align="center" bgcolor="#FF7800" style="background-color: #FF7800; border-radius: 4px;">
                 <a href="${esc(btnUrl)}" target="_blank" style="display: inline-block; padding: 12px 32px; color: #ffffff; font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; text-decoration: none; line-height: 1;">${esc(btnLabel)}</a>
-              </td></tr></table>` : '';
+              </td></tr></table>`) : '';
 
     return `
           <tr id="prev-signal">
@@ -3010,7 +3018,7 @@
       'signalTheme','signalEyebrow','signalHeading','signalBylineName','signalBylineRole','signalImageLayout',
       'signalImage1Url','signalImage1Alt','signalImage2Url','signalImage2Alt',
       'signalImage3Url','signalImage3Alt','signalImage4Url','signalImage4Alt',
-      'signalBody','signalBottomLine','signalBtnLabel','signalBtnUrl',
+      'signalBody','signalBottomLine','signalBtnLabel','signalBtnUrl','signalBtnStyle',
       'insightEyebrow','insightHeading','insightBylineName','insightBylineRole','insightImageUrl','insightBody','insightLinkLabel','insightLinkUrl',
       'linksEyebrow','linksSubheading','linksSectionTheme',
       'triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
