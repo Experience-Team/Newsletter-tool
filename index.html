@@ -2819,6 +2819,17 @@
         width: 100% !important;
       }
     }
+    @media (prefers-color-scheme: dark) {
+      body, table, td, div, p, span, h1, h2, h3 {
+        color-scheme: light !important;
+        -webkit-color-scheme: light !important;
+      }
+      body { background-color: #FAFAF0 !important; }
+      table[bgcolor="#FAFAF0"], td[bgcolor="#FAFAF0"] { background-color: #FAFAF0 !important; }
+      table[bgcolor="#000050"], td[bgcolor="#000050"] { background-color: #000050 !important; }
+      table[bgcolor="#FF7800"], td[bgcolor="#FF7800"] { background-color: #FF7800 !important; }
+      table[bgcolor="#FFFFFF"], td[bgcolor="#FFFFFF"] { background-color: #FFFFFF !important; }
+    }
   </style>
 </head>
 <body bgcolor="#FAFAF0" style="margin: 0; padding: 0; background-color: #FAFAF0; font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color-scheme: light; -webkit-color-scheme: light;">
