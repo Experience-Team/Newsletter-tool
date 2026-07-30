@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'CX Gazette <onboarding@resend.dev>',
+        from: 'CX Gazette <gazette@moniquepompe.com>',
         to: 'mopo123@gmail.com',
         subject: 'CX Gazette — test send',
         html,
