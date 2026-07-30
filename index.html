@@ -509,6 +509,12 @@
       <div class="form-section-body">
       <div id="introThemeToggle"></div>
       <input type="hidden" id="introTheme" value="cream" />
+      <div style="margin-top:10px;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:400;">
+          <input type="checkbox" id="introHalftone" onchange="renderPreview()" style="width:auto;margin:0;" />
+          Halftone background
+        </label>
+      </div>
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Welcome to April's CX Gazette" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
@@ -2467,6 +2473,8 @@
     const introTheme   = val('introTheme') || 'cream';
     const introBg      = introTheme === 'dark' ? '#000050' : '#FAFAF0';
     const introFg      = introTheme === 'dark' ? '#FAFAF0' : '#000050';
+    const introHalftone = document.getElementById('introHalftone') && document.getElementById('introHalftone').checked;
+    const halftoneUrl  = 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785389604/halftone_1_qrkrgz.png';
 
     // Trivia question theme
     const tqTheme    = val('triviaQuestionTheme') || 'dark';
@@ -2814,11 +2822,17 @@
 
           <!-- INTRO -->
           ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
+            ${introHalftone ? `
+            <!--[if gte mso 9]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
+            <td style="background-color: ${introBg}; background-image: url('${halftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 64px 32px 64px 32px;">
+            ` : `
             <td style="background-color: ${introBg}; padding: 64px 32px 64px 32px;">
+            `}
               <h1 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 200; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,introFg,'16px') : ''}
             </td>
+            ${introHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect></td></tr></table><![endif]-->` : ''}
           </tr>` : ''}
 
           <!-- TRIVIA QUESTION -->
@@ -3029,10 +3043,17 @@
       const el = document.getElementById(id);
       if (el) fields[id] = el.tagName === 'DIV' ? sanitizeRichHtml(el.innerHTML) : el.value;
     });
+    const checkboxIds = ['introHalftone'];
+    const checkboxes = {};
+    checkboxIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) checkboxes[id] = el.checked;
+    });
     return {
       version: 1,
       savedAt: new Date().toISOString(),
       fields,
+      checkboxes,
       blocks: JSON.parse(JSON.stringify(blocks)),
       interestingLinks: JSON.parse(JSON.stringify(interestingLinks)),
       teamMembers: JSON.parse(JSON.stringify(teamMembers)),
@@ -3051,6 +3072,10 @@
       if (!el) return;
       if (el.tagName === 'DIV') el.innerHTML = sanitizeRichHtml(value);
       else el.value = value;
+    });
+    Object.entries(state.checkboxes || {}).forEach(([id, checked]) => {
+      const el = document.getElementById(id);
+      if (el) el.checked = checked;
     });
     blocks = state.blocks || [];
     blockIdCounter = state.blockIdCounter || 0;
