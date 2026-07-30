@@ -2464,7 +2464,9 @@
     const headerStyle    = val('headerStyle') || 'dark';
     const headerBg       = headerStyle === 'cream' || headerStyle === 'light' ? (headerStyle === 'light' ? '#FFFFFF' : '#FAFAF0') : '#000050';
     const headerFg       = headerStyle === 'dark' ? '#ffffff' : '#000050';
-    const defaultLogo    = 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785390882/Gazette_logo_light_ejlx0e.png';
+    const defaultLogo    = headerStyle === 'dark'
+      ? 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785390882/Gazette_logo_light_ejlx0e.png'
+      : 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785390882/Gazette_logo_dark_xbtrgf.png';
     const logoSrc        = logoUrl || defaultLogo;
 
     // Introduction theme
@@ -2908,7 +2910,7 @@
 
           <!-- TRIVIA ANSWER -->
           ${sectionEnabled['trivia-question'] && triviaAnswer ? `<tr id="prev-trivia-a">
-            <td style="background-color: ${triviaBg}; padding: 64px 32px;">
+            <td align="center" style="background-color: ${triviaBg}; padding: 64px 32px; text-align: center;">
               <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
