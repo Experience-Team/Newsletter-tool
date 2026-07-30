@@ -310,13 +310,53 @@
       align-items: center;
     }
 
+    .preview-header {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
     .preview-label {
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: #808080;
-      margin-bottom: 16px;
+    }
+
+    .preview-dark-toggle {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #555;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .preview-panel.dark-preview {
+      background: #1c1c1e;
+    }
+
+    .preview-panel.dark-preview .preview-label {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .preview-panel.dark-preview .preview-dark-toggle {
+      background: #3a3a3c;
+      color: #e0e0e0;
+      border-color: #555;
+    }
+
+    .preview-panel.dark-preview .preview-frame {
+      background: #1c1c1e;
     }
 
     .preview-frame {
@@ -786,8 +826,11 @@
   <!-- ════════════════════════════════════ -->
   <!-- PREVIEW PANEL                       -->
   <!-- ════════════════════════════════════ -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Preview</div>
+  <div class="preview-panel" id="previewPanel">
+    <div class="preview-header">
+      <div class="preview-label">Live Preview</div>
+      <button class="preview-dark-toggle" id="darkModeToggle" onclick="toggleDarkPreview()" title="Simulate dark mode email client">&#9728; Light</button>
+    </div>
     <div class="preview-frame" id="previewFrame"></div>
   </div>
 
@@ -812,6 +855,7 @@
   // ── State ──
   let blocks = [];
   let blockIdCounter = 0;
+  let previewDarkMode = false;
 
   const PREVIEW_MAP = {
     'header':            'prev-header',
@@ -3062,8 +3106,24 @@
 
   // ── Render preview ──
   function renderPreview() {
-    document.getElementById('previewFrame').innerHTML = generateEmailHTML();
+    const frame = document.getElementById('previewFrame');
+    frame.innerHTML = generateEmailHTML();
+    frame.style.colorScheme = previewDarkMode ? 'dark' : 'light';
     saveToLocalStorage();
+  }
+
+  function toggleDarkPreview() {
+    previewDarkMode = !previewDarkMode;
+    const panel = document.getElementById('previewPanel');
+    const btn = document.getElementById('darkModeToggle');
+    if (previewDarkMode) {
+      panel.classList.add('dark-preview');
+      btn.innerHTML = '&#9790; Dark';
+    } else {
+      panel.classList.remove('dark-preview');
+      btn.innerHTML = '&#9728; Light';
+    }
+    renderPreview();
   }
 
   // ── View HTML ──
