@@ -3108,7 +3108,13 @@
   function renderPreview() {
     const frame = document.getElementById('previewFrame');
     frame.innerHTML = generateEmailHTML();
-    frame.style.colorScheme = previewDarkMode ? 'dark' : 'light';
+    if (previewDarkMode) {
+      frame.style.filter = 'invert(1)';
+      frame.querySelectorAll('img').forEach(img => { img.style.filter = 'invert(1)'; });
+    } else {
+      frame.style.filter = '';
+      frame.style.colorScheme = 'light';
+    }
     saveToLocalStorage();
   }
 
