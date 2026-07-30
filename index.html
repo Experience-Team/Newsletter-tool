@@ -836,6 +836,12 @@
       <div class="form-section-body">
       <div id="teamThemeToggle"></div>
       <input type="hidden" id="teamTheme" value="dark" />
+      <div style="margin-top:10px;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:400;">
+          <input type="checkbox" id="teamHalftone" onchange="renderPreview()" style="width:auto;margin:0;" />
+          Halftone background
+        </label>
+      </div>
       <label for="teamEyebrow">Section Label <span style="font-weight:400;color:#808080;">(optional)</span></label>
       <input type="text" id="teamEyebrow" placeholder="e.g. Made with love by all of us" value="Made with love by all of us" oninput="renderPreview()" />
       <div id="teamContainer"></div>
@@ -1906,12 +1912,12 @@
             <td style="background-color: ${rocBg}; padding: 40px 32px 32px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid ${rocEyebrow};">
+                  <td>
                     <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${rocEyebrow}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(b.eyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding-top: 48px;">
+                  <td style="padding-top: 24px;">
                     <h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 200; color: ${rocFg}; line-height: 1.2; margin: 0 0 24px 0;">${esc(b.heading)}</h2>
                     ${(b.bylineName || b.bylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${rocFg}; margin: 0 0 24px 0; line-height: 1.5;">${esc(b.bylineName)}${b.bylineName && b.bylineRole ? ' &middot; ' : ''}${esc(b.bylineRole)}</p>` : ''}
                     ${b.imageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]-->
@@ -1960,7 +1966,7 @@
             <td style="background-color: ${gvBg}; padding: 0 32px 40px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-top: 50px; padding-bottom: 26px;">
+                  <td style="padding-top: 50px; padding-bottom: 24px;">
                     <span style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${gvFg}; text-transform: uppercase; letter-spacing: 2px;">${gvEyebrow}</span>
                   </td>
                 </tr>
@@ -2026,7 +2032,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: 64px 0 0 0;">
-                    <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0; padding-bottom: 8px; border-bottom: 2px solid ${genEyebrowBorder};">${esc(b.eyebrow)}</p>
+                    <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${genFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0;">${esc(b.eyebrow)}</p>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       ${imagesHTML}
                       <tr>
@@ -2287,7 +2293,7 @@
     const bottomLineHTML = (bottomLineHasContent && bottomLine) ? `
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 28px;">
                 <tr><td>
-                  <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 16px 0;">The bottom line</p>
+                  <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0;">The bottom line</p>
                   ${emailBodyHtml(bottomLine, fg, '16px')}
                 </td></tr>
               </table>` : '';
@@ -2305,7 +2311,7 @@
             <td style="background-color: ${bg}; padding: 64px 32px 64px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid ${sigBorder};">
+                  <td>
                     <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${fg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(eyebrow)}</p>
                   </td>
                 </tr>
@@ -2358,12 +2364,12 @@
 
     const linksLabelRow = linksEyebrow ? `
               <tr>
-                <td style="padding: 64px 0 20px 0;">
+                <td style="padding: 64px 0 24px 0;">
                   <span style="font-family:'WPP-Regular',Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:${linksLabelFg};text-transform:uppercase;letter-spacing:2px;">${esc(linksEyebrow)}</span>
                 </td>
               </tr>` : `
               <tr>
-                <td style="padding: 64px 0 20px 0;">&nbsp;</td>
+                <td style="padding: 64px 0 24px 0;">&nbsp;</td>
               </tr>`;
 
     const linksSubheadingRow = linksSubheading ? `
@@ -2516,9 +2522,11 @@
     const triviaFg       = (_taT==='dark' || _taT==='orange') ? '#ffffff' : '#000050';
 
     // Team theme
-    const teamTheme   = val('teamTheme') || 'dark';
-    const teamBg      = teamTheme==='light' ? '#FFFFFF' : teamTheme==='cream' ? '#FAFAF0' : '#000050';
-    const teamFg      = teamTheme==='dark' ? '#FAFAF0' : '#000050';
+    const teamTheme      = val('teamTheme') || 'dark';
+    const teamBg         = teamTheme==='light' ? '#FFFFFF' : teamTheme==='cream' ? '#FAFAF0' : '#000050';
+    const teamFg         = teamTheme==='dark' ? '#FAFAF0' : '#000050';
+    const teamHalftone   = document.getElementById('teamHalftone') && document.getElementById('teamHalftone').checked;
+    const teamHalftoneUrl = 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785392058/halftone_4_ygjsjv.png';
 
     const editionStr = edDate ? esc(edDate) : '';
 
@@ -2701,7 +2709,7 @@
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
-                    <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 30px 0; padding-bottom: 8px; border-bottom: 2px solid #FF7800;">${esc(b.eyebrow || 'Current Project')}</p>
+                    <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0;">${esc(b.eyebrow || 'Current Project')}</p>
                     <h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
                     ${generateBylineHTML(b, '#000050')}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2828,7 +2836,7 @@
             ` : `
             <td style="background-color: ${introBg}; padding: 64px 32px 64px 32px;">
             `}
-              <h1 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 200; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
+              <h1 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 200; color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,introFg,'16px') : ''}
             </td>
@@ -2866,12 +2874,12 @@
             <td style="background-color: ${insightBg}; padding: 64px 32px 64px 32px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td style="padding-bottom: 26px; border-bottom: 2px solid ${insightFg};">
+                  <td>
                     <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${insightFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${esc(insightEyebrow)}</p>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding-top: 16px;">
+                  <td style="padding-top: 24px;">
                     ${insightHeading ? `<h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 200; color: ${insightFg}; line-height: 1.2; margin: 0 0 16px 0;">${esc(insightHeading)}</h2>` : ''}
                     ${(insightBylineName || insightBylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${insightFg}; margin: 0 0 16px 0; line-height: 1.5;">${esc(insightBylineName)}${insightBylineName && insightBylineRole ? ' &middot; ' : ''}${esc(insightBylineRole)}</p>` : ''}
                     ${insightImageUrl ? `<!--[if mso]><table border="0" cellpadding="0" cellspacing="0" width="536"><tr><td><![endif]--><a href="${esc(insightImageUrl)}" target="_blank"><img src="${esc(insightImageUrl)}" alt="" width="536" style="display: block; max-width: 100%; height: auto; border: 0; outline: none; text-decoration: none; margin: 0 0 16px 0;" /></a><!--[if mso]></td></tr></table><![endif]-->` : ''}
@@ -2911,7 +2919,7 @@
           <!-- TRIVIA ANSWER -->
           ${sectionEnabled['trivia-question'] && triviaAnswer ? `<tr id="prev-trivia-a">
             <td align="center" style="background-color: ${triviaBg}; padding: 64px 32px; text-align: center;">
-              <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0;">${esc(triviaAnswerEyebrow)}</p>
+              <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: ${triviaFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0;">${esc(triviaAnswerEyebrow)}</p>
               <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 16px; color: ${triviaFg}; line-height: 1.5; margin: 0${(triviaLinkLabel && triviaLinkUrl) ? ' 0 8px 0' : ''};">${esc(triviaAnswer)}</p>
               ${(triviaLinkLabel && triviaLinkUrl) ? `<a href="${esc(triviaLinkUrl)}" target="_blank" style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; color: ${triviaFg}; text-decoration: underline;">${esc(triviaLinkLabel)}</a>` : ''}
             </td>
@@ -2919,11 +2927,17 @@
 
           <!-- FOOTER -->
           <tr id="prev-footer">
+            ${teamHalftone ? `
+            <!--[if gte mso 9]><table border="0" cellpadding="0" cellspacing="0" width="600"><tr><td><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;"><v:fill type="frame" src="${teamHalftoneUrl}" color="${teamBg}" /><v:textbox inset="0,0,0,0"><![endif]-->
+            <td style="background-color: ${teamBg}; background-image: url('${teamHalftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 36px 32px;">
+            ` : `
             <td style="background-color: ${teamBg}; padding: 36px 32px;">
+            `}
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${generateTeamHTML(teamFg)}
               </table>
             </td>
+            ${teamHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect></td></tr></table><![endif]-->` : ''}
           </tr>
 
         </table>
@@ -3043,7 +3057,7 @@
       const el = document.getElementById(id);
       if (el) fields[id] = el.tagName === 'DIV' ? sanitizeRichHtml(el.innerHTML) : el.value;
     });
-    const checkboxIds = ['introHalftone'];
+    const checkboxIds = ['introHalftone', 'teamHalftone'];
     const checkboxes = {};
     checkboxIds.forEach(id => {
       const el = document.getElementById(id);
