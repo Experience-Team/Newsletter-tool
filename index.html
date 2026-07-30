@@ -2464,9 +2464,7 @@
     const headerStyle    = val('headerStyle') || 'dark';
     const headerBg       = headerStyle === 'cream' || headerStyle === 'light' ? (headerStyle === 'light' ? '#FFFFFF' : '#FAFAF0') : '#000050';
     const headerFg       = headerStyle === 'dark' ? '#ffffff' : '#000050';
-    const defaultLogo    = headerStyle === 'dark'
-      ? 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785123307/WPP_ES_Primary_logoWHITE_1_n1npac.svg'
-      : 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785123306/WPP_ES_Primary_logoDARK_q2okvf.svg';
+    const defaultLogo    = 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785390882/Gazette_logo_light_ejlx0e.png';
     const logoSrc        = logoUrl || defaultLogo;
 
     // Introduction theme
@@ -2800,10 +2798,10 @@
             <td style="background-color: ${headerBg}; padding: 0;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td align="left" valign="middle" style="padding: 28px 32px;">
+                  <td align="left" valign="middle" style="padding: 28px 32px 28px 24px;">
                     <!--[if mso]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]--><img src="${esc(logoSrc)}" alt="WPP Enterprise Solutions" width="198" style="display: block; max-width: 198px; width: 198px; height: auto; border: 0; outline: none; text-decoration: none;" /><!--[if mso]></td></tr></table><![endif]-->
                   </td>
-                  <td align="right" valign="middle" style="padding: 28px 32px;">
+                  <td align="right" valign="middle" style="padding: 28px 24px 28px 32px;">
                     <span style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: ${headerFg}; white-space: nowrap;">${editionStr}</span>
                   </td>
                 </tr>
