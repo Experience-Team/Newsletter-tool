@@ -2374,14 +2374,14 @@
       const w = widths[i];
       let imgContent;
       if (l.imageUrl) {
-        const imgTag = `<img src="${esc(l.imageUrl)}" alt="" width="${w}" border="0" style="display:block;" />`;
+        const imgTag = `<img src="${esc(l.imageUrl)}" alt="" width="${w}" height="${w}" border="0" style="display:block;width:${w}px;height:${w}px;object-fit:cover;" />`;
         imgContent = l.linkUrl
-          ? `<a href="${esc(l.linkUrl)}" target="_blank" style="display:block;">${imgTag}</a>`
-          : imgTag;
+          ? `<a href="${esc(l.linkUrl)}" target="_blank" style="display:block;width:${w}px;height:${w}px;overflow:hidden;font-size:0;line-height:0;">${imgTag}</a>`
+          : `<div style="display:block;width:${w}px;height:${w}px;overflow:hidden;font-size:0;line-height:0;">${imgTag}</div>`;
       } else {
-        imgContent = `<table border="0" cellpadding="0" cellspacing="0" width="${w}"><tr><td width="${w}" height="182" style="width:${w}px;height:182px;background-color:${placeholderBg};font-size:0;line-height:0;">&nbsp;</td></tr></table>`;
+        imgContent = `<table border="0" cellpadding="0" cellspacing="0" width="${w}"><tr><td width="${w}" height="${w}" style="width:${w}px;height:${w}px;background-color:${placeholderBg};font-size:0;line-height:0;">&nbsp;</td></tr></table>`;
       }
-      return `<td width="${w}" valign="top" style="width:${w}px;">${imgContent}</td>`;
+      return `<td width="${w}" valign="top" style="width:${w}px;height:${w}px;">${imgContent}</td>`;
     });
 
     const spacer = `<td width="8" style="width:8px;font-size:0;line-height:0;">&nbsp;</td>`;
