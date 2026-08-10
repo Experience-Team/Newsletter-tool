@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: 'CX Gazette <gazette@moniquepompe.com>',
-        to: 'abe.atiya@ogilvy.com',
+        to: 'lauren.vingilis@ogilvy.com',
         subject: 'CX Gazette — test send',
         html,
       }),
