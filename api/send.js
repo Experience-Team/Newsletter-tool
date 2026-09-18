@@ -3,9 +3,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { html } = req.body;
+  const { html, to } = req.body;
   if (!html) {
     return res.status(400).json({ error: 'Missing html in request body' });
+  }
+  if (!to) {
+    return res.status(400).json({ error: 'Missing to address in request body' });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -22,7 +25,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: 'CX Gazette <gazette@moniquepompe.com>',
-        to: 'lauren.vingilis@ogilvy.com',
+        to,
         subject: 'CX Gazette — test send',
         html,
       }),
