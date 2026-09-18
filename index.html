@@ -875,7 +875,16 @@
     Export HTML
     <span class="btn-tooltip">Save a copy of this newsletter as an HTML file &mdash; useful for keeping a record of each edition or sharing with someone who needs the source file.</span>
   </button>
-  <input type="email" id="sendToEmail" placeholder="Send to…" style="padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:14px;width:210px;outline:none;" />
+  <input type="email" id="sendToEmail" placeholder="Send to…" list="sendToOptions" style="padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:14px;width:210px;outline:none;" />
+  <datalist id="sendToOptions">
+    <option value="maryam.mahlberg@ogilvy.com">Maryam Mahlberg</option>
+    <option value="abe.atiya@ogilvy.com">Abe Atiya</option>
+    <option value="yolandi.lehner@ogilvy.com">Yolandi Lehner</option>
+    <option value="arran.peck@ogilvy.com">Arran Peck</option>
+    <option value="christian.moore@ogilvy.com">Christian Moore</option>
+    <option value="lauren.vingilis@ogilvy.com">Lauren Vingilis</option>
+    <option value="vahishta.kotwal@ogilvy.com">Vahishta Kotwal</option>
+  </datalist>
   <button class="btn-copy" onclick="sendTest(this)">
     Send test
     <span class="btn-tooltip">Send the current newsletter to the address in the field above via Resend.</span>
