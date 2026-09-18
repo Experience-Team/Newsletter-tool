@@ -875,9 +875,10 @@
     Export HTML
     <span class="btn-tooltip">Save a copy of this newsletter as an HTML file &mdash; useful for keeping a record of each edition or sharing with someone who needs the source file.</span>
   </button>
+  <input type="email" id="sendToEmail" placeholder="Send to…" style="padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:14px;width:210px;outline:none;" />
   <button class="btn-copy" onclick="sendTest(this)">
     Send test
-    <span class="btn-tooltip">Send the current newsletter to the configured test email address via Resend.</span>
+    <span class="btn-tooltip">Send the current newsletter to the address in the field above via Resend.</span>
   </button>
   <span class="copy-feedback" id="sendFeedback"></span>
 </div>
@@ -3257,7 +3258,14 @@
   // ── Send test ──
   async function sendTest(btn) {
     const html = generateEmailHTML();
+    const to = document.getElementById('sendToEmail').value.trim();
     const fb = document.getElementById('sendFeedback');
+    if (!to) {
+      fb.textContent = 'Enter an email address first';
+      fb.classList.add('show');
+      setTimeout(() => { fb.textContent = ''; fb.classList.remove('show'); }, 3000);
+      return;
+    }
     btn.disabled = true;
     fb.textContent = 'Sending…';
     fb.classList.add('show');
@@ -3265,7 +3273,7 @@
       const res = await fetch('/api/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ html }),
+        body: JSON.stringify({ html, to }),
       });
       const data = await res.json();
       if (data.success) {
