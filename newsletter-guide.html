@@ -365,9 +365,9 @@
   <a href="#wpp-open" class="side-nav-link">Format with WPP Open</a>
   <a href="#fill-in" class="side-nav-link">Fill in the editor</a>
   <a href="#images" class="side-nav-link">Add images</a>
+  <a href="#save-draft" class="side-nav-link">Save your draft</a>
   <a href="#export" class="side-nav-link">Preview &amp; export</a>
   <a href="#tips" class="side-nav-link">Tips</a>
-  <a href="#ai-tools" class="side-nav-link">AI illustrations</a>
 </nav>
 
 <div class="main-container">
@@ -377,12 +377,12 @@
     <div class="step-label">Step 1</div>
     <h2>Plan your content</h2>
     <p>Use the <a href="https://ogilvyone-aunz.atlassian.net/wiki/spaces/ED/pages/2223177797/Experience+Gazette" target="_blank" rel="noopener">Experience Gazette Confluence page</a> to plan your content from a template — then paste the finished copy into the newsletter builder section by section.</p>
-    <p style="background:#FADADD; border-left:3px solid #E8383A; padding:10px 14px; border-radius:4px; margin-bottom:16px;"><strong>Leave images until last.</strong> You'll need the written content first to generate illustrations in ChatGPT, so focus on copy and links before sourcing any visuals.</p>
+    <p style="background:#FADADD; border-left:3px solid #E8383A; padding:10px 14px; border-radius:4px; margin-bottom:16px;"><strong>Leave images until last.</strong> Focus on copy and links first — you can source or generate images once the written content is complete.</p>
     <p>Here's everything you'll need to gather:</p>
     <ul class="gather-list">
       <li><strong>2–3 projects</strong> — What are people working on, or have recently completed? This doesn't have to be limited to the CX team.</li>
       <li><strong>A trivia question</strong> — Doesn't have to be CX-related. Something fun and surprising works well.</li>
-      <li><strong>1–2 project images</strong>. If you don't have images yet, no problem. You can generate illustrations in ChatGPT later once you have the written content (instructions further down).</li>
+      <li><strong>1–2 project images</strong>. If you don't have images yet, no problem — you can use the WPP Image Generator or source them later (see Step 4).</li>
       <li>
         <strong>A CX-related quote</strong> — Choose one that feels relevant to this edition's theme. Aim to include diverse perspectives across editions — mix genders, backgrounds, and disciplines.
         <button class="expand-toggle" onclick="togglePrompt(this)">See quote options</button>
@@ -525,30 +525,62 @@ No rankings, no scores — just three things genuinely worth clicking.<button cl
       <li>Paste the URL into the relevant image field in the editor.</li>
     </ol>
 
+    <p><strong>Generating your header image:</strong></p>
+    <p>Use the <a href="https://my.wpp.com/site/wpp-enterprise-solutions/image-generator-embed" target="_blank" rel="noopener">WPP Image Generator</a> to create a custom image for the header. Describe what you want, download the result, upload it to Cloudinary, then paste the URL into the Hero Image URL field in the editor.</p>
+    <p>Header image dimensions: <strong>1,200 × 800 px</strong> (displays at 600 × 400 px in the email).</p>
+
     <p><strong>Image size guidelines:</strong></p>
     <ul>
-      <li>Hero/banner images: <strong>1,200px wide minimum</strong></li>
+      <li>Hero/banner images: <strong>1,200 × 800 px</strong></li>
       <li>Content images: <strong>600px wide minimum</strong></li>
       <li>Team/person thumbnails: <strong>square crop, face centred</strong></li>
+      <li>Procrastination Station: <strong>square images work best</strong> (e.g. 400 × 400 px) — the tool auto-crops to a square, so keep the main subject centred</li>
       <li>File size: <strong>under 1 MB</strong> per image</li>
       <li>Avoid SharePoint or internal network links — they won't load for all recipients</li>
     </ul>
   </div>
 
   <!-- Step 5 -->
-  <div class="step" id="export">
+  <div class="step" id="save-draft">
     <div class="step-label">Step 5</div>
+    <h2>Save your draft</h2>
+    <p>The editor automatically saves your work in your browser, but <strong>the JSON file is the only reliable backup</strong> — save it as often as possible. If you close the tab without a saved file, your content can't be recovered.</p>
+
+    <p><strong>Saving:</strong> Click <strong>Save draft</strong> in the bottom bar. A file named <code>gazette-draft-[date].json</code> will download to your computer.</p>
+    <p><strong>Restoring:</strong> Click <strong>Load draft</strong> and pick your <code>.json</code> file to restore exactly where you left off.</p>
+
+    <div class="callout-box" style="background:#fff3cd;border-left:4px solid #f59e0b;padding:14px 16px;border-radius:0 6px 6px 0;margin:16px 0;">
+      <strong>Save early, save often.</strong> The browser auto-save will keep your work between sessions on the same device, but if you clear your browser data, switch devices, or close the tab accidentally, the JSON file is the only way to get your content back.
+    </div>
+
+    <p><strong>Confluence reminder:</strong> After sending the newsletter, upload the JSON file to the <a href="#plan">Experience Gazette Confluence page</a> (see Step 1 for the link) so future editors can reference the exact content.</p>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step" id="export">
+    <div class="step-label">Step 6</div>
     <h2>Preview and send</h2>
-    <p>The right-hand panel shows a live preview of your newsletter as you work. Use it to sense-check layouts and spot any copy issues before you send.</p>
-    <p>When you're happy with everything, copy the preview directly into Outlook:</p>
+    <p>The right-hand panel shows a live preview of your newsletter as you work. When you're happy with everything, get it into Outlook using one of these two methods.</p>
+
+    <p><strong>Method 1 — Send to yourself via the tool (recommended):</strong></p>
     <ol>
-      <li>Click inside the preview panel on the right.</li>
-      <li>Select all the content by dragging your mouse from the very top to the very bottom of the preview.</li>
+      <li>Type your email address into the <strong>Send to…</strong> field in the bottom bar.</li>
+      <li>Click <strong>Send test</strong> — the newsletter will arrive in your inbox as a properly formatted email.</li>
+      <li>Open it in Outlook and forward it to your distribution list.</li>
+    </ol>
+
+    <p><strong>Method 2 — Copy from the browser:</strong></p>
+    <ol>
+      <li>Click <strong>Export HTML</strong> in the bottom bar — the newsletter opens in a new browser tab.</li>
+      <li>Click anywhere inside the page, then select all (<strong>Ctrl+A</strong> / <strong>Cmd+A</strong>).</li>
       <li>Copy it (<strong>Ctrl+C</strong> / <strong>Cmd+C</strong>).</li>
       <li>Open a new email in Outlook and paste into the body (<strong>Ctrl+V</strong> / <strong>Cmd+V</strong>).</li>
       <li>Add your subject line, recipients, and send.</li>
     </ol>
-    <p>Tip: send a test to yourself first to check everything looks right before the full send.</p>
+
+    <div class="callout-box" style="background:#fce7f3;border-left:4px solid #E8383A;padding:14px 16px;border-radius:0 6px 6px 0;margin:16px 0;">
+      <strong>If the newsletter appears left-aligned in Outlook:</strong> select all the pasted content and press <strong>Ctrl+E</strong> (Cmd+E on Mac) to centre it.
+    </div>
   </div>
 
   <!-- Tips -->
@@ -582,120 +614,6 @@ No rankings, no scores — just three things genuinely worth clicking.<button cl
     </div>
   </div>
 
-  <!-- AI Image Generation -->
-  <div class="prompt-section" id="ai-tools">
-    <div class="step-label">AI Tools</div>
-    <h2>Generate illustrations with ChatGPT</h2>
-    <p>Use <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a> to create custom illustrations for your newsletter. Paste your section content at the end of the relevant prompt below — it will generate a branded illustration in our red-on-white style.</p>
-    <p>Copy your newsletter content, then expand the prompt you need, copy it, and paste it into ChatGPT with your content at the bottom.</p>
-
-    <div class="prompt-group">
-      <div class="prompt-group-label">Hero image (1200 &times; 600px)</div>
-      <button class="expand-toggle" onclick="togglePrompt(this)">Show prompt</button>
-      <div class="expand-content">
-        <div class="prompt-box">
-You are an illustration generator.
-You will receive newsletter content after this prompt. Your job is to:
-          
-Output specifications:
-* Format: Wide hero banner, 1200×600px
-* Background: solid #FADADD — no transparency, no white
-* Colour: Use only #EB3F43 for all linework, patterns, and fills — on the #FADADD background
-* No gradients. No shading. Flat linework only.
-          
-Style:
-* Hand-drawn linework with visible texture — ballpoint pen or fine-tip marker feel
-* Slightly wonky isometric perspective, intentionally imperfect and organic
-* Extremely dense composition — no empty space, every gap filled
-* Every object must have a unique decorative fill pattern: dots, stripes, florals, grids, stars, hearts, cross-hatching, or similar
-* Organic filler elements (vines, leaves, flowers, small clouds) weave between objects to fill all gaps
-* No people. No faces. No realistic shading. No gradients.
-* Mood: playful, warm, detailed, explorable
-          
-Composition rules:
-* Perfectly centred composition with safe margins on all sides — nothing cropped or cut off at any edge
-* Visual weight balanced evenly left to right
-* All objects layered and connected — nothing floating in isolation
-          
-Typography — strictly controlled:
-* Integrate ONLY the text "CX Gazette" in hand-drawn block lettering
-* The text must feel embedded in the illustration — surrounded, partially overlapped, or framed by illustrated objects
-* CRITICAL: The image must contain absolutely no other text, letters, numbers, words, labels, or characters of any kind — not decorative, not incidental, not partial. Zero. Only "CX Gazette" exists in this image.
-
-Objects to illustrate — two layers, used together:
-Standing objects (always present):
-* Strategy and decisions: levers, switches, branching pathways, forks in the road, ladders, keys, vaults, directional arrows
-* Data and insight: charts, graphs, magnifying glasses, nodes, dashboards, dials, gauges
-* Digital and systems: screens, grids, wireframe boxes, puzzle pieces, signal waves, toggles, sliders
-* Communication: envelopes, speech bubbles (empty), megaphones, broadcast towers, connection lines
-* Value and commerce: coins, card shapes, ticket stubs, tags, locks, padlocks
-* Craft and making: pencils, rulers, compasses, scissors, paint brushes, stamps
-* Growth and time: clocks, calendars, gears, springs, hourglasses, seedlings, arrows in motion
-* Organic fillers: vines, leaves, flowers, small stars, clouds, swooping lines
-
-This issue's objects (woven in alongside the standing objects):
-* In addition to the standing objects, include symbolic objects drawn from the newsletter content provided below. Do not illustrate anything literally or use any brand names. Instead, translate each topic or theme into a single recognisable everyday object that represents it — for example, a journey map becomes an emotion line with rising and falling peaks; a toothpaste brand becomes a toothpaste tube; a music theme becomes piano keys or headphones; a luxury hotel becomes an ornate archway or a luggage tag; a digital wallet becomes a card on a phone lock screen. Find one symbolic object per major theme and weave them into the composition alongside the standing objects.
-Rules for objects:
-* Do not illustrate any brand names, product names, company names, or proper nouns
-* All objects must be generic and symbolic — no logos, no recognisable interfaces
-* Layer all objects tightly into one unified, interwoven scene
-FINAL RULE: The only text permitted anywhere in this image is the exact phrase "CX Gazette". No other letters, numbers, symbols, or characters may appear anywhere in the composition under any circumstances.
-
-
-[PASTE CONTENT BELOW]<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
-        <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
-      </div>
-    </div>
-
-    <div class="prompt-group">
-      <div class="prompt-group-label">Section images (1200 &times; 400px)</div>
-      <button class="expand-toggle" onclick="togglePrompt(this)">Show prompt</button>
-      <div class="expand-content">
-        <div class="prompt-box">You are an illustration generator.
-You will receive content after this prompt. Your job is to:
-1. Extract the key themes, ideas, metaphors, and concepts.
-2. Translate them into a single illustrated scene made up of symbolic objects and diverse people interacting with them.
-3. Combine everything into a cohesive composition where elements are thoughtfully arranged with breathing room — busy enough to be interesting, spacious enough to be readable.
-
-Style (strictly follow every time):
-* Use only the colour #EB3F43 on a pure white background.
-* Hand-drawn linework with visible texture (ballpoint pen / fine-tip marker feel).
-* Slightly wonky isometric perspective — intentionally imperfect, organic.
-* Moderate density — aim for 60–70% coverage of the frame. Leave intentional pockets of white space to let the eye rest.
-* Objects should have varied decorative fill patterns (dots, stripes, florals, grids, stars, hearts, cross-hatching, etc.) but not every single object needs one — some can be simple outlines.
-* Include organic filler elements (vines, leaves, flowers, clouds) sparingly to connect sections.
-* Include 3–5 small, simple figures of diverse people (different body shapes, hair textures, heights, abilities) interacting with the objects — climbing, pointing, carrying, sitting on, reaching toward. Keep figures stylised and minimal (no detailed facial features — just suggested expressions through posture and gesture).
-* No realistic shading. No gradients. No photographic detail.
-* The mood should feel playful, warm, and inviting — like an editorial spot illustration scaled up.
-
-Composition rules:
-* Format as a wide hero banner (1200×400px).
-* Ensure the composition is perfectly centred with safe margins — nothing cropped at edges.
-* Balance visual weight evenly left to right.
-* Use 2–3 larger anchor objects to ground the scene, with smaller objects and figures arranged around them.
-* Layer objects so they feel connected but not claustrophobic — overlap is fine, but each key element should be individually distinguishable.
-
-How to interpret content:
-* Do NOT illustrate literally.
-* Convert ideas into symbolic objects:
-    * Behavioural science → levers, switches, pathways, branching decisions
-    * UX / systems → screens, wireframes, grids, puzzle pieces
-    * AI / robotics → sensors, robotic arms, eyes, signal waves
-    * Data → charts, nodes, dashboards, magnifiers
-    * Strategy / growth → ladders, keys, vaults, arrows
-    * Summer / lifestyle → fruit, drinks, sun shapes, tropical elements
-    * Transport / future tech → cars, tracks, networks, routes
-    * Communication / alignment → megaphones, bridges, intersecting paths, swim lanes
-    * Onboarding / journeys → open doors, winding roads, signposts, stepping stones
-* Then arrange all objects and figures together into one unified scene with clear visual hierarchy.
-
-Output: A single detailed illustration matching all rules above. No explanation. No text in the image.
-
-[PASTE CONTENT BELOW]<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
-        <button class="close-section-btn" onclick="closeSection(this)">Close ↑</button>
-      </div>
-    </div>
-  </div>
 
 
 </div>
