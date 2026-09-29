@@ -509,12 +509,6 @@
       <div class="form-section-body">
       <div id="introThemeToggle"></div>
       <input type="hidden" id="introTheme" value="cream" />
-      <div style="margin-top:10px;">
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:400;">
-          <input type="checkbox" id="introHalftone" onchange="renderPreview()" style="width:auto;margin:0;" />
-          Halftone background
-        </label>
-      </div>
       <label for="heroHeadline">Headline</label>
       <input type="text" id="heroHeadline" placeholder="e.g. Welcome to April's CX Gazette" oninput="renderPreview()" />
       <div style="margin-top:10px; padding:10px 12px; background:#F5F5F5; border-radius:4px;">
@@ -692,6 +686,8 @@
       <span class="drag-handle" onmousedown="this.closest('.form-section').setAttribute('draggable','true')" onmouseup="this.closest('.form-section').removeAttribute('draggable')" onclick="event.stopPropagation()" title="Drag to reorder">⠿</span>
       <div class="form-section-title" onclick="toggleSection(this)"><span>Current projects <span class="section-chevron">▾</span></span><label class="section-enable-label" onclick="event.stopPropagation()"><input type="checkbox" id="current-projectsEnableToggle" onchange="setSectionEnabled('current-projects',this.checked)"> Include</label></div>
       <div class="form-section-body">
+      <div id="currentProjectsThemeToggle"></div>
+      <input type="hidden" id="currentProjectsTheme" value="light" />
       <div id="blocksContainer"></div>
       <div class="add-section-wrap">
         <button class="btn-add" onclick="addBlock('current-project')">+ Add Section</button>
@@ -1274,7 +1270,7 @@
       if (tag === 'i' || tag === 'em') return `<em>${kids}</em>`;
       if (tag === 'a') {
         const href = node.getAttribute('href') || '#';
-        return `<a href="${href}" style="color:#991B1B;-webkit-text-fill-color:#991B1B;font-weight:bold;text-decoration:underline;" target="_blank">${kids}</a>`;
+        return `<a href="${href}" style="color:${fg};-webkit-text-fill-color:${fg};text-decoration:underline;" target="_blank">${kids}</a>`;
       }
       return kids;
     }
@@ -1597,6 +1593,7 @@
     triviaAnswer:   [{val:'orange',label:'Orange'},{val:'dark',label:'Dark'},{val:'light',label:'Light'},{val:'cream',label:'Cream'}],
     links:          [{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'dark',label:'Dark'},{val:'orange',label:'Orange'}],
     team:           [{val:'dark',label:'Dark'},{val:'cream',label:'Cream'},{val:'light',label:'Light'}],
+    currentProjects:[{val:'light',label:'Light'},{val:'cream',label:'Cream'},{val:'dark',label:'Dark'}],
   };
 
   function sectionThemeToggle(fieldId, currentVal, options) {
@@ -1643,6 +1640,12 @@
     renderPreview();
   }
 
+  function set_currentProjects_theme(v) {
+    document.getElementById('currentProjectsTheme').value = v;
+    document.getElementById('currentProjectsThemeToggle').innerHTML = sectionThemeToggle('currentProjects', v, THEME_OPTS.currentProjects);
+    renderPreview();
+  }
+
   function set_header_theme(v) {
     document.getElementById('headerStyle').value = v;
     document.getElementById('headerStyleToggle').innerHTML = sectionThemeToggle('header', v, THEME_OPTS.header);
@@ -1650,12 +1653,12 @@
   }
 
   function refreshSectionThemeToggles() {
-    const ids = ['signal','triviaAnswer','links','intro','triviaQuestion','quote','insight','team'];
+    const ids = ['signal','triviaAnswer','links','intro','triviaQuestion','quote','insight','team','currentProjects'];
     const domMap = {signal:'signalTheme', triviaAnswer:'triviaAnswerTheme', links:'linksSectionTheme',
                     intro:'introTheme', triviaQuestion:'triviaQuestionTheme', quote:'quoteTheme',
-                    insight:'insightTheme', team:'teamTheme'};
+                    insight:'insightTheme', team:'teamTheme', currentProjects:'currentProjectsTheme'};
     const defaults = {signal:'light', triviaAnswer:'orange', links:'light', intro:'cream',
-                      triviaQuestion:'dark', quote:'dark', insight:'cream', team:'dark'};
+                      triviaQuestion:'dark', quote:'dark', insight:'cream', team:'dark', currentProjects:'light'};
     ids.forEach(key => {
       const el = document.getElementById(domMap[key]+'Toggle');
       if (!el) return;
@@ -2514,8 +2517,10 @@
     const introTheme   = val('introTheme') || 'cream';
     const introBg      = introTheme === 'dark' ? '#000050' : '#FAFAF0';
     const introFg      = introTheme === 'dark' ? '#FAFAF0' : '#000050';
-    const introHalftone = document.getElementById('introHalftone') && document.getElementById('introHalftone').checked;
-    const halftoneUrl  = 'https://res.cloudinary.com/dxejokjeh/image/upload/v1785390455/halftone_3_wsojmh.png';
+    // Current Projects theme
+    const cpTheme = val('currentProjectsTheme') || 'light';
+    const cpBg    = cpTheme === 'dark' ? '#000050' : cpTheme === 'cream' ? '#FAFAF0' : '#FFFFFF';
+    const cpFg    = cpTheme === 'dark' ? '#FAFAF0' : '#000050';
 
     // Trivia question theme
     const tqTheme    = val('triviaQuestionTheme') || 'dark';
@@ -2739,19 +2744,19 @@
                     </td>
                   </tr>`;
         }
-        const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,'#000050','16px','16px 0 0 0',true) : '';
+        const whatHTML = b.whatThisMeans ? emailBodyHtml(b.whatThisMeans,cpFg,'16px','16px 0 0 0',true) : '';
         contentBlocksHTML += `
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td style="padding: ${topPad}px 0 0 0;">
-                    <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #000050; -webkit-text-fill-color: #000050; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0;">${esc(b.eyebrow || 'Current Project')}</p>
-                    <h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; -webkit-text-fill-color: #000050; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
-                    ${generateBylineHTML(b, '#000050')}
+                    <p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: ${cpFg}; -webkit-text-fill-color: ${cpFg}; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px 0;">${esc(b.eyebrow || 'Current Project')}</p>
+                    <h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: ${cpFg}; -webkit-text-fill-color: ${cpFg}; line-height: 1.3; margin: 0 0 8px 0;">${esc(b.heading)}</h2>
+                    ${generateBylineHTML(b, cpFg)}
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                   ${imagesHTML}
                       <tr>
                         <td valign="top">
-                          ${b.body ? emailBodyHtml(b.body,'#000050') : ''}
+                          ${b.body ? emailBodyHtml(b.body,cpFg) : ''}
                           ${whatHTML}
                           ${generateButtonHTML(b)}
                         </td>
@@ -2775,9 +2780,9 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                       <tr>
                         <td valign="top">
-                          <h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: #000050; -webkit-text-fill-color: #000050; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
-                          ${generateBylineHTML(b)}${imgHTML}
-                          ${emailBodyHtml(b.body,'#000050')}
+                          <h2 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 200; color: ${cpFg}; -webkit-text-fill-color: ${cpFg}; line-height: 1.3; margin: 0 0 10px 0;">${esc(b.heading)}</h2>
+                          ${generateBylineHTML(b,cpFg)}${imgHTML}
+                          ${emailBodyHtml(b.body,cpFg)}
                           ${generateButtonHTML(b)}
                         </td>
                       </tr>
@@ -2794,7 +2799,7 @@
     if (sectionEnabled['current-projects'] && contentBlocksHTML) {
       contentSectionHTML = `
           <tr id="prev-current-projects">
-            <td style="padding: 0 32px 0 32px; background-color: #ffffff;">
+            <td ${tdBg(cpBg, cpFg, 'padding: 0 32px 0 32px;')}>
               ${contentBlocksHTML}
             </td>
           </tr>`;
@@ -2877,16 +2882,10 @@
 
           <!-- INTRO -->
           ${sectionEnabled.introduction && (val('heroHeadline') || heroBody) ? `<tr>
-            ${introHalftone ? `
-            <td background="${halftoneUrl}" bgcolor="${introBg}" style="background-color: ${introBg}; background-image: url('${halftoneUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; color: ${introFg}; -webkit-text-fill-color: ${introFg}; padding: 64px 32px 64px 32px;">
-              <!--[if gte mso 9]><v:rect fill="true" stroke="false" style="mso-width-percent:1000;"><v:fill type="frame" src="${halftoneUrl}" color="${introBg}" /><v:textbox style="mso-fit-shape-to-text:true;" inset="0,0,0,0"><![endif]-->
-            ` : `
             <td ${tdBg(introBg, introFg, 'padding: 64px 32px 64px 32px;')}>
-            `}
               <h1 style="font-family: 'WPP-Light', Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 200; color: ${introFg}; -webkit-text-fill-color: ${introFg}; line-height: 1.2; margin: 0 0 8px 0;">${esc(headline)}</h1>
               ${(heroBylineName || heroBylineRole) ? `<p style="font-family: 'WPP-Regular', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; color: ${introFg}; -webkit-text-fill-color: ${introFg}; margin: 0 0 32px 0; line-height: 1.5;">Curated this month by ${esc(heroBylineName)}${heroBylineName && heroBylineRole ? ' &middot; ' : ''}${esc(heroBylineRole)}</p>` : `<div style="margin-bottom: 32px;"></div>`}
               ${heroBody ? emailBodyHtml(heroBody,introFg,'16px') : ''}
-              ${introHalftone ? `<!--[if gte mso 9]></v:textbox></v:rect><![endif]-->` : ''}
             </td>
           </tr>` : ''}
 
@@ -3098,13 +3097,13 @@
       'linksEyebrow','linksSubheading','linksSectionTheme',
       'triviaAnswerEyebrow','triviaAnswer','triviaLinkLabel','triviaLinkUrl','triviaAnswerTheme',
       'teamEyebrow','headerStyle',
-      'introTheme','triviaQuestionTheme','quoteTheme','insightTheme','teamTheme'];
+      'introTheme','triviaQuestionTheme','quoteTheme','insightTheme','teamTheme','currentProjectsTheme'];
     const fields = {};
     fieldIds.forEach(id => {
       const el = document.getElementById(id);
       if (el) fields[id] = el.tagName === 'DIV' ? sanitizeRichHtml(el.innerHTML) : el.value;
     });
-    const checkboxIds = ['introHalftone', 'teamHalftone'];
+    const checkboxIds = ['teamHalftone'];
     const checkboxes = {};
     checkboxIds.forEach(id => {
       const el = document.getElementById(id);
