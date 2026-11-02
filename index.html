@@ -1266,7 +1266,7 @@
       const tag = node.tagName.toLowerCase();
       const kids = Array.from(node.childNodes).map(walkInline).join('');
       if (tag === 'br') return '<br />';
-      if (tag === 'b' || tag === 'strong') return `<strong>${kids}</strong>`;
+      if (tag === 'b' || tag === 'strong') return `<strong style="font-weight:bold;">${kids}</strong>`;
       if (tag === 'i' || tag === 'em') return `<em>${kids}</em>`;
       if (tag === 'a') {
         const href = node.getAttribute('href') || '#';
