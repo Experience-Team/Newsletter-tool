@@ -19,6 +19,20 @@
       font-style: normal;
       font-display: swap;
     }
+    @font-face {
+      font-family: 'WPP-Bold';
+      src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376010/WPP-Bold_qfc4to.woff2') format('woff2');
+      font-weight: bold;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'WPP-BoldItalic';
+      src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376009/WPP-BoldItalic_b6i1mw.woff2') format('woff2');
+      font-weight: bold;
+      font-style: italic;
+      font-display: swap;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -1266,7 +1280,7 @@
       const tag = node.tagName.toLowerCase();
       const kids = Array.from(node.childNodes).map(walkInline).join('');
       if (tag === 'br') return '<br />';
-      if (tag === 'b' || tag === 'strong') return `<strong style="font-weight:bold;">${kids}</strong>`;
+      if (tag === 'b' || tag === 'strong') return `<strong style="font-family:'WPP-Bold',Arial,Helvetica,sans-serif;font-weight:bold;">${kids}</strong>`;
       if (tag === 'i' || tag === 'em') return `<em>${kids}</em>`;
       if (tag === 'a') {
         const href = node.getAttribute('href') || '#';
@@ -2827,6 +2841,8 @@
   <style type="text/css">
     @font-face { font-family: 'WPP-Light'; src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376010/WPP-Light_pyvnt4.woff2') format('woff2'); font-weight: normal; font-style: normal; }
     @font-face { font-family: 'WPP-Regular'; src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376009/WPP-Regular_tesmqt.woff2') format('woff2'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'WPP-Bold'; src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376010/WPP-Bold_qfc4to.woff2') format('woff2'); font-weight: bold; font-style: normal; }
+    @font-face { font-family: 'WPP-BoldItalic'; src: url('https://res.cloudinary.com/dxejokjeh/raw/upload/v1785376009/WPP-BoldItalic_b6i1mw.woff2') format('woff2'); font-weight: bold; font-style: italic; }
     :root { color-scheme: light; -webkit-color-scheme: light; }
     td { word-break: break-word; overflow-wrap: break-word; }
     @media only screen and (max-width: 620px) {
