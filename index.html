@@ -2280,7 +2280,7 @@
       const alt = val('signalImage' + n + 'Alt') || '';
       return url
         ? `<a href="${esc(url)}" target="_blank"><img src="${esc(url)}" alt="${esc(alt)}" width="${w}" style="display:block;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
-        : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
+        : '';
     };
     const halfW = 260;
     let imagesHTML = '';
@@ -2685,7 +2685,7 @@
         const halfW = 260;
         const img = (n, w) => b['image'+n+'Url']
           ? `<a href="${esc(b['image'+n+'Url'])}" target="_blank"><img src="${esc(b['image'+n+'Url'])}" alt="${esc(b['image'+n+'Alt']||'')}" width="${w}" style="display:block;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:2px;" /></a>`
-          : `<div style="width:${w}px;height:${Math.round(w/1.82)}px;background:#f0f0f0;display:block;"></div>`;
+          : '';
         const caption = (n) => {
           const text = b['image'+n+'Caption'];
           const url  = b['image'+n+'CaptionUrl'];
