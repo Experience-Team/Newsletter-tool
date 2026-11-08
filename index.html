@@ -2401,10 +2401,11 @@
       const w = widths[i];
       let imgContent;
       if (l.imageUrl) {
-        const imgTag = `<img src="${esc(l.imageUrl)}" alt="" width="${w}" height="${w}" border="0" style="display:block;width:${w}px;height:${w}px;object-fit:cover;" />`;
+        const squareSrc = squareCloudinaryUrl(l.imageUrl, w);
+        const imgTag = `<img src="${esc(squareSrc)}" alt="" width="${w}" height="${w}" border="0" style="display:block;width:${w}px;height:${w}px;" />`;
         imgContent = l.linkUrl
-          ? `<a href="${esc(l.linkUrl)}" target="_blank" style="display:block;width:${w}px;height:${w}px;overflow:hidden;font-size:0;line-height:0;">${imgTag}</a>`
-          : `<div style="display:block;width:${w}px;height:${w}px;overflow:hidden;font-size:0;line-height:0;">${imgTag}</div>`;
+          ? `<a href="${esc(l.linkUrl)}" target="_blank" style="display:block;font-size:0;line-height:0;">${imgTag}</a>`
+          : `<div style="font-size:0;line-height:0;">${imgTag}</div>`;
       } else {
         imgContent = `<table border="0" cellpadding="0" cellspacing="0" width="${w}"><tr><td width="${w}" height="${w}" style="width:${w}px;height:${w}px;background-color:${placeholderBg};font-size:0;line-height:0;">&nbsp;</td></tr></table>`;
       }
@@ -2459,6 +2460,13 @@
     if (!url || !url.includes(marker) || url.includes('r_max')) return url;
     const idx = url.indexOf(marker) + marker.length;
     return url.slice(0, idx) + 'c_fill,g_face,r_max,w_96,h_96,f_png/' + url.slice(idx);
+  }
+
+  function squareCloudinaryUrl(url, size) {
+    const marker = '/image/upload/';
+    if (!url || !url.includes(marker)) return url;
+    const idx = url.indexOf(marker) + marker.length;
+    return url.slice(0, idx) + `c_fill,g_center,w_${size},h_${size}/` + url.slice(idx);
   }
 
   function generateTeamHTML(fg) {
